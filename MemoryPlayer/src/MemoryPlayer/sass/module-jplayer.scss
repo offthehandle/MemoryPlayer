@@ -1,0 +1,135 @@
+﻿@import "partials/memory-mixins";
+
+#jquery_jplayer, .jp-playlist, .jp-details, .jp-video-play {
+    display: none !important;
+}
+
+.jp-interface {
+    position: relative;
+    left: 30px;
+    width: 105px;
+
+    @media (min-width: 768px) {
+        width: 210px;
+    }
+
+    @media (min-width: 992px) {
+        position: absolute;
+        top: 20px;
+        left: auto;
+        right: 125px;
+        width: 615px;
+        z-index: 10;
+    }
+
+    @media (min-width: 1200px) {
+        right: 200px;
+        width: 740px;
+    }
+}
+
+.jp-progress {
+    position: absolute;
+    top: -1px;
+    width: 105px;
+    height: 7px;
+    background-color: rgb(160,160,160);
+    @include border-radius(20px);
+    overflow: hidden;
+
+    @media (min-width: 768px) {
+        width: 210px;
+    }
+
+    @media (min-width: 992px) {
+        top: 35px;
+        right: 35px;
+    }
+
+    @media (min-width: 1200px) {
+        width: 295px;
+    }
+}
+
+.jp-seek-bar, .jp-play-bar {
+    width: 0;
+    height: 100%;
+}
+
+.jp-seek-bar {
+    cursor: pointer;
+}
+
+.jp-play-bar {
+    background-color: #747474;
+}
+
+.jp-current-time, .jp-duration {
+    position: absolute;
+    top: -5px;
+    width: 30px;
+    font-size: 0.6875em;
+    font-weight: 300;
+    color: #fff;
+    cursor: default;
+
+    @media (min-width: 992px) {
+        top: 31px;
+    }
+}
+
+.jp-current-time {
+    left: -30px;
+
+    @media (min-width: 992px) {
+        left: auto;
+        right: 250px;
+    }
+
+    @media (min-width: 1200px) {
+        right: 335px;
+    }
+}
+
+.jp-duration {
+    right: -30px;
+    text-align: right;
+
+    @media (min-width: 992px) {
+        right: 0;
+    }
+}
+
+.jp-controls-holder {
+    display: none;
+
+    @media (min-width: 992px) {
+        display: block;
+        margin-top: 12px;
+    }
+}
+
+.jp-volume-bar {
+    width: 175px;
+    height: 8px;
+    cursor: pointer;
+    background-color: rgb(160,160,160);
+    @include border-radius(20px);
+}
+
+.jp-volume-bar-value {
+    position: relative;
+    width: 0;
+    height: 8px;
+
+    &:before {
+        content: '';
+        position: absolute;
+        top: -1px;
+        right: -5px;
+        width: 10px;
+        height: 10px;
+        background-color: #747474;
+        @include border-radius(100%);
+    }
+}

@@ -1,0 +1,103 @@
+﻿<div class="container">
+    <div id="cued-playlist-item">
+        <img class="cued-artwork" data-ng-src="{{player.selectedPlaylist.cover}}" alt="{{player.selectedPlaylist.album}}" />
+        <p class="cued-song">
+            {{player.selectedTrack.title}}
+        </p>
+        <!-- .cued-song -->
+
+        <p class="cued-album">
+            {{player.selectedPlaylist.album}}
+        </p>
+        <!-- .cued-album -->
+    </div>
+    <!-- #cued-playlist-item -->
+
+    <div id="audio-controls">
+        <div class="cuing">
+            <span data-ng-click="player.previous()" class="audio-sprite audio-sprite-previous"></span>
+            <span data-ng-click="player.play()" data-ng-class="(!player.isPaused) ? 'audio-sprite-pause-lg' : 'audio-sprite-play-lg'" class="audio-sprite"></span>
+            <span data-ng-click="player.next()" class="audio-sprite audio-sprite-next"></span>
+        </div>
+        <!-- .cuing -->
+
+        <div class="volume">
+            <span data-ng-click="player.mute()" class="audio-sprite audio-sprite-quieter"></span>
+            <span data-ng-click="player.maxVolume()" class="audio-sprite audio-sprite-louder"></span>
+        </div>
+        <!-- .volume -->
+    </div>
+    <!-- #audio-controls -->
+
+    <ul id="playlists" class="nav navbar-nav">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                Playlists <span class="caret"></span>
+            </a>
+            <!-- .dropdown-toggle -->
+
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li data-ng-repeat="(key, value) in player.playlists" class="playlist">
+                    <a data-ng-click="player.setPlaylist(value._id)">
+                        <img data-ng-src="{{value.cover}}" alt="{{value.album}}" />
+                        {{value.album}}
+                    </a>
+                </li>
+                <!-- .playlist -->
+
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header">Songs</li>
+                <li data-ng-repeat="track in player.selectedPlaylist.playlist" class="song">
+                    <a data-ng-click="player.cueTrack($index)">
+                        <span data-ng-class="($index === player.selectedTrack._id && !player.isPaused) ? 'audio-sprite-pause' : 'audio-sprite-play'" class="audio-sprite"></span>
+                        {{track.title}}
+                    </a>
+                </li>
+                <!-- .song -->
+            </ul>
+            <!-- .dropdown-menu.dropdown-menu-right -->
+        </li>
+        <!-- .dropdown -->
+    </ul>
+    <!-- #playlists.nav.navbar-nav -->
+
+    <!-- jPlayer Code required but hidden -->
+    <div id="jp_container" class="jp-video jp-video-270p" role="application" aria-label="media player">
+        <div class="jp-type-playlist">
+            <div id="jquery_jplayer" class="jp-jplayer"></div>
+            <div class="jp-gui">
+                <div class="jp-video-play">
+                    <button class="jp-video-play-icon" role="button" tabindex="0">play</button>
+                </div>
+                <div class="jp-interface">
+                    <div class="jp-progress">
+                        <div class="jp-seek-bar">
+                            <div class="jp-play-bar"></div>
+                        </div>
+                    </div>
+                    <div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div>
+                    <div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>
+                    <div class="jp-details">
+                        <div class="jp-title" aria-label="title">&nbsp;</div>
+                    </div>
+                    <div class="jp-controls-holder">
+                        <div class="jp-volume-controls">
+                            <div class="jp-volume-bar">
+                                <div class="jp-volume-bar-value"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="jp-playlist">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="jp-no-solution">
+                <span>Update Required</span>
+                To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+            </div>
+        </div>
+    </div>
+</div>
