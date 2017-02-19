@@ -281,7 +281,7 @@ var MemoryPlayerController = (function () {
         this.isPaused = true;
         this.$scope.$on('$locationChangeStart', function (event, newUrl, oldUrl) {
             if (newUrl !== oldUrl) {
-                var newUrlPath = newUrl.split('/').pop();
+                var newUrlPath = _this.$location.url();
                 _this.$location.path(newUrlPath.split('?')[0]).search({
                     playlist: _this.MemoryPlayerFactory.getPlaylistById(),
                     track: _this.MemoryPlayerFactory.getTrackById(),

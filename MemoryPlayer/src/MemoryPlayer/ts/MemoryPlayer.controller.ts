@@ -35,7 +35,7 @@ class MemoryPlayerController implements angular.IController {
         this.$scope.$on('$locationChangeStart', (event: angular.IAngularEvent, newUrl: string, oldUrl: string) => {
             if (newUrl !== oldUrl) {
 
-                var newUrlPath = newUrl.split('/').pop();
+                var newUrlPath = this.$location.url();
 
                 this.$location.path(newUrlPath.split('?')[0]).search({
                     playlist: this.MemoryPlayerFactory.getPlaylistById(),
