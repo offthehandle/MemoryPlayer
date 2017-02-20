@@ -3,73 +3,19 @@
         "_id": "PerpetualMotion",
         "album": "Perpetual Motion",
         "cover": "/dist/images/perpetual_motion-playlist_icon.jpg",
-        "trackCount": 11,
+        "trackCount": 2,
         "playlist": [
-            {
-                "_id": 0,
-                "title": "6 Day Regimen",
-                "artist": "Adam De Lucia's Tektonics",
-                "mp3": "http://www.insightfuldesigning.com/the-tektonics-media/perpetual-motion/6DayRegimen.mp3"
-            },
             {
                 "_id": 1,
                 "title": "Store On the Corner",
                 "artist": "Adam De Lucia's Tektonics",
-                "mp3": "http://www.insightfuldesigning.com/the-tektonics-media/perpetual-motion/StoreOnTheCorner.mp3"
+                "mp3": "/dist/audio/store-on-the-corner.mp3"
             },
             {
-                "_id": 2,
-                "title": "Carousel",
-                "artist": "Adam De Lucia's Tektonics",
-                "mp3": "http://www.insightfuldesigning.com/the-tektonics-media/perpetual-motion/Carousel.mp3"
-            },
-            {
-                "_id": 3,
+                "_id": 1,
                 "title": "The Far Groove",
                 "artist": "Adam De Lucia's Tektonics",
-                "mp3": "http://www.insightfuldesigning.com/the-tektonics-media/perpetual-motion/TheFarGroove.mp3"
-            },
-            {
-                "_id": 4,
-                "title": "Cycle Plus One",
-                "artist": "Adam De Lucia's Tektonics",
-                "mp3": "http://www.insightfuldesigning.com/the-tektonics-media/perpetual-motion/CyclePlusOne.mp3"
-            },
-            {
-                "_id": 5,
-                "title": "The Dream",
-                "artist": "Adam De Lucia's Tektonics",
-                "mp3": "http://www.insightfuldesigning.com/the-tektonics-media/perpetual-motion/TheDream.mp3"
-            },
-            {
-                "_id": 6,
-                "title": "96 Heart Beats Per Minute",
-                "artist": "Adam De Lucia's Tektonics",
-                "mp3": "http://www.insightfuldesigning.com/the-tektonics-media/perpetual-motion/96HeartBeatsPerMinute.mp3"
-            },
-            {
-                "_id": 7,
-                "title": "Caution (Rise Of the Tyrant)",
-                "artist": "Adam De Lucia's Tektonics",
-                "mp3": "http://www.insightfuldesigning.com/the-tektonics-media/perpetual-motion/Caution.mp3"
-            },
-            {
-                "_id": 8,
-                "title": "The Theme (Virtue)",
-                "artist": "Adam De Lucia's Tektonics",
-                "mp3": "http://www.insightfuldesigning.com/the-tektonics-media/perpetual-motion/TheTheme.mp3"
-            },
-            {
-                "_id": 9,
-                "title": "Hip Flop [Take 1]",
-                "artist": "Adam De Lucia's Tektonics",
-                "mp3": "http://www.insightfuldesigning.com/the-tektonics-media/perpetual-motion/HipFlopTake1.mp3"
-            },
-            {
-                "_id": 10,
-                "title": "Hip Flop [Take 2]",
-                "artist": "Adam De Lucia's Tektonics",
-                "mp3": "http://www.insightfuldesigning.com/the-tektonics-media/perpetual-motion/HipFlopTake2.mp3"
+                "mp3": "/dist/audio/the-far-groove.mp3"
             }
         ]
     },
@@ -77,25 +23,19 @@
         "_id": "RobotSexMachine",
         "album": "Robot Sex Machine",
         "cover": "/dist/images/robot_sex_machine-playlist_icon.jpg",
-        "trackCount": 3,
+        "trackCount": 2,
         "playlist": [
             {
                 "_id": 0,
                 "title": "6 Day Regimen",
                 "artist": "Adam De Lucia's Tektonics",
-                "mp3": "http://www.insightfuldesigning.com/the-tektonics-media/robot-sex-machine/6DayRegimen.mp3"
+                "mp3": "/dist/audio/6-day-regimen.mp3"
             },
             {
                 "_id": 1,
-                "title": "Store On the Corner",
-                "artist": "Adam De Lucia's Tektonics",
-                "mp3": "http://www.insightfuldesigning.com/the-tektonics-media/robot-sex-machine/StoreOnTheCorner.mp3"
-            },
-            {
-                "_id": 2,
                 "title": "Carousel",
                 "artist": "Adam De Lucia's Tektonics",
-                "mp3": "http://www.insightfuldesigning.com/the-tektonics-media/robot-sex-machine/Carousel.mp3"
+                "mp3": "/dist/audio/carousel.mp3"
             }
         ]
     },
@@ -103,55 +43,25 @@
         "_id": "Hypnotist",
         "album": "Hypnotist",
         "cover": "/dist/images/hypnotist-playlist_icon.jpg",
-        "trackCount": 8,
+        "trackCount": 3,
         "playlist": [
             {
                 "_id": 0,
-                "title": "The Far Groove",
+                "title": "96 Heart Beats Per Minute",
                 "artist": "Adam De Lucia's Tektonics",
-                "mp3": "http://www.insightfuldesigning.com/the-tektonics-media/hypnotist/TheFarGroove.mp3"
+                "mp3": "/dist/audio/96-heart-beats-per-minute.mp3"
             },
             {
                 "_id": 1,
-                "title": "Cycle Plus One",
+                "title": "The Theme (Virtue)",
                 "artist": "Adam De Lucia's Tektonics",
-                "mp3": "http://www.insightfuldesigning.com/the-tektonics-media/hypnotist/CyclePlusOne.mp3"
+                "mp3": "/dist/audio/the-theme.mp3"
             },
             {
                 "_id": 2,
-                "title": "The Dream",
-                "artist": "Adam De Lucia's Tektonics",
-                "mp3": "http://www.insightfuldesigning.com/the-tektonics-media/hypnotist/TheDream.mp3"
-            },
-            {
-                "_id": 3,
-                "title": "96 Heart Beats Per Minute",
-                "artist": "Adam De Lucia's Tektonics",
-                "mp3": "http://www.insightfuldesigning.com/the-tektonics-media/hypnotist/96HeartBeatsPerMinute.mp3"
-            },
-            {
-                "_id": 4,
-                "title": "Caution (Rise Of the Tyrant)",
-                "artist": "Adam De Lucia's Tektonics",
-                "mp3": "http://www.insightfuldesigning.com/the-tektonics-media/hypnotist/Caution.mp3"
-            },
-            {
-                "_id": 5,
-                "title": "The Theme (Virtue)",
-                "artist": "Adam De Lucia's Tektonics",
-                "mp3": "http://www.insightfuldesigning.com/the-tektonics-media/hypnotist/TheTheme.mp3"
-            },
-            {
-                "_id": 6,
                 "title": "Hip Flop [Take 1]",
                 "artist": "Adam De Lucia's Tektonics",
-                "mp3": "http://www.insightfuldesigning.com/the-tektonics-media/hypnotist/HipFlopTake1.mp3"
-            },
-            {
-                "_id": 7,
-                "title": "Hip Flop [Take 2]",
-                "artist": "Adam De Lucia's Tektonics",
-                "mp3": "http://www.insightfuldesigning.com/the-tektonics-media/hypnotist/HipFlopTake2.mp3"
+                "mp3": "/dist/audio/hip-flop-take-1.mp3"
             }
         ]
     }

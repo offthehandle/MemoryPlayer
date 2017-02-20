@@ -1,4 +1,4 @@
-﻿{
+﻿var playlists = {
     "PerpetualMotion": {
         "_id": "PerpetualMotion",
         "album": "Perpetual Motion",
@@ -36,7 +36,7 @@
                 "title": "Carousel",
                 "artist": "Adam De Lucia's Tektonics",
                 "mp3": "/dist/audio/carousel.mp3"
-            }
+            },
         ]
     },
     "Hypnotist": {
