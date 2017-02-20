@@ -109,6 +109,7 @@
     <Content Include="src\MemoryPlayer\ts\MemoryPlayer.module.js" />
     <Content Include="src\MemoryPlayer\ts\MemoryPlayerAPI.service.js" />
     <Content Include="tests\specs\MemoryPlayer.controller.spec.js" />
+    <Content Include="tests\specs\MemoryPlayer.directive.spec.js" />
     <Content Include="tests\specs\MemoryPlayer.factory.spec.js" />
     <Content Include="tests\specs\MockResponse.js" />
     <Content Include="tsconfig.json" />

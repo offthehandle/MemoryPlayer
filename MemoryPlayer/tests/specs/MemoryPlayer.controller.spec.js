@@ -20,8 +20,6 @@
         expect(!!MemoryPlayerController).toBeTruthy();
     });
 
-    it('MemoryPlayerController should initialize correctly', function () {
-        expect(MemoryPlayerController.user instanceof RegistrationModel).toBeTruthy();
-        expect(MemoryPlayerController.lastName).toBe(null);
-    });
+    //it('MemoryPlayerController should initialize correctly', function () {
+    //});
 });
