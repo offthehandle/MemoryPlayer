@@ -1,25 +1,21 @@
-﻿describe('MemoryPlayerController', function () {
+﻿describe('MemoryPlayerController unit tests', function () {
 
     beforeEach(module('MemoryPlayer'));
 
-    var $httpBackend, $rootScope, $scope, $location, MemoryPlayerFactory;
+    var $httpBackend, $rootScope, $scope, MemoryPlayerFactory;
     var MemoryPlayerController;
 
-    beforeEach(inject(function (_$httpBackend_, $injector, $controller) {
+    beforeEach(inject(function (_$httpBackend_, _$rootScope_, _MemoryPlayerFactory_, $controller) {
         $httpBackend = _$httpBackend_;
-        $rootScope = $injector.get('$rootScope');
-        $scope = $injector.get('$scope');
-        $location = $injector.get('$location');
-        MemoryPlayerFactory = $injector.get('MemoryPlayerFactory');
+        $rootScope = _$rootScope_;
+        $scope = _$rootScope_.$new();
+        MemoryPlayerFactory = _MemoryPlayerFactory_;
         MemoryPlayerController = $controller('MemoryPlayerController as player', {
-            $scope: {}
+            $scope: $scope
         });
     }));
 
     it('MemoryPlayerController should exist', function () {
         expect(!!MemoryPlayerController).toBeTruthy();
     });
-
-    //it('MemoryPlayerController should initialize correctly', function () {
-    //});
 });

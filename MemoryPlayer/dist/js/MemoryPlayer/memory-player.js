@@ -292,6 +292,20 @@ var MemoryPlayerController = (function () {
                 });
             }
         });
+        this.$scope.$on('MemoryPlayer:directiveReady', function (event, remembered) {
+            MemoryPlayerFactory.fetchPlaylists(function () {
+                _this.playlists = _this.MemoryPlayerFactory.getAllPlaylists();
+                if (remembered === null) {
+                    for (var playlist in _this.playlists) {
+                        break;
+                    }
+                    _this.MemoryPlayerFactory.createPlayer(_this.playlists[playlist]._id, null);
+                }
+                else {
+                    _this.MemoryPlayerFactory.createPlayer(remembered.playlist, remembered.info);
+                }
+            });
+        });
         this.$rootScope.$on('MemoryPlayer:trackChanged', function (event, track) {
             _this.selectedTrack = track;
         });
@@ -365,10 +379,9 @@ var MemoryPlayerController = (function () {
 })();
 
 var MemoryPlayerDirective = (function () {
-    function MemoryPlayerDirective($location, MemoryPlayerFactory) {
+    function MemoryPlayerDirective($location) {
         var _this = this;
         this.$location = $location;
-        this.MemoryPlayerFactory = MemoryPlayerFactory;
         this.restrict = 'A';
         this.scope = false;
         this.replace = true;
@@ -376,32 +389,23 @@ var MemoryPlayerDirective = (function () {
         MemoryPlayerDirective.prototype.link = function (scope, element, attrs) {
             var playerState = _this.$location.search();
             if (playerState.hasOwnProperty('playlist') && playerState.hasOwnProperty('track') && playerState.hasOwnProperty('time') && playerState.hasOwnProperty('volume') && playerState.hasOwnProperty('isMuted') && playerState.hasOwnProperty('isPaused')) {
-                var playerInfo_1 = {
+                var playerInfo = {
                     track: parseInt(playerState.track),
                     time: parseInt(playerState.time),
                     volume: parseFloat(playerState.volume),
                     isMuted: playerState.isMuted,
                     isPaused: playerState.isPaused
                 };
-                MemoryPlayerFactory.fetchPlaylists(function () {
-                    scope.player.playlists = MemoryPlayerFactory.getAllPlaylists();
-                    MemoryPlayerFactory.createPlayer(playerState.playlist, playerInfo_1);
-                });
+                scope.$emit('MemoryPlayer:directiveReady', { playlist: playerState.playlist, info: playerInfo });
             }
             else {
-                MemoryPlayerFactory.fetchPlaylists(function () {
-                    scope.player.playlists = MemoryPlayerFactory.getAllPlaylists();
-                    for (var playlist in scope.player.playlists) {
-                        break;
-                    }
-                    MemoryPlayerFactory.createPlayer(scope.player.playlists[playlist]._id, null);
-                });
+                scope.$emit('MemoryPlayer:directiveReady', null);
             }
         };
     }
     MemoryPlayerDirective.instance = function () {
-        var directive = function ($location, MemoryPlayerFactory) {
-            return new MemoryPlayerDirective($location, MemoryPlayerFactory);
+        var directive = function ($location) {
+            return new MemoryPlayerDirective($location);
         };
         directive['$inject'] = [
             '$location',

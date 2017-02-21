@@ -6,7 +6,7 @@
         "trackCount": 2,
         "playlist": [
             {
-                "_id": 1,
+                "_id": 0,
                 "title": "Store On the Corner",
                 "artist": "Adam De Lucia's Tektonics",
                 "mp3": "/dist/audio/store-on-the-corner.mp3"

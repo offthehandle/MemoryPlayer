@@ -111,7 +111,7 @@
     <Content Include="tests\specs\MemoryPlayer.controller.spec.js" />
     <Content Include="tests\specs\MemoryPlayer.directive.spec.js" />
     <Content Include="tests\specs\MemoryPlayer.factory.spec.js" />
-    <Content Include="tests\specs\MockResponse.js" />
+    <Content Include="tests\MockResponse.js" />
     <Content Include="tsconfig.json" />
     <None Include="src\MemoryPlayer\sass\partials\_memory-mixins.scss" />
     <None Include="src\MemoryPlayer\sass\module-memory-player.scss" />
@@ -126,6 +126,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="tests\angular-mocks.js" />
+    <TypeScriptCompile Include="src\MemoryPlayer\interfaces\native\MemoryInit.d.ts" />
     <TypeScriptCompile Include="typings\angularjs\angular-animate.d.ts" />
     <TypeScriptCompile Include="typings\angularjs\angular-component-router.d.ts" />
     <TypeScriptCompile Include="typings\angularjs\angular-cookies.d.ts" />

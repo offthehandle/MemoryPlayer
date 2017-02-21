@@ -15,14 +15,25 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-		'MemoryPlayer/dist/js/angular.min.js',
-		'MemoryPlayer/tests/angular-mocks.min.js',
-		'MemoryPlayer/dist/js/MemoryPlayer/memory-player.min.js',
-		'MemoryPlayer/tests/specs/**/*spec.js'
+		'MemoryPlayer/dist/js/jquery-3.1.1.js',
+		'MemoryPlayer/dist/js/jquery.jplayer.js',
+		'MemoryPlayer/dist/js/jplayer.playlist.js',
+		'MemoryPlayer/dist/js/angular.js',
+		'MemoryPlayer/tests/angular-mocks.js',
+		'MemoryPlayer/dist/js/MemoryPlayer/memory-player.js',
+		'MemoryPlayer/tests/MockResponse.js',
+		'MemoryPlayer/tests/specs/**/*spec.js',
+		'MemoryPlayer/dist/html/memory-player.html'
     ],
 
 
-    // list of files to exclude
+    ngHtml2JsPreprocessor: {
+      // strip this from the file path
+      stripPrefix: 'MemoryPlayer',
+      },
+
+
+	// list of files to exclude
     exclude: [
     ],
 
@@ -30,6 +41,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+		'MemoryPlayer/dist/html/memory-player.html': ['ng-html2js']
     },
 
 
@@ -58,7 +70,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['PhantomJS', 'Chrome', 'Firefox', 'IE', 'Safari', 'Opera', 'ChromeCanary'],
+    browsers: ['PhantomJS'], // 'Chrome', 'Firefox', 'IE', 'Safari', 'Opera', 'ChromeCanary'],
 
 
     // Continuous Integration mode

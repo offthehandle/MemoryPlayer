@@ -62,6 +62,20 @@ var MemoryPlayerController = (function () {
                 });
             }
         });
+        this.$scope.$on('MemoryPlayer:directiveReady', function (event, remembered) {
+            MemoryPlayerFactory.fetchPlaylists(function () {
+                _this.playlists = _this.MemoryPlayerFactory.getAllPlaylists();
+                if (remembered === null) {
+                    for (var playlist in _this.playlists) {
+                        break;
+                    }
+                    _this.MemoryPlayerFactory.createPlayer(_this.playlists[playlist]._id, null);
+                }
+                else {
+                    _this.MemoryPlayerFactory.createPlayer(remembered.playlist, remembered.info);
+                }
+            });
+        });
         /**
          * Event reporting that the track has changed.
          *

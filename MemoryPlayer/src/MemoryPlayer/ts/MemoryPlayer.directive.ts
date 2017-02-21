@@ -6,8 +6,8 @@ interface IMemoryPlayerDirectiveScope extends angular.IScope {
 class MemoryPlayerDirective implements angular.IDirective {
 
     public static instance() {
-        var directive = ($location: angular.ILocationService, MemoryPlayerFactory: IMemoryPlayerFactory) => {
-            return new MemoryPlayerDirective($location, MemoryPlayerFactory);
+        var directive = ($location: angular.ILocationService) => {
+            return new MemoryPlayerDirective($location);
         };
 
         directive['$inject'] = [
@@ -61,7 +61,7 @@ class MemoryPlayerDirective implements angular.IDirective {
      * @param {ILocationService} $location - The core angular location service.
      * @param {IMemoryPlayerFactory} MemoryPlayerFactory - The Memory Player factory.
      */
-    constructor(private $location: angular.ILocationService, private MemoryPlayerFactory: IMemoryPlayerFactory) {
+    constructor(private $location: angular.ILocationService) {
         MemoryPlayerDirective.prototype.link = (scope: IMemoryPlayerDirectiveScope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes) => {
 
             let playerState = this.$location.search();
@@ -76,25 +76,11 @@ class MemoryPlayerDirective implements angular.IDirective {
                     isPaused: playerState.isPaused
                 };
 
-                MemoryPlayerFactory.fetchPlaylists(() => {
-
-                    scope.player.playlists = MemoryPlayerFactory.getAllPlaylists();
-
-                    MemoryPlayerFactory.createPlayer(playerState.playlist, playerInfo);
-                });
+                scope.$emit('MemoryPlayer:directiveReady', { playlist: playerState.playlist, info: playerInfo });
 
             } else {
 
-                MemoryPlayerFactory.fetchPlaylists(() => {
-
-                    scope.player.playlists = MemoryPlayerFactory.getAllPlaylists();
-
-                    for (var playlist in scope.player.playlists) {
-                        break;
-                    }
-
-                    MemoryPlayerFactory.createPlayer(scope.player.playlists[playlist]._id, null);
-                });
+                scope.$emit('MemoryPlayer:directiveReady', null);
             }
         };
     }

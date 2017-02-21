@@ -404,7 +404,7 @@ var MemoryPlayerFactory = (function () {
     MemoryPlayerFactory.prototype.trackPlayedEvent = function (callback) {
         this.isPaused = false;
         /**
-         * @event MemoryPlayer:trackPlayed
+         * @event MemoryPlayer.trackPlayed
          */
         angular.element(this._playerId).trigger('MemoryPlayer.trackPlayed');
         if (angular.isFunction(callback)) {

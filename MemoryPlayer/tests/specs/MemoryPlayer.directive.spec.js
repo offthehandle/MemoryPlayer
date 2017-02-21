@@ -1,20 +1,24 @@
-﻿// TODO : support templateUrl
-//describe('MemoryPlayer.directive unit tests', function () {
-//    var $compile,
-//        $rootScope;
+﻿describe('MemoryPlayer.directive unit tests', function () {
+    var scope;
 
-//    beforeEach(module('MemoryPlayer'));
+    var $compile, $rootScope;
 
-//    beforeEach(inject(function (_$compile_, _$rootScope_) {
-//        $compile = _$compile_;
-//        $rootScope = _$rootScope_;
-//    }));
+    beforeEach(module('MemoryPlayer'));
 
-//    it('Replaces the element with the appropriate content', function () {
-//        var element = $compile("<section memory-player></section>")($rootScope);
+    beforeEach(module('/dist/html/memory-player.html'));
 
-//        $rootScope.$digest();
+    beforeEach(inject(function (_$compile_, _$rootScope_) {
+        scope = _$rootScope_.$new();
+        $compile = _$compile_;
+        $rootScope = _$rootScope_;
+    }));
 
-//        expect(element.html()).toContain("");
-//    });
-//});
+    it('Replaces the element with the appropriate content', function () {
+
+        var element = $compile("<section memory-player></section>")($rootScope);
+
+        $rootScope.$digest();
+
+        expect(element.length).toBe(1);
+    });
+});

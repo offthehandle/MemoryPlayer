@@ -518,7 +518,7 @@ class MemoryPlayerFactory implements IMemoryPlayerFactory {
         this.isPaused = false;
 
         /**
-         * @event MemoryPlayer:trackPlayed
+         * @event MemoryPlayer.trackPlayed
          */
         angular.element(this._playerId).trigger('MemoryPlayer.trackPlayed');
 

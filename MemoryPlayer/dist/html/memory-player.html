@@ -1,4 +1,45 @@
 ﻿<div class="container">
+    <!-- jPlayer Code required but hidden -->
+    <div id="jp_container" class="jp-video jp-video-270p" role="application" aria-label="media player">
+        <div class="jp-type-playlist">
+            <div id="jquery_jplayer" class="jp-jplayer"></div>
+            <div class="jp-gui">
+                <div class="jp-video-play">
+                    <button class="jp-video-play-icon" role="button" tabindex="0">play</button>
+                </div>
+                <div class="jp-interface">
+                    <div class="jp-progress">
+                        <div class="jp-seek-bar">
+                            <div class="jp-play-bar"></div>
+                        </div>
+                    </div>
+                    <div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div>
+                    <div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>
+                    <div class="jp-details">
+                        <div class="jp-title" aria-label="title">&nbsp;</div>
+                    </div>
+                    <div class="jp-controls-holder">
+                        <div class="jp-volume-controls">
+                            <div class="jp-volume-bar">
+                                <div class="jp-volume-bar-value"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="jp-playlist">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="jp-no-solution">
+                <span>Update Required</span>
+                To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+            </div>
+        </div>
+    </div>
+    <!-- End jPlayer Code -->
+
     <div id="cued-playlist-item">
         <img class="cued-artwork" data-ng-src="{{player.selectedPlaylist.cover}}" alt="{{player.selectedPlaylist.album}}" />
         <p class="cued-song">
@@ -60,44 +101,4 @@
         <!-- .dropdown -->
     </ul>
     <!-- #playlists.nav.navbar-nav -->
-
-    <!-- jPlayer Code required but hidden -->
-    <div id="jp_container" class="jp-video jp-video-270p" role="application" aria-label="media player">
-        <div class="jp-type-playlist">
-            <div id="jquery_jplayer" class="jp-jplayer"></div>
-            <div class="jp-gui">
-                <div class="jp-video-play">
-                    <button class="jp-video-play-icon" role="button" tabindex="0">play</button>
-                </div>
-                <div class="jp-interface">
-                    <div class="jp-progress">
-                        <div class="jp-seek-bar">
-                            <div class="jp-play-bar"></div>
-                        </div>
-                    </div>
-                    <div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div>
-                    <div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>
-                    <div class="jp-details">
-                        <div class="jp-title" aria-label="title">&nbsp;</div>
-                    </div>
-                    <div class="jp-controls-holder">
-                        <div class="jp-volume-controls">
-                            <div class="jp-volume-bar">
-                                <div class="jp-volume-bar-value"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="jp-playlist">
-                <ul>
-                    <li></li>
-                </ul>
-            </div>
-            <div class="jp-no-solution">
-                <span>Update Required</span>
-                To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
-            </div>
-        </div>
-    </div>
 </div>
