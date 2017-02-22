@@ -7,7 +7,7 @@ var MemoryPlayerAPI = (function () {
     function MemoryPlayerAPI($http, $log) {
         this.$http = $http;
         this.$log = $log;
-        this._endPoint = '/dist/json/playlists.json';
+        this._endPoint = '/lib/memory-player/dist/json/playlists.json';
     }
     MemoryPlayerAPI.prototype._emptyAudioPlayer = function () {
         angular.element('#memory-player').remove();
@@ -385,7 +385,7 @@ var MemoryPlayerDirective = (function () {
         this.restrict = 'A';
         this.scope = false;
         this.replace = true;
-        this.templateUrl = '/dist/html/memory-player.html';
+        this.templateUrl = '/lib/memory-player/dist/html/memory-player.html';
         MemoryPlayerDirective.prototype.link = function (scope, element, attrs) {
             var playerState = _this.$location.search();
             if (playerState.hasOwnProperty('playlist') && playerState.hasOwnProperty('track') && playerState.hasOwnProperty('time') && playerState.hasOwnProperty('volume') && playerState.hasOwnProperty('isMuted') && playerState.hasOwnProperty('isPaused')) {

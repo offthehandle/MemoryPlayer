@@ -24,7 +24,7 @@ class MemoryPlayerAPI implements IMemoryPlayerAPI {
      * @member {string} _endPoint - The path to the playlists json file.
      * @private
      */
-    private _endPoint: string = '/dist/json/playlists.json';
+    private _endPoint: string = '/lib/memory-player/dist/json/playlists.json';
 
 
     /**

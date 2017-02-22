@@ -44,7 +44,7 @@ class MemoryPlayerDirective implements angular.IDirective {
      * @memberof MemoryPlayerDirective
      * @member {string} templateUrl - The url to the HTML template.
      */
-    public templateUrl: string = '/dist/html/memory-player.html';
+    public templateUrl: string = '/lib/memory-player/dist/html/memory-player.html';
 
 
     /**

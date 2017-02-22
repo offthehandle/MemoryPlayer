@@ -32,6 +32,10 @@
     <Content Include="lib\memory-player\dist\html\memory-player.html" />
     <Content Include="lib\memory-player\dist\js\memory-player.js" />
     <Content Include="lib\memory-player\dist\js\memory-player.min.js" />
+    <Content Include="lib\memory-player\unit\MockResponse.js" />
+    <Content Include="lib\memory-player\unit\specs\MemoryPlayer.controller.spec.js" />
+    <Content Include="lib\memory-player\unit\specs\MemoryPlayer.directive.spec.js" />
+    <Content Include="lib\memory-player\unit\specs\MemoryPlayer.factory.spec.js" />
     <Content Include="page-2.html" />
     <Content Include="index.html" />
     <Content Include="js\jplayer.playlist.js" />
@@ -53,6 +57,9 @@
     <Content Include="js\bootstrap.min.js" />
     <Content Include="js\jquery-1.9.1.js" />
     <Content Include="js\jquery-1.9.1.min.js" />
+    <Content Include="js\angular-mocks.js" />
+    <Content Include="js\angular.js" />
+    <Content Include="js\angular.min.js" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -71,6 +78,7 @@
     <Content Include="lib\memory-player\json\playlists.json.sample" />
     <Content Include="lib\memory-player\dist\json\playlists-schema.json" />
     <Content Include="lib\memory-player\dist\json\playlists.json" />
+    <Content Include="js\angular.min.js.map" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -80,7 +88,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="images\" />
-    <Folder Include="lib\memory-player\unit\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="lib\memory-player\ts\DEMO.ts" />
