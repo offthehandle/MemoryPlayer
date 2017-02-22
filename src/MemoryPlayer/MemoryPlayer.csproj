@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <ProjectGuid>{C25BFF29-57D0-4EBF-A0F9-BD5F173466A5}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <OutputPath>bin</OutputPath>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="css\bootstrap-theme.css" />
+    <Content Include="css\bootstrap-theme.min.css" />
+    <Content Include="css\bootstrap.css" />
+    <Content Include="css\bootstrap.min.css" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="page-2.html" />
+    <Content Include="index.html" />
+    <Content Include="js\jplayer.playlist.js" />
+    <Content Include="js\jplayer.playlist.min.js" />
+    <Content Include="js\jquery.jplayer.js" />
+    <Content Include="js\jquery.jplayer.min.js" />
+    <Content Include="js\jquery.jplayer.swf" />
+    <Content Include="lib\memory-player\html\memory-player.html" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="css\bootstrap.min.css.map" />
+    <Content Include="css\bootstrap.css.map" />
+    <Content Include="css\bootstrap-theme.min.css.map" />
+    <Content Include="css\bootstrap-theme.css.map" />
+    <None Include="js\jquery-1.9.1.intellisense.js" />
+    <Content Include="js\bootstrap.js" />
+    <Content Include="js\bootstrap.min.js" />
+    <Content Include="js\jquery-1.9.1.js" />
+    <Content Include="js\jquery-1.9.1.min.js" />
+    <Content Include="web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="lib\memory-player\LICENSE" />
+    <Content Include="tsconfig.json" />
+    <Content Include="packages.config" />
+    <Content Include="js\jquery-1.9.1.min.map" />
+    <Content Include="lib\memory-player\sass\module-jplayer.scss" />
+    <Content Include="lib\memory-player\sass\module-memory-player.scss" />
+    <Content Include="lib\memory-player\sass\partials\_memory-mixins.scss" />
+    <Content Include="lib\memory-player\sass\sprite-memory-player.scss" />
+    <Content Include="lib\memory-player\less\mixins\memory-mixins.less" />
+    <Content Include="lib\memory-player\less\module-jplayer.less" />
+    <Content Include="lib\memory-player\less\module-memory-player.less" />
+    <Content Include="lib\memory-player\less\sprite-memory-player.less" />
+    <Content Include="lib\memory-player\json\playlists.json.sample" />
+    <Content Include="lib\memory-player\dist\json\playlists-schema.json" />
+    <None Include="web.Debug.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+    <None Include="web.Release.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="images\" />
+    <Folder Include="lib\memory-player\dist\css\" />
+    <Folder Include="lib\memory-player\dist\html\" />
+    <Folder Include="lib\memory-player\dist\js\" />
+    <Folder Include="lib\memory-player\unit\" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="lib\memory-player\ts\DEMO.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\HttpErrorResponse.d.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\jPlayer\jPlayer.d.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\jPlayer\jPlayerEvent.d.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\jPlayer\jPlayerPlaylist.d.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\jPlayer\jquery-plugin.d.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\native\MemoryInit.d.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\native\MemoryPlayerAPI.d.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\native\MemoryPlayerFactory.d.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\native\MemoryPlayerInfo.d.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\native\MemoryPlayerResponse.d.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\native\MemoryPlaylist.d.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\native\MemoryPlaylists.d.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\native\MemoryTrack.d.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\MemoryPlayer.controller.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\MemoryPlayer.directive.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\MemoryPlayer.factory.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\MemoryPlayer.module.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\MemoryPlayerAPI.service.ts" />
+    <TypeScriptCompile Include="js\typings\angularjs\angular-animate.d.ts" />
+    <TypeScriptCompile Include="js\typings\angularjs\angular-component-router.d.ts" />
+    <TypeScriptCompile Include="js\typings\angularjs\angular-cookies.d.ts" />
+    <TypeScriptCompile Include="js\typings\angularjs\angular-mocks.d.ts" />
+    <TypeScriptCompile Include="js\typings\angularjs\angular-resource.d.ts" />
+    <TypeScriptCompile Include="js\typings\angularjs\angular-route.d.ts" />
+    <TypeScriptCompile Include="js\typings\angularjs\angular-sanitize.d.ts" />
+    <TypeScriptCompile Include="js\typings\angularjs\angular.d.ts" />
+    <TypeScriptCompile Include="js\typings\jquery\jquery.d.ts" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>MemoryPlayer</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets')" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>61783</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:61783/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptRemoveComments>false</TypeScriptRemoveComments>
+    <TypeScriptSourceMap>true</TypeScriptSourceMap>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <TypeScriptRemoveComments>true</TypeScriptRemoveComments>
+    <TypeScriptSourceMap>false</TypeScriptSourceMap>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+</Project>

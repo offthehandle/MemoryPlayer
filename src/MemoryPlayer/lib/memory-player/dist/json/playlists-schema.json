@@ -1,0 +1,55 @@
+﻿{
+    "$schema": "http://json-schema.org/schema#",
+    "description": "Memory Player Schema",
+    "definitions": {
+        "track": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "number"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "artist": {
+                    "type": "string"
+                },
+                "mp3": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": false
+        },
+        "playlist": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "album": {
+                    "type": "string"
+                },
+                "cover": {
+                    "type": "string"
+                },
+                "trackCount": {
+                    "type": "number"
+                },
+                "playlist": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/track"
+                    },
+                    "additionalItems": false
+                }
+            },
+            "additionalProperties": false
+        }
+    },
+    "type": "object",
+    "patternProperties": {
+        "/^[a-zA-Z0-9]$/": {
+            "$ref": "#/definitions/playlist"
+        }
+    }
+}
