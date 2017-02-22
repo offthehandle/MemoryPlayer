@@ -190,6 +190,7 @@ ClientBin/
 *.publishsettings
 node_modules/
 orleans.codegen.cs
+ts/**/*.js
 conf.json
 
 # RIA/Silverlight projects
