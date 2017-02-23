@@ -22,11 +22,20 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="audio\6-day-regimen.mp3" />
+    <Content Include="audio\96-heart-beats-per-minute.mp3" />
+    <Content Include="audio\carousel.mp3" />
+    <Content Include="audio\hip-flop-take-1.mp3" />
+    <Content Include="audio\store-on-the-corner.mp3" />
+    <Content Include="audio\the-far-groove.mp3" />
+    <Content Include="audio\the-theme.mp3" />
     <Content Include="css\bootstrap-theme.css" />
     <Content Include="css\bootstrap-theme.min.css" />
     <Content Include="css\bootstrap.css" />
     <Content Include="css\bootstrap.min.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="images\hypnotist-playlist_icon.jpg" />
+    <Content Include="images\perpetual_motion-playlist_icon.jpg" />
     <Content Include="lib\memory-player\dist\css\memory-player.css" />
     <Content Include="lib\memory-player\dist\css\memory-player.min.css" />
     <Content Include="lib\memory-player\dist\html\memory-player.html" />
@@ -86,9 +95,7 @@
       <DependentUpon>web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="images\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <TypeScriptCompile Include="lib\memory-player\ts\DEMO.ts" />
     <TypeScriptCompile Include="lib\memory-player\ts\interfaces\HttpErrorResponse.d.ts" />

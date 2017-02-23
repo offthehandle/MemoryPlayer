@@ -3,7 +3,7 @@
         "_id": "PerpetualMotion",
         "album": "Perpetual Motion",
         "cover": "/images/perpetual_motion-playlist_icon.jpg",
-        "trackCount": 2,
+        "trackCount": 3,
         "playlist": [
             {
                 "_id": 0,
@@ -28,8 +28,8 @@
     "Hypnotist": {
         "_id": "Hypnotist",
         "album": "Hypnotist",
-        "cover": "/dist/images/hypnotist-playlist_icon.jpg",
-        "trackCount": 3,
+        "cover": "/images/hypnotist-playlist_icon.jpg",
+        "trackCount": 4,
         "playlist": [
             {
                 "_id": 0,

@@ -65,7 +65,7 @@ var MemoryPlayerFactory = (function () {
         };
         this._playerId = this._player.jPlayer;
         this._playerOptions = {
-            swfPath: '/Scripts',
+            swfPath: '/js',
             supplied: 'mp3',
             playing: function () {
                 _this.$rootScope.$emit('MemoryPlayer:trackPlayed');

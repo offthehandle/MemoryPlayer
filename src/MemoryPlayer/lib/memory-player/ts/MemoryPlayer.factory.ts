@@ -121,7 +121,7 @@ class MemoryPlayerFactory implements IMemoryPlayerFactory {
      * @private
      */
     private _playerOptions: any = {
-        swfPath: '/Scripts',
+        swfPath: '/js',
 
         supplied: 'mp3',
 
