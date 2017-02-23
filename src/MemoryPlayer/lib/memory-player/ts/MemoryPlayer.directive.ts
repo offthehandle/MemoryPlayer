@@ -1,8 +1,4 @@
 ﻿
-interface IMemoryPlayerDirectiveScope extends angular.IScope {
-    player: any;
-}
-
 class MemoryPlayerDirective implements angular.IDirective {
 
     public static instance() {
@@ -11,12 +7,12 @@ class MemoryPlayerDirective implements angular.IDirective {
         };
 
         directive['$inject'] = [
-            '$location',
-            'MemoryPlayerFactory'
+            '$location'
         ];
 
         return directive;
     }
+
 
 
     /**
@@ -51,7 +47,7 @@ class MemoryPlayerDirective implements angular.IDirective {
      * @memberof MemoryPlayerDirective
      * @member link - The link option for the directive.
      */
-    public link: (scope: IMemoryPlayerDirectiveScope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes) => void;
+    public link: (scope: angular.IScope, element: JQuery, attrs: angular.IAttributes) => void;
 
 
 
@@ -59,10 +55,9 @@ class MemoryPlayerDirective implements angular.IDirective {
      * Implements IDirective
      * @constructs MemoryPlayerDirective
      * @param {ILocationService} $location - The core angular location service.
-     * @param {IMemoryPlayerFactory} MemoryPlayerFactory - The Memory Player factory.
      */
     constructor(private $location: angular.ILocationService) {
-        MemoryPlayerDirective.prototype.link = (scope: IMemoryPlayerDirectiveScope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes) => {
+        MemoryPlayerDirective.prototype.link = (scope: angular.IScope, element: JQuery, attrs: angular.IAttributes) => {
 
             let playerState = this.$location.search();
 

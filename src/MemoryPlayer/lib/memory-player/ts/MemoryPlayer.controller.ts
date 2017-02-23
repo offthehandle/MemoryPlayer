@@ -72,15 +72,6 @@ class MemoryPlayerController implements angular.IController {
 
         });
 
-        /**
-         * Event reporting that the track has changed.
-         *
-         * @listens event:MemoryPlayer:trackChanged
-         */
-        this.$rootScope.$on('MemoryPlayer:trackChanged', (event: angular.IAngularEvent, track: IMemoryTrack) => {
-            this.selectedTrack = track;
-        });
-
 
         /**
          * Event reporting that the playlist has changed.
@@ -89,6 +80,16 @@ class MemoryPlayerController implements angular.IController {
          */
         this.$rootScope.$on('MemoryPlayer:playlistChanged', (event: angular.IAngularEvent, playlist: IMemoryPlaylist) => {
             this.selectedPlaylist = playlist;
+        });
+
+
+        /**
+         * Event reporting that the track has changed.
+         *
+         * @listens event:MemoryPlayer:trackChanged
+         */
+        this.$rootScope.$on('MemoryPlayer:trackChanged', (event: angular.IAngularEvent, track: IMemoryTrack) => {
+            this.selectedTrack = track;
         });
 
 

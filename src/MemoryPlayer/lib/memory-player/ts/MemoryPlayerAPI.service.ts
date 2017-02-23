@@ -8,6 +8,7 @@ class MemoryPlayerAPI implements IMemoryPlayerAPI {
     ];
 
 
+
     /**
      * Implements IMemoryPlayerAPI
      * @constructs MemoryPlayerAPI

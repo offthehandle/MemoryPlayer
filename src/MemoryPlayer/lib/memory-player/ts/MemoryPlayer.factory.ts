@@ -18,6 +18,7 @@ class MemoryPlayerFactory implements IMemoryPlayerFactory {
     }
 
 
+
     /**
      * Implements IMemoryPlayerFactory
      * @constructs MemoryPlayerFactory
@@ -75,6 +76,7 @@ class MemoryPlayerFactory implements IMemoryPlayerFactory {
     private _isMuted: boolean = false;
 
 
+
     /**
      * @memberof MemoryPlayerFactory
      * @member {boolean} isPaused - Is assigned true if the player is paused and false if it is not.
@@ -83,9 +85,10 @@ class MemoryPlayerFactory implements IMemoryPlayerFactory {
     public isPaused: boolean = true;
 
 
+
     /**
      * @memberof MemoryPlayerFactory
-     * @member {IjPlayerPlaylist} _playerInstance - Is assigned the JS instance of the jPlayer plugin with its available, native methods.
+     * @member {IjPlayerPlaylist} _playerInstance - Is assigned the JS instance of the jPlayer plugin with its native methods.
      * @private
      * @default null
      */
