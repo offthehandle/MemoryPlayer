@@ -6,17 +6,16 @@
     <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web:300,700" />
 
     <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
-    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/js/angular.min.js"></script>
     <script type="text/javascript" src="/js/jquery.jplayer.min.js"></script>
     <script type="text/javascript" src="/js/jplayer.playlist.min.js"></script>
+    <script type="text/javascript" src="/js/angular.min.js"></script>
     <script type="text/javascript" src="/lib/memory-player/dist/js/memory-player.js"></script>
 
     <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" />
     <link type="text/css" rel="stylesheet" href="/lib/memory-player/dist/css/memory-player.css" />
 </head>
 <body data-ng-app="DemoApp">
-    <section id="memory-player" class="navbar navbar-inverse" data-ng-controller="MemoryPlayerController as player">
+    <section id="memory-player" class="navbar navbar-inverse" data-ng-controller="MemoryPlayerController as player" data-ng-cloak>
         <section data-memory-player=""></section>
     </section>
     <!-- #memory-player.navbar.navbar-inverse -->
@@ -33,5 +32,7 @@
         <!-- .row -->
     </section>
     <!-- .container -->
+
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
 </body>
 </html>
