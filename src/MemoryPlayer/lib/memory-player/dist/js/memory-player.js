@@ -306,11 +306,11 @@ var MemoryPlayerController = (function () {
                 }
             });
         });
-        this.$rootScope.$on('MemoryPlayer:trackChanged', function (event, track) {
-            _this.selectedTrack = track;
-        });
         this.$rootScope.$on('MemoryPlayer:playlistChanged', function (event, playlist) {
             _this.selectedPlaylist = playlist;
+        });
+        this.$rootScope.$on('MemoryPlayer:trackChanged', function (event, track) {
+            _this.selectedTrack = track;
         });
         this.$rootScope.$on('MemoryPlayer:isPaused', function (event, isPaused) {
             _this.isPaused = isPaused;
@@ -408,8 +408,7 @@ var MemoryPlayerDirective = (function () {
             return new MemoryPlayerDirective($location);
         };
         directive['$inject'] = [
-            '$location',
-            'MemoryPlayerFactory'
+            '$location'
         ];
         return directive;
     };
