@@ -1,4 +1,4 @@
-﻿describe('MemoryPlayer.directive unit tests', function () {
+﻿describe('MemoryPlayer.directive unit test', function () {
     var scope;
 
     var $compile, $rootScope;
@@ -9,16 +9,18 @@
 
     beforeEach(inject(function (_$compile_, _$rootScope_) {
         scope = _$rootScope_.$new();
-        $compile = _$compile_;
         $rootScope = _$rootScope_;
+        $compile = _$compile_;
     }));
 
-    it('Replaces the element with the appropriate content', function () {
+    describe('MemoryPlayerDirective initialization unit test', function () {
+        it('Loads the directive with the appropriate content', function () {
 
-        var element = $compile("<section memory-player></section>")($rootScope);
+            var element = $compile('<section data-memory-player=""></section>')($rootScope);
 
-        $rootScope.$digest();
+            $rootScope.$digest();
 
-        expect(element.length).toBe(1);
+            expect(element.length).toBe(1);
+        });
     });
 });

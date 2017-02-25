@@ -52,7 +52,7 @@ class MemoryPlayerController implements angular.IController {
 
         this.$scope.$on('MemoryPlayer:directiveReady', (event: angular.IAngularEvent, remembered: IMemoryInit) => {
 
-            MemoryPlayerFactory.fetchPlaylists(() => {
+            this.MemoryPlayerFactory.fetchPlaylists(() => {
 
                 this.playlists = this.MemoryPlayerFactory.getAllPlaylists();
 
