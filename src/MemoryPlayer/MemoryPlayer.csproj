@@ -44,6 +44,7 @@
     <Content Include="lib\memory-player\unit\MockResponse.js" />
     <Content Include="lib\memory-player\unit\specs\MemoryPlayer.controller.spec.js" />
     <Content Include="lib\memory-player\unit\specs\MemoryPlayer.directive.spec.js" />
+    <Content Include="lib\memory-player\unit\specs\MemoryPlayerAPI.service.spec.js" />
     <Content Include="lib\memory-player\unit\specs\MemoryPlayer.factory.spec.js" />
     <Content Include="page-2.html" />
     <Content Include="index.html" />
