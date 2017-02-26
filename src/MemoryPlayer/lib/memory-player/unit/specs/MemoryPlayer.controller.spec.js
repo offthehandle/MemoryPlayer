@@ -1,5 +1,5 @@
 ﻿/**
- * Max Volume method is not tested because it relies on internal jQuery event
+ * Play Event and Max Volume method are not tested because they rely on internal jQuery events
  */
 describe('MemoryPlayerController unit tests', function () {
 
@@ -47,7 +47,7 @@ describe('MemoryPlayerController unit tests', function () {
         });
     });
 
-    describe('MemoryPlayerController player functionality unit test', function () {
+    describe('MemoryPlayerController player functionality unit tests', function () {
         it('should set playlists', function () {
             MemoryPlayerController.setPlaylist('Hypnotist');
             expect(MemoryPlayerController.selectedPlaylist.playlist).toEqual(hypnotistPlaylist);
@@ -84,6 +84,46 @@ describe('MemoryPlayerController unit tests', function () {
             MemoryPlayerController.mute();
             MemoryPlayerController.mute();
             expect(MemoryPlayerFactory.getIsMuted()).toBe(false);
+        });
+    });
+
+    describe('MemoryPlayerController event unit tests', function () {
+        it('should listen for playlist changed', function () {
+            var eventEmitted;
+
+            $rootScope.$on('MemoryPlayer:playlistChanged', function () {
+                eventEmitted = true;
+            });
+
+            MemoryPlayerController.setPlaylist('Hypnotist');
+
+            expect(eventEmitted).toBe(true);
+        });
+
+        it('should listen for track changed', function () {
+            var eventEmitted;
+
+            $rootScope.$on('MemoryPlayer:trackChanged', function () {
+                eventEmitted = true;
+            });
+
+            MemoryPlayerController.cueTrack(1);
+
+            expect(eventEmitted).toBe(true);
+        });
+
+        it('should listen for track paused', function () {
+            var eventEmitted;
+
+            $rootScope.$on('MemoryPlayer:isPaused', function () {
+                eventEmitted = true;
+            });
+
+            MemoryPlayerController.play();
+
+            MemoryPlayerController.play();
+
+            expect(eventEmitted).toBe(true);
         });
     });
 });

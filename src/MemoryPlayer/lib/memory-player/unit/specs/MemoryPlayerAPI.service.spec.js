@@ -1,7 +1,4 @@
-﻿/**
- * Max Volume method is not tested because it relies on internal jQuery event
- */
-describe('MemoryPlayerAPI unit tests', function () {
+﻿describe('MemoryPlayerAPI unit tests', function () {
 
     beforeEach(module('MemoryPlayer'));
 
