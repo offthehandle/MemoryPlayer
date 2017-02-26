@@ -293,7 +293,7 @@ var MemoryPlayerController = (function () {
             }
         });
         this.$scope.$on('MemoryPlayer:directiveReady', function (event, remembered) {
-            MemoryPlayerFactory.fetchPlaylists(function () {
+            _this.MemoryPlayerFactory.fetchPlaylists(function () {
                 _this.playlists = _this.MemoryPlayerFactory.getAllPlaylists();
                 if (remembered === null) {
                     for (var playlist in _this.playlists) {
