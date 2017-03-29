@@ -62,8 +62,7 @@ module.exports = function (grunt) {
                         '<%= path.jsSrc %>/MemoryPlayerAPI.service.js',
                         '<%= path.jsSrc %>/MemoryPlayer.factory.js',
                         '<%= path.jsSrc %>/MemoryPlayer.controller.js',
-                        '<%= path.jsSrc %>/MemoryPlayer.directive.js',
-                        '<%= path.jsSrc %>/DEMO.js'
+                        '<%= path.jsSrc %>/MemoryPlayer.directive.js'
                     ],
 
                     '<%= path.scssSrc %>/memory-player.scss': [
