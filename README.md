@@ -5,7 +5,7 @@ Memory Player is a lonely AngularJS module written in TypeScript that is seeking
 Want to see Memory Player in action? [Check it out](http://www.thetektonics.com)
 
 ## Installation
-Installation is easy. The only dependency is AngularJS, and the distribution contains a [working example](src/MemoryPlayer/index.html). Download the repo and run the solution in Visual Studio or install [http-server](https://www.npmjs.com/package/http-server) to run the example.
+Installation is easy. The only dependencies are AngularJS and [jPlayer](http://jplayer.org), and the distribution contains a [working example](src/MemoryPlayer/index.html). Download the repo and run the solution in Visual Studio or install [http-server](https://www.npmjs.com/package/http-server) to run the example.
 
 ### Angular Requirements
 * Memory Player 1.0 and higher requires Angular 1.4.1 or higher and has been tested with Angular 1.6.1.
@@ -27,17 +27,36 @@ angular.module('myModule', ['MemoryPlayer']);
 Memory Player exchanges information between pages on the URL using a query string. Enable HTML 5 mode and configure `$locationChangeSuccess` to configure this communication.
 ```javascript
 angular.module('myModule', ['MemoryPlayer'])
-.config(['$locationProvider', function ($locationProvider) {
-  $locationProvider.html5Mode({
-    enabled: true,
-    requireBase: false
-  });
-}])
-.run(['$rootScope', '$window', function ($rootScope, $window) {
-  $rootScope.$on('$locationChangeSuccess', function (event, newUrl, oldUrl) {
-    if (newUrl !== oldUrl) {
-      $window.location.href = newUrl;
-    }
-  });
-}]);
+  .config(['$locationProvider', function ($locationProvider) {
+    $locationProvider.html5Mode({
+      enabled: true,
+      requireBase: false
+    });
+  }])
+  .run(['$rootScope', '$window', function ($rootScope, $window) {
+    $rootScope.$on('$locationChangeSuccess', function (event, newUrl, oldUrl) {
+      if (newUrl !== oldUrl) {
+        $window.location.href = newUrl;
+      }
+    });
+  }]);
 ```
+
+## Support
+Memory Player is fully documented with JS Doc. [Http-server](https://www.npmjs.com/package/http-server) is recommended to run the [documentation site](documentation/).
+
+## Supported Browsers
+Memory Player is developed as a fully responsive mobile and desktop solution. It is tested in all major browsers and on tablet and smartphone devices. A required gesture to restart playback on smartphones was taken into consideration. The player is styled across all screen sizes and exposes the controls that make sense for the best experience on the given device.
+
+#### Works on browsers
+* Chrome
+* Firefox
+* IE 9+
+* Safari
+* Edge
+
+#### Works on operating systems
+* Windows
+* macOS
+* OSX
+* iOS
