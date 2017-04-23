@@ -367,6 +367,8 @@ class MemoryPlayerFactory implements IMemoryPlayerFactory {
 
             angular.element(this._playerId).on($.jPlayer.event.ready, () => {
 
+                angular.element('#memory-player').removeClass('loading');
+
                 this.$timeout(() => {
 
                     this._playerInstance.select(playerInfo.track);
@@ -392,6 +394,11 @@ class MemoryPlayerFactory implements IMemoryPlayerFactory {
                 }, 400);
             });
 
+        } else {
+
+            angular.element(this._playerId).on($.jPlayer.event.ready, () => {
+                angular.element('#memory-player').removeClass('loading');
+            });
         }
     };
 

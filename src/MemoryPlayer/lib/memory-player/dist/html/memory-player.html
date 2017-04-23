@@ -1,4 +1,66 @@
-﻿<div class="container">
+﻿<div class="mp-container">
+    <!-- Begin Memory Player code -->
+    <div id="cued-playlist-item">
+        <img class="cued-artwork" data-ng-src="{{player.selectedPlaylist.cover}}" alt="{{player.selectedPlaylist.album}}" />
+        <p class="cued-song">
+            {{player.selectedTrack.title}}
+        </p>
+        <!-- .cued-song -->
+
+        <p class="cued-album">
+            {{player.selectedPlaylist.album}}
+        </p>
+        <!-- .cued-album -->
+    </div>
+    <!-- #cued-playlist-item -->
+
+    <div id="audio-controls">
+        <div class="cuing">
+            <span data-ng-click="player.previous()" class="audio-sprite audio-sprite-previous"></span>
+            <span data-ng-click="player.play()" data-ng-class="(!player.isPaused) ? 'audio-sprite-pause-lg' : 'audio-sprite-play-lg'" class="audio-sprite"></span>
+            <span data-ng-click="player.next()" class="audio-sprite audio-sprite-next"></span>
+        </div>
+        <!-- .cuing -->
+
+        <div class="volume">
+            <span data-ng-click="player.mute()" class="audio-sprite audio-sprite-quieter"></span>
+            <span data-ng-click="player.maxVolume()" class="audio-sprite audio-sprite-louder"></span>
+        </div>
+        <!-- .volume -->
+    </div>
+    <!-- #audio-controls -->
+
+    <ul id="playlists">
+        <li class="mp-dropdown">
+            <a data-ng-click="player.toggleDropdown($event)" class="mp-dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
+                Playlists <span class="mp-caret"></span>
+            </a>
+
+            <ul class="mp-dropdown-menu">
+                <li data-ng-repeat="(key, value) in player.playlists" class="playlist">
+                    <a data-ng-click="player.setPlaylist(value._id)">
+                        <img data-ng-src="{{value.cover}}" alt="{{value.album}}" />
+                        {{value.album}}
+                    </a>
+                </li>
+                <!-- .playlist -->
+
+                <li role="separator" class="mp-divider"></li>
+                <li class="mp-dropdown-header">Songs</li>
+                <li data-ng-repeat="track in player.selectedPlaylist.playlist" class="song">
+                    <a data-ng-click="player.cueTrack($index)">
+                        <span data-ng-class="($index === player.selectedTrack._id && !player.isPaused) ? 'audio-sprite-pause' : 'audio-sprite-play'" class="audio-sprite"></span>
+                        {{track.title}}
+                    </a>
+                </li>
+                <!-- .song -->
+            </ul>
+            <!-- .mp-dropdown-menu -->
+        </li>
+        <!-- .mp-dropdown -->
+    </ul>
+    <!-- #playlists -->
+
     <!-- Begin jPlayer code - required but hidden -->
     <div id="jp_container" class="jp-video jp-video-270p" role="application" aria-label="media player">
         <div class="jp-type-playlist">
@@ -39,67 +101,4 @@
         </div>
     </div>
     <!-- End jPlayer Code -->
-
-    <!-- Begin Memory Player code -->
-    <div id="cued-playlist-item">
-        <img class="cued-artwork" data-ng-src="{{player.selectedPlaylist.cover}}" alt="{{player.selectedPlaylist.album}}" />
-        <p class="cued-song">
-            {{player.selectedTrack.title}}
-        </p>
-        <!-- .cued-song -->
-
-        <p class="cued-album">
-            {{player.selectedPlaylist.album}}
-        </p>
-        <!-- .cued-album -->
-    </div>
-    <!-- #cued-playlist-item -->
-
-    <div id="audio-controls">
-        <div class="cuing">
-            <span data-ng-click="player.previous()" class="audio-sprite audio-sprite-previous"></span>
-            <span data-ng-click="player.play()" data-ng-class="(!player.isPaused) ? 'audio-sprite-pause-lg' : 'audio-sprite-play-lg'" class="audio-sprite"></span>
-            <span data-ng-click="player.next()" class="audio-sprite audio-sprite-next"></span>
-        </div>
-        <!-- .cuing -->
-
-        <div class="volume">
-            <span data-ng-click="player.mute()" class="audio-sprite audio-sprite-quieter"></span>
-            <span data-ng-click="player.maxVolume()" class="audio-sprite audio-sprite-louder"></span>
-        </div>
-        <!-- .volume -->
-    </div>
-    <!-- #audio-controls -->
-
-    <ul id="playlists" class="nav navbar-nav">
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                Playlists <span class="caret"></span>
-            </a>
-            <!-- .dropdown-toggle -->
-
-            <ul class="dropdown-menu dropdown-menu-right">
-                <li data-ng-repeat="(key, value) in player.playlists" class="playlist">
-                    <a data-ng-click="player.setPlaylist(value._id)">
-                        <img data-ng-src="{{value.cover}}" alt="{{value.album}}" />
-                        {{value.album}}
-                    </a>
-                </li>
-                <!-- .playlist -->
-
-                <li role="separator" class="divider"></li>
-                <li class="dropdown-header">Songs</li>
-                <li data-ng-repeat="track in player.selectedPlaylist.playlist" class="song">
-                    <a data-ng-click="player.cueTrack($index)">
-                        <span data-ng-class="($index === player.selectedTrack._id && !player.isPaused) ? 'audio-sprite-pause' : 'audio-sprite-play'" class="audio-sprite"></span>
-                        {{track.title}}
-                    </a>
-                </li>
-                <!-- .song -->
-            </ul>
-            <!-- .dropdown-menu.dropdown-menu-right -->
-        </li>
-        <!-- .dropdown -->
-    </ul>
-    <!-- #playlists.nav.navbar-nav -->
 </div>

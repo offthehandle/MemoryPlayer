@@ -172,6 +172,7 @@ var MemoryPlayerFactory = (function () {
         if (playerInfo !== null) {
             this.setTrack(playerInfo.track);
             angular.element(this._playerId).on($.jPlayer.event.ready, function () {
+                angular.element('#memory-player').removeClass('loading');
                 _this.$timeout(function () {
                     _this._playerInstance.select(playerInfo.track);
                     angular.element(_this._playerId).jPlayer('volume', playerInfo.volume);
@@ -186,6 +187,11 @@ var MemoryPlayerFactory = (function () {
                         angular.element(_this._playerId).jPlayer('pause', playerInfo.time);
                     }
                 }, 400);
+            });
+        }
+        else {
+            angular.element(this._playerId).on($.jPlayer.event.ready, function () {
+                angular.element('#memory-player').removeClass('loading');
             });
         }
     };
@@ -328,11 +334,27 @@ var MemoryPlayerController = (function () {
                 _this.$scope.$apply();
             });
         });
-        angular.element(document).on('youtube.onVideoPlayed', function (e) {
+        angular.element(document).on('youtube.onVideoPlayed', function () {
             if (!_this.isPaused) {
                 _this.play();
                 _this.$scope.$apply();
             }
+        });
+        angular.element(document).on('click.mp.dropdown', function (e) {
+            var $dropdown = angular.element('.mp-dropdown');
+            if (!angular.element(e.target).hasClass('mp-dropdown-toggle') && $dropdown.hasClass('open')) {
+                $dropdown.removeClass('open');
+                $dropdown.find('a').attr('aria-expanded', 'false');
+            }
+        });
+        angular.element(document).on('click.mp.dropdown', '.mp-dropdown-backdrop', function (e) {
+            var $dropdown = angular.element('.mp-dropdown');
+            angular.element(e.target).remove();
+            $dropdown.removeClass('open');
+            $dropdown.find('a').attr('aria-expanded', 'false');
+        });
+        angular.element('#memory-player').on('click.mp.dropdown', '.mp-dropdown-menu', function (e) {
+            e.stopPropagation();
         });
     }
     MemoryPlayerController.prototype.setPlaylist = function (album) {
@@ -363,6 +385,19 @@ var MemoryPlayerController = (function () {
         this.MemoryPlayerFactory.mute();
     };
     ;
+    MemoryPlayerController.prototype.toggleDropdown = function ($event) {
+        var $trigger = angular.element($event.target), $parent = $trigger.closest('.mp-dropdown'), isActive = $parent.hasClass('open'), $backdrop = $(document.createElement('div')).addClass('mp-dropdown-backdrop');
+        angular.element('.mp-dropdown-backdrop').remove();
+        $parent.removeClass('open');
+        $trigger.attr('aria-expanded', 'false');
+        if (!isActive) {
+            if ('ontouchstart' in document.documentElement) {
+                $backdrop.appendTo('body');
+            }
+            $parent.addClass('open');
+            $trigger.attr('aria-expanded', 'true');
+        }
+    };
     MemoryPlayerController.instance = [
         '$rootScope',
         '$scope',

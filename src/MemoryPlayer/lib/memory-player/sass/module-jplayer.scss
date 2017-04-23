@@ -5,21 +5,21 @@
 }
 
 .jp-interface {
-    position: relative;
-    left: 30px;
+    position: absolute;
+    top: 0;
+    left: 45px;
     width: 105px;
+    height: 0;
 
     @media (min-width: 768px) {
         width: 210px;
     }
 
     @media (min-width: 992px) {
-        position: absolute;
         top: 20px;
         left: auto;
         right: 125px;
         width: 615px;
-        z-index: 10;
     }
 
     @media (min-width: 1200px) {
@@ -66,7 +66,7 @@
 
 .jp-current-time, .jp-duration {
     position: absolute;
-    top: -5px;
+    top: -8px;
     width: 30px;
     font-size: 0.6875em;
     font-weight: 300;
@@ -74,7 +74,7 @@
     cursor: default;
 
     @media (min-width: 992px) {
-        top: 31px;
+        top: 28px;
     }
 }
 
@@ -104,6 +104,7 @@
     display: none;
 
     @media (min-width: 992px) {
+        float: left;
         display: block;
         margin-top: 12px;
     }

@@ -87,7 +87,8 @@ module.exports = function (grunt) {
             dist: {
                 files: {
                     '<%= path.htmlDist %>/memory-player.html': ['<%= path.htmlSrc %>/memory-player.html'],
-                    '<%= path.jsonDist %>/playlists.json': ['<%= path.jsonSrc %>/playlists.json.sample']
+                    '<%= path.jsonDist %>/playlists.json': ['<%= path.jsonSrc %>/playlists.json.sample'],
+                    '<%= path.jsDist %>/DEMO.js': ['<%= path.jsSrc %>/DEMO.js']
                 }
             }
         },
@@ -113,5 +114,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-stripcomments');
 
     // Register Tasks
+    grunt.registerTask('styles', ['concat', 'sass', 'cssmin']);
     grunt.registerTask('default', ['clean:dist', 'copy', 'comments', 'concat', 'uglify', 'sass', 'cssmin', 'clean:complete']);
 };

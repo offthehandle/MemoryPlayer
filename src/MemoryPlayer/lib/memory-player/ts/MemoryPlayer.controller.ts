@@ -140,7 +140,7 @@ class MemoryPlayerController implements angular.IController {
          *
          * @listens event:youtube.onVideoPlayed
          */
-        angular.element(document).on('youtube.onVideoPlayed', (e: Event) => {
+        angular.element(document).on('youtube.onVideoPlayed', () => {
 
             if (!this.isPaused) {
 
@@ -148,6 +148,41 @@ class MemoryPlayerController implements angular.IController {
 
                 this.$scope.$apply();
             }
+        });
+
+
+        /**
+         * Click event to close the open playlists dropdown.
+         */
+        angular.element(document).on('click.mp.dropdown', (e: JQueryEventObject) => {
+            let $dropdown = angular.element('.mp-dropdown');
+
+            if (!angular.element(e.target).hasClass('mp-dropdown-toggle') && $dropdown.hasClass('open')) {
+
+                $dropdown.removeClass('open');
+                $dropdown.find('a').attr('aria-expanded', 'false');
+            }
+        });
+
+
+        /**
+         * Click event to close the open playlists dropdown on mobile devices.
+         */
+        angular.element(document).on('click.mp.dropdown', '.mp-dropdown-backdrop', (e: JQueryEventObject) => {
+            let $dropdown = angular.element('.mp-dropdown');
+
+            angular.element(e.target).remove();
+
+            $dropdown.removeClass('open');
+            $dropdown.find('a').attr('aria-expanded', 'false');
+        });
+
+
+        /**
+         * Click event to close the open playlists dropdown.
+         */
+        angular.element('#memory-player').on('click.mp.dropdown', '.mp-dropdown-menu', (e: JQueryEventObject) => {
+            e.stopPropagation();
         });
     }
 
@@ -256,6 +291,36 @@ class MemoryPlayerController implements angular.IController {
     public mute(): void {
         this.MemoryPlayerFactory.mute();
     };
+
+
+    /**
+     * Toggles the playlists dropdown open and closed.
+     * @memberof MemoryPlayerController
+     * @instance
+     */
+    public toggleDropdown($event?: JQueryEventObject): void {
+        let $trigger = angular.element($event.target),
+            $parent = $trigger.closest('.mp-dropdown'),
+            isActive = $parent.hasClass('open'),
+            $backdrop = $(document.createElement('div')).addClass('mp-dropdown-backdrop');
+
+        // Resets dropdown
+        angular.element('.mp-dropdown-backdrop').remove();
+
+        $parent.removeClass('open');
+
+        $trigger.attr('aria-expanded', 'false');
+
+        // Opens the dropdown if it was closed when triggered
+        if (!isActive) {
+            if ('ontouchstart' in document.documentElement) {
+                $backdrop.appendTo('body');
+            }
+
+            $parent.addClass('open');
+            $trigger.attr('aria-expanded', 'true');
+        }
+    }
 }
 
 

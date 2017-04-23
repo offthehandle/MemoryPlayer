@@ -12,14 +12,13 @@
     <script type="text/javascript" src="/lib/memory-player/dist/js/memory-player.js"></script>
     <script type="text/javascript" src="/lib/memory-player/dist/js/DEMO.js"></script>
 
-    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" />
     <link type="text/css" rel="stylesheet" href="/lib/memory-player/dist/css/memory-player.css" />
 </head>
 <body data-ng-app="DemoApp">
-    <section id="memory-player" class="navbar navbar-inverse" data-ng-controller="MemoryPlayerController as player" data-ng-cloak>
+    <section id="memory-player" data-ng-controller="MemoryPlayerController as player" class="loading" data-ng-cloak="">
         <section data-memory-player=""></section>
     </section>
-    <!-- #memory-player.navbar.navbar-inverse -->
+    <!-- #memory-player -->
 
     <section class="container">
         <div class="row">
@@ -33,7 +32,5 @@
         <!-- .row -->
     </section>
     <!-- .container -->
-
-    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
 </body>
 </html>
