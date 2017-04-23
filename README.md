@@ -1,3 +1,16 @@
+### Quick links
+- [Memory Player](#memory-player)
+- [Demo](#demo)
+- [Installation](#installation)
+    - [Angular Requirements](#angular-requirements)
+    - [Install with NuGet](#install-with-nuget)
+    - [Adding Dependency](#adding-dependency)
+    - [Configuration](#configuration)
+- [Support](#support)
+- [Supported Browsers](#supported-browsers)
+    - [Works on browsers](#works-on-browsers)
+    - [Works on operating systems](#works-on-operating-systems)
+
 # Memory Player
 Memory Player is a lonely AngularJS module written in TypeScript that is seeking to befriend musicians. Asked if Memory Player has the qualities of a good friend it replied, "No. A best friend." These qualities include continuous audio playback between pages, support for playlists, remembering the selected playlist, selected track, track time, player volume, birthdays and other significant life events. As an aid to Developers, the package installs with TS source files, interfaces, and a sample JSON file with the JSON schema to validate against. A reliable contract for communication between pages is established without any requirement for frames, tabs, accordions, popups or SPAs.
 
