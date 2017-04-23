@@ -2,17 +2,16 @@
 Memory Player is a lonely AngularJS module written in TypeScript that is seeking to befriend musicians. Asked if Memory Player has the qualities of a good friend it replied, "No. A best friend." These qualities include continuous audio playback between pages, support for playlists, remembering the selected playlist, selected track, track time, player volume, birthdays and other significant life events. As an aid to Developers, the package installs with TS source files, interfaces, and a sample JSON file with the JSON schema to validate against. A reliable contract for communication between pages is established without any requirement for frames, tabs, accordions, popups or SPAs.
 
 ## Demo
-Want to see Memory Player in action? [Check it out](http://www.thetektonics.com)
+Want to see Memory Player in action? [Check it out](http://www.thetektonics.com).
 
 ## Installation
 Installation is easy. The only dependencies are AngularJS and [jPlayer](http://jplayer.org), and the distribution contains a [working example](src/MemoryPlayer/index.html). Download the repo and run the solution in Visual Studio or install [http-server](https://www.npmjs.com/package/http-server) to run the example.
 
 ### Angular Requirements
 * Memory Player 1.0 and higher requires Angular 1.4.1 or higher and has been tested with Angular 1.6.1.
-* It is possible that Memory Player will work with older versions of Angular.  
-  Since the module was developed during the lifecycle of later Angular 1.x releases, < 1.4.1 is not officially supported.
+* It is possible that Memory Player will work with older versions of Angular. Since the module was developed during the lifecycle of later Angular 1.x releases, < 1.4.1 is not officially supported.
 
-#### Install with NUGET
+##### Install with NuGet
 To install Memory Player, run the following command in the Package Manager Console:
 ```
 PM> Install-Package MemoryPlayer
@@ -24,7 +23,7 @@ angular.module('myModule', ['MemoryPlayer']);
 ```
 
 ### Configuration
-Memory Player exchanges information between pages on the URL using a query string. Enable HTML 5 mode and configure `$locationChangeSuccess` to configure this communication.
+Memory Player exchanges information between pages on the URL using a query string. Enable HTML 5 mode and configure `$locationChangeSuccess` to setup this communication.
 ```javascript
 angular.module('myModule', ['MemoryPlayer'])
   .config(['$locationProvider', function ($locationProvider) {
@@ -46,7 +45,7 @@ angular.module('myModule', ['MemoryPlayer'])
 Memory Player is fully documented with JS Doc. [Http-server](https://www.npmjs.com/package/http-server) is recommended to run the [documentation site](documentation/).
 
 ## Supported Browsers
-Memory Player is developed as a fully responsive mobile and desktop solution. It is tested in all major browsers and on tablet and smartphone devices. A required gesture to restart playback on smartphones was taken into consideration. The player is styled across all screen sizes and exposes the controls that make sense for the best experience on the given device.
+Memory Player is a fully responsive solution that is developed and tested on multiple mobile devices and desktop browsers. The gesture required on smartphones to restart playback is handled by the player to prevent any error. Styling covers all screen sizes and exposes the right controls for the best experience on any device.
 
 #### Works on browsers
 * Chrome
