@@ -34,7 +34,9 @@
     width: 105px;
     height: 7px;
     background-color: rgb(160,160,160);
-    @include border-radius(20px);
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
     overflow: hidden;
 
     @media (min-width: 768px) {
@@ -115,7 +117,9 @@
     height: 8px;
     cursor: pointer;
     background-color: rgb(160,160,160);
-    @include border-radius(20px);
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
 }
 
 .jp-volume-bar-value {
@@ -131,6 +135,8 @@
         width: 10px;
         height: 10px;
         background-color: #747474;
-        @include border-radius(100%);
+        -webkit-border-radius: 100%;
+        -moz-border-radius: 100%;
+        border-radius: 100%;
     }
 }
