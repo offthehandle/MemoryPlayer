@@ -1,11 +1,14 @@
 ﻿
-#jquery_jplayer, .jp-playlist, .jp-details, .jp-video-play {
+.jp-details,
+.jp-playlist,
+.jp-video-play,
+#jquery_jplayer {
     display: none !important;
 }
 
 .jp-interface {
     position: absolute;
-    top: 0;
+    top: 10px;
     left: 45px;
     width: 105px;
     height: 0;
@@ -16,14 +19,18 @@
 
     @media (min-width: 992px) {
         top: 20px;
-        left: auto;
         right: 125px;
+        left: auto;
         width: 615px;
     }
 
     @media (min-width: 1200px) {
         right: 200px;
         width: 740px;
+    }
+
+    @media (min-width: 1366px) {
+        width: 850px;
     }
 }
 
@@ -32,7 +39,7 @@
     top: -1px;
     width: 105px;
     height: 7px;
-    background-color: rgb(160,160,160);
+    background-color: #9a9a9a;
     -webkit-border-radius: 20px;
     -moz-border-radius: 20px;
     border-radius: 20px;
@@ -52,7 +59,8 @@
     }
 }
 
-.jp-seek-bar, .jp-play-bar {
+.jp-seek-bar,
+.jp-play-bar {
     width: 0;
     height: 100%;
 }
@@ -62,17 +70,19 @@
 }
 
 .jp-play-bar {
-    background-color: #747474;
+    background-color: lighten(#484848, 9%);
 }
 
-.jp-current-time, .jp-duration {
+.jp-duration,
+.jp-current-time {
     position: absolute;
     top: -8px;
     width: 30px;
-    font-size: 0.6875em;
+    cursor: default;
+    font-size: 11px;
+    line-height: 1.8181818181;
     font-weight: 300;
     color: #fff;
-    cursor: default;
 
     @media (min-width: 992px) {
         top: 28px;
@@ -83,8 +93,8 @@
     left: -30px;
 
     @media (min-width: 992px) {
-        left: auto;
         right: 250px;
+        left: auto;
     }
 
     @media (min-width: 1200px) {
@@ -115,7 +125,7 @@
     width: 175px;
     height: 8px;
     cursor: pointer;
-    background-color: rgb(160,160,160);
+    background-color: #9a9a9a;
     -webkit-border-radius: 20px;
     -moz-border-radius: 20px;
     border-radius: 20px;
@@ -133,7 +143,7 @@
         right: -5px;
         width: 10px;
         height: 10px;
-        background-color: #747474;
+        background-color: lighten(#484848, 9%);
         -webkit-border-radius: 100%;
         -moz-border-radius: 100%;
         border-radius: 100%;

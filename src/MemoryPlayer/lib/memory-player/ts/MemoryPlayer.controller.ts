@@ -294,6 +294,20 @@ class MemoryPlayerController implements angular.IController {
 
 
     /**
+     * Copies the share link to the clipboard. {@link MemoryPlayerFactory}
+     * @memberof MemoryPlayerController
+     * @instance
+     */
+    public share(): void {
+        let shareLink = document.getElementById('share-link') as HTMLInputElement;
+
+        shareLink.select();
+
+        document.execCommand('copy');
+    }
+
+
+    /**
      * Toggles the playlists dropdown open and closed.
      * @memberof MemoryPlayerController
      * @instance

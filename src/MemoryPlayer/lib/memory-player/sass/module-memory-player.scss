@@ -3,6 +3,10 @@ body {
     margin: 0;
     padding: 0;
 
+    @media (min-width: 768px) {
+        padding-top: 98px;
+    }
+
     @media (min-width: 992px) {
         padding-top: 72px;
     }
@@ -18,23 +22,26 @@ body {
 }
 
 #memory-player {
-    min-height: 72px;
+    position: relative;
+    height: 98px;
     font-family: 'Titillium Web', sans-serif;
-    font-size: 10px;
-    line-height: 20px;
-    background-color: rgb(40,40,40);
+    background-color: darken(#484848, 13%);
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    padding: 10px 0;
+    padding: 0 0 8px;
+    z-index: 1030;
 
-    @media (min-width: 992px) {
+    @media (min-width: 768px) {
         position: fixed;
         top: 0;
         right: 0;
         left: 0;
-        z-index: 1030;
         padding: 0;
+    }
+
+    @media (min-width: 992px) {
+        height: 72px;
     }
 
     &.loading .mp-container {
@@ -49,8 +56,7 @@ body {
 
     .mp-container {
         position: relative;
-        min-height: 72px;
-        font-size: 1.4em;
+        font-size: 15px;
         padding-right: 15px;
         padding-left: 15px;
         margin-right: auto;
@@ -58,18 +64,23 @@ body {
 
         @media (min-width: 768px) {
             width: 750px;
+            font-size: 16px;
         }
 
         @media (min-width: 992px) {
             width: 970px;
-            font-size: 1.6em;
         }
 
         @media (min-width: 1200px) {
             width: 1170px;
         }
 
-        &:before, &:after {
+        @media (min-width: 1366px) {
+            width: 1280px;
+        }
+
+        &:before,
+        &:after {
             content: '';
             display: table;
         }
@@ -85,7 +96,9 @@ body {
 }
 
 #audio-controls {
-    .cuing, .volume {
+
+    .cuing,
+    .volume {
         position: relative;
 
         @media (min-width: 992px) {
@@ -117,7 +130,7 @@ body {
             margin-top: 26px;
         }
 
-        @media (min-device-width: 768px) and (max-device-width: 1024px) {
+        @media (max-device-width: 1024px) and (min-device-width: 768px) {
             display: none;
         }
     }
@@ -160,7 +173,7 @@ body {
     position: relative;
     width: 165px;
     text-align: center;
-    margin-top: 10px;
+    margin-top: 25px;
 
     @media (min-width: 768px) {
         width: 270px;
@@ -178,29 +191,32 @@ body {
         margin-right: 185px;
     }
 
-    .cued-song, .cued-album {
-        font-size: 0.8125em;
+    .cued-song,
+    .cued-album {
         margin: 0;
 
         @media (min-width: 992px) {
-            padding-left: 46px;
+            padding-left: 55px;
         }
     }
 
     .cued-song {
+        max-width: 100%;
+        font-size: 13px;
+        line-height: 1;
         font-weight: 700;
         color: #fff;
-        line-height: 15px;
         text-transform: uppercase;
-
-        @media (min-width: 992px) {
-            line-height: 20px;
-        }
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .cued-album {
+        font-size: 13px;
+        line-height: 1.9230769230;
         font-weight: 300;
-        color: rgb(120,120,120);
+        color: #9a9a9a;
     }
 
     .cued-artwork {
@@ -216,34 +232,39 @@ body {
 
 #playlists {
     position: absolute;
-    top: -10px;
+    top: 0;
     right: 0;
     list-style: none;
     float: none;
     margin: 0;
     padding: 0;
 
-    @media (min-width: 992px) {
-        top: 0;
-    }
-
-    > li, > li > a {
+    > li,
+    > li > a {
         position: relative;
         display: block;
     }
 
     > li > a {
-        font-weight: 300;
-        color: rgb(160,160,160);
         text-decoration: none;
+        height: 98px;
+        font-weight: 300;
+        color: #9a9a9a;
         text-transform: uppercase;
-        padding: 36px 9px;
+        display: table-cell;
+        vertical-align: middle;
+        padding: 0 10px;
 
-        @media (min-width: 992px) {
-            padding: 26px 15px;
+        @media (min-width: 768px) {
+            padding: 0 15px;
         }
 
-        &:hover, &:focus {
+        @media (min-width: 992px) {
+            height: 72px;
+        }
+
+        &:hover,
+        &:focus {
             color: #fff;
         }
 
@@ -265,7 +286,8 @@ body {
 
     .open {
         > a {
-            background-color: rgb(56,56,56);
+            color: #fff;
+            background-color: darken(#484848, 8%);
         }
 
         .mp-dropdown-menu {
@@ -278,9 +300,8 @@ body {
         top: 100%;
         right: 0;
         min-width: 320px;
-        font-size: 1em;
         list-style: none;
-        background-color: rgb(56,56,56);
+        background-color: darken(#484848, 8%);
         float: left;
         display: none;
         margin-top: 0;
@@ -298,10 +319,11 @@ body {
             margin-bottom: 6px;
 
             a {
-                font-size: 0.8125em;
+                cursor: pointer;
+                font-size: 13px;
+                line-height: 1;
                 font-weight: 300;
                 text-transform: uppercase;
-                cursor: pointer;
             }
 
             img {
@@ -327,13 +349,16 @@ body {
             }
 
             a {
-                position: relative;
-                font-size: .9375em;
-                font-weight: 700;
                 cursor: pointer;
+                position: relative;
+                font-size: 15px;
+                line-height: 1.2;
+                font-weight: 700;
                 padding-left: 72px;
 
-                &:hover, &:focus {
+                &:hover,
+                &:focus {
+
                     .audio-sprite-play {
                         background-position: -1px -281px;
                     }
@@ -351,16 +376,24 @@ body {
             padding-left: 38px;
             padding-right: 38px;
 
-            &:hover, &:focus {
-                color: rgb(0,176,240);
+            @media (min-width: 1200px) {
+                -webkit-transition: color 0.4s ease;
+                -o-transition: color 0.4s ease;
+                transition: color 0.4s ease;
+            }
+
+            &:hover,
+            &:focus {
+                color: #d0e028;
                 background-color: transparent;
             }
         }
 
         .mp-dropdown-header {
-            font-size: 0.9375em;
+            font-size: 15px;
+            line-height: 1;
             font-weight: 300;
-            color: rgb(160,160,160);
+            color: #9a9a9a;
             text-transform: uppercase;
             margin-bottom: 12px;
             padding: 0 38px;
