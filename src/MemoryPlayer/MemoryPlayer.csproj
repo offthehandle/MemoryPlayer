@@ -64,9 +64,6 @@
     <Content Include="tsconfig.json" />
     <Content Include="packages.config" />
     <Content Include="js\jquery-1.9.1.min.map" />
-    <Content Include="lib\memory-player\sass\module-jplayer.scss" />
-    <Content Include="lib\memory-player\sass\module-memory-player.scss" />
-    <Content Include="lib\memory-player\sass\sprite-memory-player.scss" />
     <Content Include="lib\memory-player\less\module-jplayer.less" />
     <Content Include="lib\memory-player\less\module-memory-player.less" />
     <Content Include="lib\memory-player\less\sprite-memory-player.less" />
@@ -74,6 +71,9 @@
     <Content Include="lib\memory-player\dist\json\playlists-schema.json" />
     <Content Include="lib\memory-player\dist\json\playlists.json" />
     <Content Include="js\angular.min.js.map" />
+    <Content Include="lib\memory-player\scss\module-jplayer.scss" />
+    <Content Include="lib\memory-player\scss\module-memory-player.scss" />
+    <Content Include="lib\memory-player\scss\sprite-memory-player.scss" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
