@@ -40,7 +40,7 @@
 			<li class="dropdown">
 				<a href="events.list.html" class="dropdown-toggle" data-toggle="dropdown">Events<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="MemoryPlayer.html#.event:trackPlayed">MemoryPlayer.event:trackPlayed</a></li><li><a href="global.html#event:MemoryPlayer:isPaused">MemoryPlayer:isPaused</a></li><li><a href="global.html#event:MemoryPlayer:playlistChanged">MemoryPlayer:playlistChanged</a></li><li><a href="global.html#event:MemoryPlayer:trackChanged">MemoryPlayer:trackChanged</a></li><li><a href="global.html#event:MemoryPlayer:trackEnded">MemoryPlayer:trackEnded</a></li><li><a href="global.html#event:MemoryPlayer:trackLoaded">MemoryPlayer:trackLoaded</a></li><li><a href="global.html#event:MemoryPlayer:trackPlayed">MemoryPlayer:trackPlayed</a></li>
+					<li><a href="MemoryPlayerFactory.html#event:MemoryPlayer:isPaused">MemoryPlayerFactory#MemoryPlayer:isPaused</a></li><li><a href="MemoryPlayerFactory.html#event:MemoryPlayer:playlistChanged">MemoryPlayerFactory#MemoryPlayer:playlistChanged</a></li><li><a href="MemoryPlayerFactory.html#event:MemoryPlayer:trackChanged">MemoryPlayerFactory#MemoryPlayer:trackChanged</a></li><li><a href="MemoryPlayerFactory.html#event:MemoryPlayer:trackEnded">MemoryPlayerFactory#MemoryPlayer:trackEnded</a></li><li><a href="MemoryPlayerFactory.html#event:MemoryPlayer:trackLoaded">MemoryPlayerFactory#MemoryPlayer:trackLoaded</a></li><li><a href="MemoryPlayerFactory.html#event:MemoryPlayer:trackPlayed">MemoryPlayerFactory#MemoryPlayer:trackPlayed</a></li>
 				</ul>
 			</li>
 			
@@ -163,20 +163,20 @@
             swfPath: '/js',
             supplied: 'mp3',
             /**
-             * @fires MemoryPlayer:trackLoaded
+             * @fires MemoryPlayerFactory#MemoryPlayer:trackLoaded
              */
             loadeddata: function (event) {
                 /**
-                 * @event MemoryPlayer:trackLoaded
+                 * @event MemoryPlayerFactory#MemoryPlayer:trackLoaded
                  */
                 _this.$rootScope.$emit('MemoryPlayer:trackLoaded', Math.floor(event.jPlayer.status.duration));
             },
             /**
-             * @fires MemoryPlayer:trackPlayed
+             * @fires MemoryPlayerFactory#MemoryPlayer:trackPlayed
              */
             playing: function () {
                 /**
-                 * @event MemoryPlayer:trackPlayed
+                 * @event MemoryPlayerFactory#MemoryPlayer:trackPlayed
                  */
                 _this.$rootScope.$emit('MemoryPlayer:trackPlayed');
             },
@@ -185,11 +185,11 @@
                 _this._isMuted = event.jPlayer.options.muted;
             },
             /**
-             * @fires MemoryPlayer:trackEnded
+             * @fires MemoryPlayerFactory#MemoryPlayer:trackEnded
              */
             ended: function () {
                 /**
-                 * @event MemoryPlayer:trackEnded
+                 * @event MemoryPlayerFactory#MemoryPlayer:trackEnded
                  */
                 _this.$rootScope.$emit('MemoryPlayer:trackEnded');
             },
@@ -337,12 +337,12 @@
      * @memberof MemoryPlayerFactory
      * @instance
      * @param {number} track - The id of the track to be selected.
-     * @fires MemoryPlayer:trackChanged
+     * @fires MemoryPlayerFactory#MemoryPlayer:trackChanged
      */
     MemoryPlayerFactory.prototype.setTrack = function (track) {
         this._selectedTrack = this.getPlaylist().playlist[track];
         /**
-         * @event MemoryPlayer:trackChanged
+         * @event MemoryPlayerFactory#MemoryPlayer:trackChanged
          */
         this.$rootScope.$emit('MemoryPlayer:trackChanged', this._selectedTrack);
     };
@@ -352,7 +352,7 @@
      * @memberof MemoryPlayerFactory
      * @instance
      * @param {string} album - The id of the playlist to be selected.
-     * @fires MemoryPlayer:playlistChanged
+     * @fires MemoryPlayerFactory#MemoryPlayer:playlistChanged
      */
     MemoryPlayerFactory.prototype.setPlaylist = function (album) {
         this._selectedPlaylist = this.getAllPlaylists()[album];
@@ -362,7 +362,7 @@
             this.autoPlay(true);
         }
         /**
-         * @event MemoryPlayer:playlistChanged
+         * @event MemoryPlayerFactory#MemoryPlayer:playlistChanged
          */
         this.$rootScope.$emit('MemoryPlayer:playlistChanged', this._selectedPlaylist);
     };
@@ -410,14 +410,14 @@
      * @memberof MemoryPlayerFactory
      * @instance
      *
-     * @fires MemoryPlayer:isPaused
+     * @fires MemoryPlayerFactory#MemoryPlayer:isPaused
      */
     MemoryPlayerFactory.prototype.play = function () {
         (this.isPaused) ? angular.element(this._playerId).jPlayer('play') : angular.element(this._playerId).jPlayer('pause');
         this.isPaused = !this.isPaused;
         if (this.isPaused) {
             /**
-             * @event MemoryPlayer:isPaused
+             * @event MemoryPlayerFactory#MemoryPlayer:isPaused
              */
             this.$rootScope.$emit('MemoryPlayer:isPaused', this.isPaused);
         }
@@ -493,13 +493,10 @@
      * @memberof MemoryPlayerFactory
      * @instance
      * @param {Function} callback - The callback function used to update the value of isPaused in the controller scope.
-     * @fires MemoryPlayer:trackPlayed
+     * @fires MemoryPlayerFactory#MemoryPlayer:trackPlayed
      */
     MemoryPlayerFactory.prototype.trackPlayedEvent = function (callback) {
         this.isPaused = false;
-        /**
-         * @event MemoryPlayer.trackPlayed
-         */
         angular.element(this._playerId).trigger('MemoryPlayer.trackPlayed');
         if (angular.isFunction(callback)) {
             callback({ isPaused: this.isPaused });
@@ -579,7 +576,7 @@
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a>
 	
-		on Sun Jun 3rd 2018
+		on Mon Jun 4th 2018
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

@@ -40,7 +40,7 @@ class MemoryPlayerController implements angular.IController {
          * isMuted = the player is muted (true) or not (false)
          * isPaused = the player is paused (true) or not (false)
          *
-         * @listens event:$locationChangeStart
+         * @listens MemoryPlayerFactory#event:$locationChangeStart
          */
         this.$scope.$on('$locationChangeStart', (event: angular.IAngularEvent, newUrl: string, oldUrl: string) => {
 
@@ -63,7 +63,7 @@ class MemoryPlayerController implements angular.IController {
         /**
          * Event reporting that the directive is ready before initializing the player.
          *
-         * @listens event:MemoryPlayer:directiveReady
+         * @listens MemoryPlayerFactory#event:MemoryPlayer:directiveReady
          */
         this.$scope.$on('MemoryPlayer:directiveReady', (event: angular.IAngularEvent, remembered: IMemoryInit) => {
 
@@ -90,7 +90,7 @@ class MemoryPlayerController implements angular.IController {
         /**
          * Event reporting that the playlist has changed.
          *
-         * @listens event:MemoryPlayer:playlistChanged
+         * @listens MemoryPlayerFactory#event:MemoryPlayer:playlistChanged
          */
         this.$rootScope.$on('MemoryPlayer:playlistChanged', (event: angular.IAngularEvent, playlist: IMemoryPlaylist) => {
             this.selectedPlaylist = playlist;
@@ -105,7 +105,7 @@ class MemoryPlayerController implements angular.IController {
         /**
          * Event reporting that the track has changed.
          *
-         * @listens event:MemoryPlayer:trackChanged
+         * @listens MemoryPlayerFactory#event:MemoryPlayer:trackChanged
          */
         this.$rootScope.$on('MemoryPlayer:trackChanged', (event: angular.IAngularEvent, track: IMemoryTrack) => {
             this.selectedTrack = track;
@@ -125,7 +125,7 @@ class MemoryPlayerController implements angular.IController {
         /**
          * Event reporting that the selected track is loaded.
          *
-         * @listens event:MemoryPlayer:trackLoaded
+         * @listens MemoryPlayerFactory#event:MemoryPlayer:trackLoaded
          */
         this.$rootScope.$on('MemoryPlayer:trackLoaded', (event: angular.IAngularEvent, duration: number) => {
             this.trackDuration = duration;
@@ -135,7 +135,7 @@ class MemoryPlayerController implements angular.IController {
         /**
          * Event reporting that the player has been paused.
          *
-         * @listens event:MemoryPlayer:isPaused
+         * @listens MemoryPlayerFactory#event:MemoryPlayer:isPaused
          */
         this.$rootScope.$on('MemoryPlayer:isPaused', (event: angular.IAngularEvent, isPaused: boolean) => {
 
@@ -151,7 +151,7 @@ class MemoryPlayerController implements angular.IController {
         /**
          * Event reporting that the selected track is being played.
          *
-         * @listens event:MemoryPlayer:trackPlayed
+         * @listens MemoryPlayerFactory#event:MemoryPlayer:trackPlayed
          */
         this.$rootScope.$on('MemoryPlayer:trackPlayed', () => {
 
@@ -181,7 +181,7 @@ class MemoryPlayerController implements angular.IController {
         /**
          * Event reporting that the selected track has ended.
          *
-         * @listens event:MemoryPlayer:trackEnded
+         * @listens MemoryPlayerFactory#event:MemoryPlayer:trackEnded
          */
         this.$rootScope.$on('MemoryPlayer:trackEnded', () => {
 
@@ -198,8 +198,6 @@ class MemoryPlayerController implements angular.IController {
 
         /**
          * Event reporting that a YouTube video is playing to prevent simultaneous playback.
-         *
-         * @listens event:youtube.onVideoPlayed
          */
         angular.element(document).on('youtube.onVideoPlayed', () => {
 

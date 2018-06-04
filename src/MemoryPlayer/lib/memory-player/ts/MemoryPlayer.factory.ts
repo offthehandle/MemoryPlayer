@@ -129,23 +129,23 @@ class MemoryPlayerFactory implements IMemoryPlayerFactory {
         supplied: 'mp3',
 
         /**
-         * @fires MemoryPlayer:trackLoaded
+         * @fires MemoryPlayerFactory#MemoryPlayer:trackLoaded
          */
         loadeddata: (event: IjPlayerEvent) => {
 
             /**
-             * @event MemoryPlayer:trackLoaded
+             * @event MemoryPlayerFactory#MemoryPlayer:trackLoaded
              */
             this.$rootScope.$emit('MemoryPlayer:trackLoaded', Math.floor(event.jPlayer.status.duration));
         },
 
         /**
-         * @fires MemoryPlayer:trackPlayed
+         * @fires MemoryPlayerFactory#MemoryPlayer:trackPlayed
          */
         playing: () => {
 
             /**
-             * @event MemoryPlayer:trackPlayed
+             * @event MemoryPlayerFactory#MemoryPlayer:trackPlayed
              */
             this.$rootScope.$emit('MemoryPlayer:trackPlayed');
         },
@@ -156,12 +156,12 @@ class MemoryPlayerFactory implements IMemoryPlayerFactory {
         },
 
         /**
-         * @fires MemoryPlayer:trackEnded
+         * @fires MemoryPlayerFactory#MemoryPlayer:trackEnded
          */
         ended: () => {
 
             /**
-             * @event MemoryPlayer:trackEnded
+             * @event MemoryPlayerFactory#MemoryPlayer:trackEnded
              */
             this.$rootScope.$emit('MemoryPlayer:trackEnded');
         },
@@ -321,14 +321,14 @@ class MemoryPlayerFactory implements IMemoryPlayerFactory {
      * @memberof MemoryPlayerFactory
      * @instance
      * @param {number} track - The id of the track to be selected.
-     * @fires MemoryPlayer:trackChanged
+     * @fires MemoryPlayerFactory#MemoryPlayer:trackChanged
      */
     public setTrack(track: number): void {
 
         this._selectedTrack = this.getPlaylist().playlist[track];
 
         /**
-         * @event MemoryPlayer:trackChanged
+         * @event MemoryPlayerFactory#MemoryPlayer:trackChanged
          */
         this.$rootScope.$emit('MemoryPlayer:trackChanged', this._selectedTrack);
     };
@@ -339,7 +339,7 @@ class MemoryPlayerFactory implements IMemoryPlayerFactory {
      * @memberof MemoryPlayerFactory
      * @instance
      * @param {string} album - The id of the playlist to be selected.
-     * @fires MemoryPlayer:playlistChanged
+     * @fires MemoryPlayerFactory#MemoryPlayer:playlistChanged
      */
     public setPlaylist(album: string): void {
 
@@ -355,7 +355,7 @@ class MemoryPlayerFactory implements IMemoryPlayerFactory {
         }
 
         /**
-         * @event MemoryPlayer:playlistChanged
+         * @event MemoryPlayerFactory#MemoryPlayer:playlistChanged
          */
         this.$rootScope.$emit('MemoryPlayer:playlistChanged', this._selectedPlaylist);
     };
@@ -421,7 +421,7 @@ class MemoryPlayerFactory implements IMemoryPlayerFactory {
      * @memberof MemoryPlayerFactory
      * @instance
      *
-     * @fires MemoryPlayer:isPaused
+     * @fires MemoryPlayerFactory#MemoryPlayer:isPaused
      */
     public play(): void {
 
@@ -432,7 +432,7 @@ class MemoryPlayerFactory implements IMemoryPlayerFactory {
         if (this.isPaused) {
 
             /**
-             * @event MemoryPlayer:isPaused
+             * @event MemoryPlayerFactory#MemoryPlayer:isPaused
              */
             this.$rootScope.$emit('MemoryPlayer:isPaused', this.isPaused);
         }
@@ -534,15 +534,12 @@ class MemoryPlayerFactory implements IMemoryPlayerFactory {
      * @memberof MemoryPlayerFactory
      * @instance
      * @param {Function} callback - The callback function used to update the value of isPaused in the controller scope.
-     * @fires MemoryPlayer:trackPlayed
+     * @fires MemoryPlayerFactory#MemoryPlayer:trackPlayed
      */
     public trackPlayedEvent(callback: Function): void {
 
         this.isPaused = false;
 
-        /**
-         * @event MemoryPlayer.trackPlayed
-         */
         angular.element(this._playerId).trigger('MemoryPlayer.trackPlayed');
 
         if (angular.isFunction(callback)) {

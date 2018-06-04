@@ -40,7 +40,7 @@
 			<li class="dropdown">
 				<a href="events.list.html" class="dropdown-toggle" data-toggle="dropdown">Events<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="MemoryPlayer.html#.event:trackPlayed">MemoryPlayer.event:trackPlayed</a></li><li><a href="global.html#event:MemoryPlayer:isPaused">MemoryPlayer:isPaused</a></li><li><a href="global.html#event:MemoryPlayer:playlistChanged">MemoryPlayer:playlistChanged</a></li><li><a href="global.html#event:MemoryPlayer:trackChanged">MemoryPlayer:trackChanged</a></li><li><a href="global.html#event:MemoryPlayer:trackEnded">MemoryPlayer:trackEnded</a></li><li><a href="global.html#event:MemoryPlayer:trackLoaded">MemoryPlayer:trackLoaded</a></li><li><a href="global.html#event:MemoryPlayer:trackPlayed">MemoryPlayer:trackPlayed</a></li>
+					<li><a href="MemoryPlayerFactory.html#event:MemoryPlayer:isPaused">MemoryPlayerFactory#MemoryPlayer:isPaused</a></li><li><a href="MemoryPlayerFactory.html#event:MemoryPlayer:playlistChanged">MemoryPlayerFactory#MemoryPlayer:playlistChanged</a></li><li><a href="MemoryPlayerFactory.html#event:MemoryPlayer:trackChanged">MemoryPlayerFactory#MemoryPlayer:trackChanged</a></li><li><a href="MemoryPlayerFactory.html#event:MemoryPlayer:trackEnded">MemoryPlayerFactory#MemoryPlayer:trackEnded</a></li><li><a href="MemoryPlayerFactory.html#event:MemoryPlayer:trackLoaded">MemoryPlayerFactory#MemoryPlayer:trackLoaded</a></li><li><a href="MemoryPlayerFactory.html#event:MemoryPlayer:trackPlayed">MemoryPlayerFactory#MemoryPlayer:trackPlayed</a></li>
 				</ul>
 			</li>
 			
@@ -165,7 +165,7 @@
          * isMuted = the player is muted (true) or not (false)
          * isPaused = the player is paused (true) or not (false)
          *
-         * @listens event:$locationChangeStart
+         * @listens MemoryPlayerFactory#event:$locationChangeStart
          */
         this.$scope.$on('$locationChangeStart', function (event, newUrl, oldUrl) {
             if (newUrl !== oldUrl) {
@@ -183,7 +183,7 @@
         /**
          * Event reporting that the directive is ready before initializing the player.
          *
-         * @listens event:MemoryPlayer:directiveReady
+         * @listens MemoryPlayerFactory#event:MemoryPlayer:directiveReady
          */
         this.$scope.$on('MemoryPlayer:directiveReady', function (event, remembered) {
             _this.MemoryPlayerFactory.fetchPlaylists(function () {
@@ -202,7 +202,7 @@
         /**
          * Event reporting that the playlist has changed.
          *
-         * @listens event:MemoryPlayer:playlistChanged
+         * @listens MemoryPlayerFactory#event:MemoryPlayer:playlistChanged
          */
         this.$rootScope.$on('MemoryPlayer:playlistChanged', function (event, playlist) {
             _this.selectedPlaylist = playlist;
@@ -213,7 +213,7 @@
         /**
          * Event reporting that the track has changed.
          *
-         * @listens event:MemoryPlayer:trackChanged
+         * @listens MemoryPlayerFactory#event:MemoryPlayer:trackChanged
          */
         this.$rootScope.$on('MemoryPlayer:trackChanged', function (event, track) {
             _this.selectedTrack = track;
@@ -227,7 +227,7 @@
         /**
          * Event reporting that the selected track is loaded.
          *
-         * @listens event:MemoryPlayer:trackLoaded
+         * @listens MemoryPlayerFactory#event:MemoryPlayer:trackLoaded
          */
         this.$rootScope.$on('MemoryPlayer:trackLoaded', function (event, duration) {
             _this.trackDuration = duration;
@@ -235,7 +235,7 @@
         /**
          * Event reporting that the player has been paused.
          *
-         * @listens event:MemoryPlayer:isPaused
+         * @listens MemoryPlayerFactory#event:MemoryPlayer:isPaused
          */
         this.$rootScope.$on('MemoryPlayer:isPaused', function (event, isPaused) {
             if (_this.isShareable &amp;&amp; _this.shareLinkTimer !== null) {
@@ -246,7 +246,7 @@
         /**
          * Event reporting that the selected track is being played.
          *
-         * @listens event:MemoryPlayer:trackPlayed
+         * @listens MemoryPlayerFactory#event:MemoryPlayer:trackPlayed
          */
         this.$rootScope.$on('MemoryPlayer:trackPlayed', function () {
             if (_this.isShareable) {
@@ -265,7 +265,7 @@
         /**
          * Event reporting that the selected track has ended.
          *
-         * @listens event:MemoryPlayer:trackEnded
+         * @listens MemoryPlayerFactory#event:MemoryPlayer:trackEnded
          */
         this.$rootScope.$on('MemoryPlayer:trackEnded', function () {
             _this.MemoryPlayerFactory.trackEndedEvent(function (playerInfo) {
@@ -276,8 +276,6 @@
         });
         /**
          * Event reporting that a YouTube video is playing to prevent simultaneous playback.
-         *
-         * @listens event:youtube.onVideoPlayed
          */
         angular.element(document).on('youtube.onVideoPlayed', function () {
             if (!_this.isPaused) {
@@ -569,7 +567,7 @@ MemoryPlayerController.instance = [
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a>
 	
-		on Sun Jun 3rd 2018
+		on Mon Jun 4th 2018
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>
