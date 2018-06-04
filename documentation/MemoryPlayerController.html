@@ -40,7 +40,7 @@
 			<li class="dropdown">
 				<a href="events.list.html" class="dropdown-toggle" data-toggle="dropdown">Events<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="MemoryPlayer.html#.event:trackPlayed">MemoryPlayer.event:trackPlayed</a></li><li><a href="global.html#event:MemoryPlayer:playlistChanged">MemoryPlayer:playlistChanged</a></li><li><a href="global.html#event:MemoryPlayer:trackChanged">MemoryPlayer:trackChanged</a></li><li><a href="global.html#event:MemoryPlayer:trackEnded">MemoryPlayer:trackEnded</a></li><li><a href="global.html#event:MemoryPlayer:trackPlayed">MemoryPlayer:trackPlayed</a></li>
+					<li><a href="MemoryPlayer.html#.event:trackPlayed">MemoryPlayer.event:trackPlayed</a></li><li><a href="global.html#event:MemoryPlayer:isPaused">MemoryPlayer:isPaused</a></li><li><a href="global.html#event:MemoryPlayer:playlistChanged">MemoryPlayer:playlistChanged</a></li><li><a href="global.html#event:MemoryPlayer:trackChanged">MemoryPlayer:trackChanged</a></li><li><a href="global.html#event:MemoryPlayer:trackEnded">MemoryPlayer:trackEnded</a></li><li><a href="global.html#event:MemoryPlayer:trackLoaded">MemoryPlayer:trackLoaded</a></li><li><a href="global.html#event:MemoryPlayer:trackPlayed">MemoryPlayer:trackPlayed</a></li>
 				</ul>
 			</li>
 			
@@ -91,7 +91,7 @@
         
 <hr>
 <dt>
-    <h4 class="name" id="MemoryPlayerController"><span class="type-signature"></span>new MemoryPlayerController($rootScope, $scope, $location, MemoryPlayerFactory)</h4>
+    <h4 class="name" id="MemoryPlayerController"><span class="type-signature"></span>new MemoryPlayerController($rootScope, $scope, $location, $interval, MemoryPlayerFactory)</h4>
     
     
 </dt>
@@ -206,6 +206,30 @@
 
         <tr>
             
+                <td class="name"><code>$interval</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">IIntervalService</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The core angular interval service.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
                 <td class="name"><code>MemoryPlayerFactory</code></td>
             
 
@@ -268,7 +292,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="MemoryPlayer.controller.js.html">MemoryPlayer.controller.js</a>,
-				 <a href="MemoryPlayer.controller.js.html#sunlight-1-line-10">line 10</a>
+				 <a href="MemoryPlayer.controller.js.html#sunlight-1-line-11">line 11</a>
 			</li>
 		</ul>
 	</dd>
@@ -384,7 +408,183 @@
 		<ul class="dummy">
 			<li>
 				<a href="MemoryPlayer.controller.js.html">MemoryPlayer.controller.js</a>,
-				 <a href="MemoryPlayer.controller.js.html#sunlight-1-line-34">line 34</a>
+				 <a href="MemoryPlayer.controller.js.html#sunlight-1-line-42">line 42</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id=".isShareable">
+    <h4 id=".isShareable"><span class="type-signature">&lt;static> </span>isShareable<span class="type-signature"> :boolean</span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>True if the share link is enabled and false if it is not.</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">boolean</span>
+
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+	<dt class="tag-default method-doc-label method-doc-details-label">Default Value:</dt>
+	<dd class="tag-default">
+		<ul class="dummy">
+			<li>true</li>
+		</ul>
+	</dd>
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="MemoryPlayer.controller.js.html">MemoryPlayer.controller.js</a>,
+				 <a href="MemoryPlayer.controller.js.html#sunlight-1-line-48">line 48</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id=".isTimeUsed">
+    <h4 id=".isTimeUsed"><span class="type-signature">&lt;static> </span>isTimeUsed<span class="type-signature"> :boolean</span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>True if the share link start time is used and false if it is not.</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">boolean</span>
+
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+	<dt class="tag-default method-doc-label method-doc-details-label">Default Value:</dt>
+	<dd class="tag-default">
+		<ul class="dummy">
+			<li>false</li>
+		</ul>
+	</dd>
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="MemoryPlayer.controller.js.html">MemoryPlayer.controller.js</a>,
+				 <a href="MemoryPlayer.controller.js.html#sunlight-1-line-59">line 59</a>
 			</li>
 		</ul>
 	</dd>
@@ -472,7 +672,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="MemoryPlayer.controller.js.html">MemoryPlayer.controller.js</a>,
-				 <a href="MemoryPlayer.controller.js.html#sunlight-1-line-16">line 16</a>
+				 <a href="MemoryPlayer.controller.js.html#sunlight-1-line-18">line 18</a>
 			</li>
 		</ul>
 	</dd>
@@ -560,7 +760,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="MemoryPlayer.controller.js.html">MemoryPlayer.controller.js</a>,
-				 <a href="MemoryPlayer.controller.js.html#sunlight-1-line-22">line 22</a>
+				 <a href="MemoryPlayer.controller.js.html#sunlight-1-line-24">line 24</a>
 			</li>
 		</ul>
 	</dd>
@@ -648,7 +848,352 @@
 		<ul class="dummy">
 			<li>
 				<a href="MemoryPlayer.controller.js.html">MemoryPlayer.controller.js</a>,
-				 <a href="MemoryPlayer.controller.js.html#sunlight-1-line-28">line 28</a>
+				 <a href="MemoryPlayer.controller.js.html#sunlight-1-line-30">line 30</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id=".shareLink">
+    <h4 id=".shareLink"><span class="type-signature">&lt;static> </span>shareLink<span class="type-signature"> :string</span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The share link URL.</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">string</span>
+
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="MemoryPlayer.controller.js.html">MemoryPlayer.controller.js</a>,
+				 <a href="MemoryPlayer.controller.js.html#sunlight-1-line-54">line 54</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id=".shareLinkTime">
+    <h4 id=".shareLinkTime"><span class="type-signature">&lt;static> </span>shareLinkTime<span class="type-signature"> :number</span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The start time for the share link if used.</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">number</span>
+
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+	<dt class="tag-default method-doc-label method-doc-details-label">Default Value:</dt>
+	<dd class="tag-default">
+		<ul class="dummy">
+			<li>0</li>
+		</ul>
+	</dd>
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="MemoryPlayer.controller.js.html">MemoryPlayer.controller.js</a>,
+				 <a href="MemoryPlayer.controller.js.html#sunlight-1-line-65">line 65</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id=".shareLinkTimer">
+    <h4 id=".shareLinkTimer"><span class="type-signature">&lt;static> </span>shareLinkTimer<span class="type-signature"> :IPromise.&lt;any></span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The timer used to update share link time.</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">IPromise.&lt;any></span>
+
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+	<dt class="tag-default method-doc-label method-doc-details-label">Default Value:</dt>
+	<dd class="tag-default">
+		<ul class="dummy">
+			<li>null</li>
+		</ul>
+	</dd>
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="MemoryPlayer.controller.js.html">MemoryPlayer.controller.js</a>,
+				 <a href="MemoryPlayer.controller.js.html#sunlight-1-line-71">line 71</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id=".trackDuration">
+    <h4 id=".trackDuration"><span class="type-signature">&lt;static> </span>trackDuration<span class="type-signature"> :number</span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The duration of the current track.</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">number</span>
+
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+	<dt class="tag-default method-doc-label method-doc-details-label">Default Value:</dt>
+	<dd class="tag-default">
+		<ul class="dummy">
+			<li>0</li>
+		</ul>
+	</dd>
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="MemoryPlayer.controller.js.html">MemoryPlayer.controller.js</a>,
+				 <a href="MemoryPlayer.controller.js.html#sunlight-1-line-36">line 36</a>
 			</li>
 		</ul>
 	</dd>
@@ -672,6 +1217,94 @@
         <h3 class="subsection-title">Methods</h3>
 
         <dl>
+            
+<hr>
+<dt>
+    <h4 class="name" id="cancelTimer"><span class="type-signature"></span>cancelTimer()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Cancels timer when start time input is focused.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="MemoryPlayer.controller.js.html">MemoryPlayer.controller.js</a>,
+				 <a href="MemoryPlayer.controller.js.html#sunlight-1-line-393">line 393</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
             
 <hr>
 <dt>
@@ -780,7 +1413,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="MemoryPlayer.controller.js.html">MemoryPlayer.controller.js</a>,
-				 <a href="MemoryPlayer.controller.js.html#sunlight-1-line-163">line 163</a>
+				 <a href="MemoryPlayer.controller.js.html#sunlight-1-line-260">line 260</a>
 			</li>
 		</ul>
 	</dd>
@@ -868,7 +1501,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="MemoryPlayer.controller.js.html">MemoryPlayer.controller.js</a>,
-				 <a href="MemoryPlayer.controller.js.html#sunlight-1-line-190">line 190</a>
+				 <a href="MemoryPlayer.controller.js.html#sunlight-1-line-287">line 287</a>
 			</li>
 		</ul>
 	</dd>
@@ -956,7 +1589,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="MemoryPlayer.controller.js.html">MemoryPlayer.controller.js</a>,
-				 <a href="MemoryPlayer.controller.js.html#sunlight-1-line-199">line 199</a>
+				 <a href="MemoryPlayer.controller.js.html#sunlight-1-line-296">line 296</a>
 			</li>
 		</ul>
 	</dd>
@@ -1044,7 +1677,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="MemoryPlayer.controller.js.html">MemoryPlayer.controller.js</a>,
-				 <a href="MemoryPlayer.controller.js.html#sunlight-1-line-172">line 172</a>
+				 <a href="MemoryPlayer.controller.js.html#sunlight-1-line-269">line 269</a>
 			</li>
 		</ul>
 	</dd>
@@ -1132,7 +1765,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="MemoryPlayer.controller.js.html">MemoryPlayer.controller.js</a>,
-				 <a href="MemoryPlayer.controller.js.html#sunlight-1-line-153">line 153</a>
+				 <a href="MemoryPlayer.controller.js.html#sunlight-1-line-250">line 250</a>
 			</li>
 		</ul>
 	</dd>
@@ -1220,7 +1853,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="MemoryPlayer.controller.js.html">MemoryPlayer.controller.js</a>,
-				 <a href="MemoryPlayer.controller.js.html#sunlight-1-line-181">line 181</a>
+				 <a href="MemoryPlayer.controller.js.html#sunlight-1-line-278">line 278</a>
 			</li>
 		</ul>
 	</dd>
@@ -1358,7 +1991,574 @@
 		<ul class="dummy">
 			<li>
 				<a href="MemoryPlayer.controller.js.html">MemoryPlayer.controller.js</a>,
-				 <a href="MemoryPlayer.controller.js.html#sunlight-1-line-144">line 144</a>
+				 <a href="MemoryPlayer.controller.js.html#sunlight-1-line-241">line 241</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="setShareLink"><span class="type-signature"></span>setShareLink(key, value)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Updates the share link value specified by the key.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The key of the share option to be set.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The value of the share option to be set.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="MemoryPlayer.controller.js.html">MemoryPlayer.controller.js</a>,
+				 <a href="MemoryPlayer.controller.js.html#sunlight-1-line-307">line 307</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="share"><span class="type-signature"></span>share()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Copies the share link to the clipboard.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="MemoryPlayer.controller.js.html">MemoryPlayer.controller.js</a>,
+				 <a href="MemoryPlayer.controller.js.html#sunlight-1-line-403">line 403</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="toggleDropdown"><span class="type-signature"></span>toggleDropdown(event)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Toggles the playlists dropdown open and closed.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>event</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">JQueryEventObject</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The jQuery event object from the element that triggered the event.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="MemoryPlayer.controller.js.html">MemoryPlayer.controller.js</a>,
+				 <a href="MemoryPlayer.controller.js.html#sunlight-1-line-414">line 414</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="updateTime"><span class="type-signature"></span>updateTime()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Triggers update when start time is changed.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="MemoryPlayer.controller.js.html">MemoryPlayer.controller.js</a>,
+				 <a href="MemoryPlayer.controller.js.html#sunlight-1-line-381">line 381</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="useTime"><span class="type-signature"></span>useTime()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Updates the share link time value when start time is used.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="MemoryPlayer.controller.js.html">MemoryPlayer.controller.js</a>,
+				 <a href="MemoryPlayer.controller.js.html#sunlight-1-line-367">line 367</a>
 			</li>
 		</ul>
 	</dd>
@@ -1441,7 +2641,7 @@
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a>
 	
-		on Wed Feb 22nd 2017
+		on Sun Jun 3rd 2018
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

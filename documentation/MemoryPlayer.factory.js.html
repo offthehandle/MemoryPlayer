@@ -40,7 +40,7 @@
 			<li class="dropdown">
 				<a href="events.list.html" class="dropdown-toggle" data-toggle="dropdown">Events<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="MemoryPlayer.html#.event:trackPlayed">MemoryPlayer.event:trackPlayed</a></li><li><a href="global.html#event:MemoryPlayer:playlistChanged">MemoryPlayer:playlistChanged</a></li><li><a href="global.html#event:MemoryPlayer:trackChanged">MemoryPlayer:trackChanged</a></li><li><a href="global.html#event:MemoryPlayer:trackEnded">MemoryPlayer:trackEnded</a></li><li><a href="global.html#event:MemoryPlayer:trackPlayed">MemoryPlayer:trackPlayed</a></li>
+					<li><a href="MemoryPlayer.html#.event:trackPlayed">MemoryPlayer.event:trackPlayed</a></li><li><a href="global.html#event:MemoryPlayer:isPaused">MemoryPlayer:isPaused</a></li><li><a href="global.html#event:MemoryPlayer:playlistChanged">MemoryPlayer:playlistChanged</a></li><li><a href="global.html#event:MemoryPlayer:trackChanged">MemoryPlayer:trackChanged</a></li><li><a href="global.html#event:MemoryPlayer:trackEnded">MemoryPlayer:trackEnded</a></li><li><a href="global.html#event:MemoryPlayer:trackLoaded">MemoryPlayer:trackLoaded</a></li><li><a href="global.html#event:MemoryPlayer:trackPlayed">MemoryPlayer:trackPlayed</a></li>
 				</ul>
 			</li>
 			
@@ -106,7 +106,7 @@
         this._selectedPlaylist = null;
         /**
          * @memberof MemoryPlayerFactory
-         * @member {IMemoryTrack} _selectedTrack - Is assigned the active track object.
+         * @member {IMemoryTrack} _selectedTrack - Is assigned the selected track object.
          * @private
          * @default null
          */
@@ -144,14 +144,14 @@
          * @private
          */
         this._player = {
-            jPlayer: '#jquery_jplayer',
-            cssSelectorAncestor: '#jp_container'
+            jPlayer: '#mp-jquery_jplayer',
+            cssSelectorAncestor: '#mp-jp_container'
         };
         /**
          * @memberof MemoryPlayerFactory
-         * @member {string} _playerId - The HTML/CSS id of the jPlayer element.
+         * @member {string} _playerId - The id of the jPlayer element.
          * @private
-         * @default #jquery_jplayer
+         * @default #mp-jquery_jplayer
          */
         this._playerId = this._player.jPlayer;
         /**
@@ -160,8 +160,17 @@
          * @private
          */
         this._playerOptions = {
-            swfPath: '/Scripts',
+            swfPath: '/js',
             supplied: 'mp3',
+            /**
+             * @fires MemoryPlayer:trackLoaded
+             */
+            loadeddata: function (event) {
+                /**
+                 * @event MemoryPlayer:trackLoaded
+                 */
+                _this.$rootScope.$emit('MemoryPlayer:trackLoaded', Math.floor(event.jPlayer.status.duration));
+            },
             /**
              * @fires MemoryPlayer:trackPlayed
              */
@@ -171,9 +180,9 @@
                  */
                 _this.$rootScope.$emit('MemoryPlayer:trackPlayed');
             },
-            volumechange: function (e) {
-                _this._volume = e.jPlayer.options.volume;
-                _this._isMuted = e.jPlayer.options.muted;
+            volumechange: function (event) {
+                _this._volume = event.jPlayer.options.volume;
+                _this._isMuted = event.jPlayer.options.muted;
             },
             /**
              * @fires MemoryPlayer:trackEnded
@@ -228,7 +237,7 @@
      * Fetches the playlists using the API method.
      * @memberof MemoryPlayerFactory
      * @instance
-     * @param {Function} callback - The callback to execute if the API request is successful, i.e. the response is not null.
+     * @param {Function} callback - The callback to execute if the API request is successful, i.e. the response is not null.  {@link MemoryPlayerAPI}
      */
     MemoryPlayerFactory.prototype.fetchPlaylists = function (callback) {
         var _this = this;
@@ -287,7 +296,7 @@
      * Gets the current track.
      * @memberof MemoryPlayerFactory
      * @instance
-     * @returns {IMemoryTrack} - The object of the selected track.
+     * @returns {IMemoryTrack} - The selected track object.
      */
     MemoryPlayerFactory.prototype.getTrack = function () {
         return this._selectedTrack;
@@ -297,7 +306,7 @@
      * Gets the current playlist.
      * @memberof MemoryPlayerFactory
      * @instance
-     * @returns {IMemoryPlaylist} - The object of the selected playlist.
+     * @returns {IMemoryPlaylist} - The selected playlist object.
      */
     MemoryPlayerFactory.prototype.getPlaylist = function () {
         return this._selectedPlaylist;
@@ -369,9 +378,10 @@
         var _this = this;
         this.setPlaylist(album);
         this._playerInstance = new jPlayerPlaylist(this._player, this.getPlaylist().playlist, this._playerOptions);
-        if (playerInfo !== null) {
+        if (angular.isDefined(playerInfo)) {
             this.setTrack(playerInfo.track);
             angular.element(this._playerId).on($.jPlayer.event.ready, function () {
+                angular.element('#memory-player').removeClass('mp-loading');
                 _this.$timeout(function () {
                     _this._playerInstance.select(playerInfo.track);
                     angular.element(_this._playerId).jPlayer('volume', playerInfo.volume);
@@ -388,6 +398,11 @@
                 }, 400);
             });
         }
+        else {
+            angular.element(this._playerId).on($.jPlayer.event.ready, function () {
+                angular.element('#memory-player').removeClass('mp-loading');
+            });
+        }
     };
     ;
     /**
@@ -395,14 +410,14 @@
      * @memberof MemoryPlayerFactory
      * @instance
      *
-     * @fires MemoryPlayer:trackPlayed
+     * @fires MemoryPlayer:isPaused
      */
     MemoryPlayerFactory.prototype.play = function () {
         (this.isPaused) ? angular.element(this._playerId).jPlayer('play') : angular.element(this._playerId).jPlayer('pause');
         this.isPaused = !this.isPaused;
         if (this.isPaused) {
             /**
-             * @event MemoryPlayer:trackPlayed
+             * @event MemoryPlayer:isPaused
              */
             this.$rootScope.$emit('MemoryPlayer:isPaused', this.isPaused);
         }
@@ -564,7 +579,7 @@
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a>
 	
-		on Wed Feb 22nd 2017
+		on Sun Jun 3rd 2018
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>
