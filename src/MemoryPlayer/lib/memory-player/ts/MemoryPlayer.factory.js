@@ -12,19 +12,22 @@ var MemoryPlayerFactory = (function () {
         this.isPaused = true;
         this._playerInstance = null;
         this._player = {
-            jPlayer: '#jquery_jplayer',
-            cssSelectorAncestor: '#jp_container'
+            jPlayer: '#mp-jquery_jplayer',
+            cssSelectorAncestor: '#mp-jp_container'
         };
         this._playerId = this._player.jPlayer;
         this._playerOptions = {
             swfPath: '/js',
             supplied: 'mp3',
+            loadeddata: function (event) {
+                _this.$rootScope.$emit('MemoryPlayer:trackLoaded', Math.floor(event.jPlayer.status.duration));
+            },
             playing: function () {
                 _this.$rootScope.$emit('MemoryPlayer:trackPlayed');
             },
-            volumechange: function (e) {
-                _this._volume = e.jPlayer.options.volume;
-                _this._isMuted = e.jPlayer.options.muted;
+            volumechange: function (event) {
+                _this._volume = event.jPlayer.options.volume;
+                _this._isMuted = event.jPlayer.options.muted;
             },
             ended: function () {
                 _this.$rootScope.$emit('MemoryPlayer:trackEnded');
@@ -121,10 +124,10 @@ var MemoryPlayerFactory = (function () {
         var _this = this;
         this.setPlaylist(album);
         this._playerInstance = new jPlayerPlaylist(this._player, this.getPlaylist().playlist, this._playerOptions);
-        if (playerInfo !== null) {
+        if (angular.isDefined(playerInfo)) {
             this.setTrack(playerInfo.track);
             angular.element(this._playerId).on($.jPlayer.event.ready, function () {
-                angular.element('#memory-player').removeClass('loading');
+                angular.element('#memory-player').removeClass('mp-loading');
                 _this.$timeout(function () {
                     _this._playerInstance.select(playerInfo.track);
                     angular.element(_this._playerId).jPlayer('volume', playerInfo.volume);
@@ -143,7 +146,7 @@ var MemoryPlayerFactory = (function () {
         }
         else {
             angular.element(this._playerId).on($.jPlayer.event.ready, function () {
-                angular.element('#memory-player').removeClass('loading');
+                angular.element('#memory-player').removeClass('mp-loading');
             });
         }
     };

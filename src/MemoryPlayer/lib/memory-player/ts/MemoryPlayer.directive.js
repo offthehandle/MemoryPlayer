@@ -3,10 +3,11 @@ var MemoryPlayerDirective = (function () {
         var _this = this;
         this.$location = $location;
         this.restrict = 'A';
-        this.scope = false;
+        this.scope = true;
         this.replace = true;
         this.templateUrl = '/lib/memory-player/dist/html/memory-player.html';
         MemoryPlayerDirective.prototype.link = function (scope, element, attrs) {
+            scope.isShareable = scope.$eval(attrs['isShareable']) || false;
             var playerState = _this.$location.search();
             if (playerState.hasOwnProperty('playlist') && playerState.hasOwnProperty('track') && playerState.hasOwnProperty('time') && playerState.hasOwnProperty('volume') && playerState.hasOwnProperty('isMuted') && playerState.hasOwnProperty('isPaused')) {
                 var playerInfo = {

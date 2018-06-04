@@ -1,12 +1,12 @@
 ﻿
-.jp-details,
-.jp-playlist,
-.jp-video-play,
-#jquery_jplayer {
+.mp-container .jp-details,
+.mp-container .jp-playlist,
+.mp-container .jp-video-play,
+#mp-jquery_jplayer {
     display: none !important;
 }
 
-.jp-interface {
+.mp-container .jp-interface {
     position: absolute;
     top: 10px;
     left: 45px;
@@ -34,7 +34,7 @@
     }
 }
 
-.jp-progress {
+.mp-container .jp-progress {
     position: absolute;
     top: -1px;
     width: 105px;
@@ -59,22 +59,22 @@
     }
 }
 
-.jp-seek-bar,
-.jp-play-bar {
+.mp-container .jp-seek-bar,
+.mp-container .jp-play-bar {
     width: 0;
     height: 100%;
 }
 
-.jp-seek-bar {
+.mp-container .jp-seek-bar {
     cursor: pointer;
 }
 
-.jp-play-bar {
+.mp-container .jp-play-bar {
     background-color: lighten(#484848, 9%);
 }
 
-.jp-duration,
-.jp-current-time {
+.mp-container .jp-duration,
+.mp-container .jp-current-time {
     position: absolute;
     top: -8px;
     width: 30px;
@@ -89,7 +89,7 @@
     }
 }
 
-.jp-current-time {
+.mp-container .jp-current-time {
     left: -30px;
 
     @media (min-width: 992px) {
@@ -102,7 +102,7 @@
     }
 }
 
-.jp-duration {
+.mp-container .jp-duration {
     right: -30px;
     text-align: right;
 
@@ -111,7 +111,7 @@
     }
 }
 
-.jp-controls-holder {
+.mp-container .jp-controls-holder {
     display: none;
 
     @media (min-width: 992px) {
@@ -121,7 +121,7 @@
     }
 }
 
-.jp-volume-bar {
+.mp-container .jp-volume-bar {
     width: 175px;
     height: 8px;
     cursor: pointer;
@@ -131,7 +131,7 @@
     border-radius: 20px;
 }
 
-.jp-volume-bar-value {
+.mp-container .jp-volume-bar-value {
     position: relative;
     width: 0;
     height: 8px;

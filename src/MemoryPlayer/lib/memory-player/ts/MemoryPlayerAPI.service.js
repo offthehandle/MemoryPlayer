@@ -28,13 +28,13 @@ var MemoryPlayerAPI = (function () {
             return null;
         });
     };
-    MemoryPlayerAPI.instance = [
-        '$http',
-        '$log',
-        MemoryPlayerAPI
-    ];
     return MemoryPlayerAPI;
 }());
+MemoryPlayerAPI.instance = [
+    '$http',
+    '$log',
+    MemoryPlayerAPI
+];
 (function () {
     'use strict';
     angular.module('MemoryPlayer')

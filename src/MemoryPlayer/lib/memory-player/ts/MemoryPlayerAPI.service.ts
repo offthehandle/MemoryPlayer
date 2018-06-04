@@ -15,8 +15,10 @@ class MemoryPlayerAPI implements IMemoryPlayerAPI {
      * @param {IHttpService} $http - The core angular http service.
      * @param {ILogService} $log - The core angular log service.
      */
-    constructor(private $http: angular.IHttpService, private $log: angular.ILogService) {
-    }
+    constructor(
+        private $http: angular.IHttpService,
+        private $log: angular.ILogService
+    ) { }
 
 
 

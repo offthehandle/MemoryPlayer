@@ -89,6 +89,7 @@
     <TypeScriptCompile Include="lib\memory-player\ts\interfaces\jPlayer\jPlayerEvent.d.ts" />
     <TypeScriptCompile Include="lib\memory-player\ts\interfaces\jPlayer\jPlayerPlaylist.d.ts" />
     <TypeScriptCompile Include="lib\memory-player\ts\interfaces\jPlayer\jquery-plugin.d.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\native\MemoryShare.d.ts" />
     <TypeScriptCompile Include="lib\memory-player\ts\interfaces\native\MemoryInit.d.ts" />
     <TypeScriptCompile Include="lib\memory-player\ts\interfaces\native\MemoryPlayerAPI.d.ts" />
     <TypeScriptCompile Include="lib\memory-player\ts\interfaces\native\MemoryPlayerFactory.d.ts" />

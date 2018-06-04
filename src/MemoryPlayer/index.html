@@ -15,8 +15,8 @@
     <link type="text/css" rel="stylesheet" href="/lib/memory-player/dist/css/memory-player.css" />
 </head>
 <body data-ng-app="DemoApp">
-    <section id="memory-player" data-ng-controller="MemoryPlayerController as player" class="loading" data-ng-cloak="">
-        <section data-memory-player=""></section>
+    <section id="memory-player" data-ng-controller="MemoryPlayerController as player" class="mp-loading" data-ng-cloak="">
+        <section data-memory-player="" data-is-shareable="player.isShareable"></section>
     </section>
     <!-- #memory-player -->
 

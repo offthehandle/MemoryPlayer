@@ -17,7 +17,7 @@ class MemoryPlayerDirective implements angular.IDirective {
 
     /**
      * @memberof MemoryPlayerDirective
-     * @member {string} restrict - The directive restriction.
+     * @member {string} restrict - The directive restriction - attribute only.
      */
     public restrict: string = 'A';
 
@@ -26,7 +26,7 @@ class MemoryPlayerDirective implements angular.IDirective {
      * @memberof MemoryPlayerDirective
      * @member {boolean} scope - The directive scope.
      */
-    public scope: boolean = false;
+    public scope: boolean = true;
 
 
     /**
@@ -56,8 +56,12 @@ class MemoryPlayerDirective implements angular.IDirective {
      * @constructs MemoryPlayerDirective
      * @param {ILocationService} $location - The core angular location service.
      */
-    constructor(private $location: angular.ILocationService) {
+    constructor(
+        private $location: angular.ILocationService
+    ) {
         MemoryPlayerDirective.prototype.link = (scope: angular.IScope, element: JQuery, attrs: angular.IAttributes) => {
+
+            scope.isShareable = scope.$eval(attrs['isShareable']) || false;
 
             let playerState = this.$location.search();
 

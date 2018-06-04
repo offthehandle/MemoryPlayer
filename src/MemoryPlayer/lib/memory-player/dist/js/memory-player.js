@@ -1,4 +1,4 @@
-/*! Memory Player module. Copyright 2015-2017 Adam De Lucia. */(function () {
+/*! Memory Player module. Copyright 2015-2018 Adam De Lucia. */(function () {
     'use strict';
     angular.module('MemoryPlayer', []);
 })();
@@ -33,13 +33,13 @@ var MemoryPlayerAPI = (function () {
             return null;
         });
     };
-    MemoryPlayerAPI.instance = [
-        '$http',
-        '$log',
-        MemoryPlayerAPI
-    ];
     return MemoryPlayerAPI;
 }());
+MemoryPlayerAPI.instance = [
+    '$http',
+    '$log',
+    MemoryPlayerAPI
+];
 (function () {
     'use strict';
     angular.module('MemoryPlayer')
@@ -60,19 +60,22 @@ var MemoryPlayerFactory = (function () {
         this.isPaused = true;
         this._playerInstance = null;
         this._player = {
-            jPlayer: '#jquery_jplayer',
-            cssSelectorAncestor: '#jp_container'
+            jPlayer: '#mp-jquery_jplayer',
+            cssSelectorAncestor: '#mp-jp_container'
         };
         this._playerId = this._player.jPlayer;
         this._playerOptions = {
             swfPath: '/js',
             supplied: 'mp3',
+            loadeddata: function (event) {
+                _this.$rootScope.$emit('MemoryPlayer:trackLoaded', Math.floor(event.jPlayer.status.duration));
+            },
             playing: function () {
                 _this.$rootScope.$emit('MemoryPlayer:trackPlayed');
             },
-            volumechange: function (e) {
-                _this._volume = e.jPlayer.options.volume;
-                _this._isMuted = e.jPlayer.options.muted;
+            volumechange: function (event) {
+                _this._volume = event.jPlayer.options.volume;
+                _this._isMuted = event.jPlayer.options.muted;
             },
             ended: function () {
                 _this.$rootScope.$emit('MemoryPlayer:trackEnded');
@@ -169,10 +172,10 @@ var MemoryPlayerFactory = (function () {
         var _this = this;
         this.setPlaylist(album);
         this._playerInstance = new jPlayerPlaylist(this._player, this.getPlaylist().playlist, this._playerOptions);
-        if (playerInfo !== null) {
+        if (angular.isDefined(playerInfo)) {
             this.setTrack(playerInfo.track);
             angular.element(this._playerId).on($.jPlayer.event.ready, function () {
-                angular.element('#memory-player').removeClass('loading');
+                angular.element('#memory-player').removeClass('mp-loading');
                 _this.$timeout(function () {
                     _this._playerInstance.select(playerInfo.track);
                     angular.element(_this._playerId).jPlayer('volume', playerInfo.volume);
@@ -191,7 +194,7 @@ var MemoryPlayerFactory = (function () {
         }
         else {
             angular.element(this._playerId).on($.jPlayer.event.ready, function () {
-                angular.element('#memory-player').removeClass('loading');
+                angular.element('#memory-player').removeClass('mp-loading');
             });
         }
     };
@@ -275,16 +278,23 @@ var MemoryPlayerFactory = (function () {
 })();
 
 var MemoryPlayerController = (function () {
-    function MemoryPlayerController($rootScope, $scope, $location, MemoryPlayerFactory) {
+    function MemoryPlayerController($rootScope, $scope, $location, $interval, MemoryPlayerFactory) {
         var _this = this;
         this.$rootScope = $rootScope;
         this.$scope = $scope;
         this.$location = $location;
+        this.$interval = $interval;
         this.MemoryPlayerFactory = MemoryPlayerFactory;
         this.playlists = null;
         this.selectedPlaylist = null;
         this.selectedTrack = null;
+        this.trackDuration = 0;
         this.isPaused = true;
+        this.isShareable = true;
+        this.shareLink = window.location.protocol + "//" + window.location.hostname + window.location.pathname;
+        this.isTimeUsed = false;
+        this.shareLinkTime = '00:00';
+        this.shareLinkTimer = null;
         this.$scope.$on('$locationChangeStart', function (event, newUrl, oldUrl) {
             if (newUrl !== oldUrl) {
                 var newUrlPath = _this.$location.url();
@@ -305,7 +315,7 @@ var MemoryPlayerController = (function () {
                     for (var playlist in _this.playlists) {
                         break;
                     }
-                    _this.MemoryPlayerFactory.createPlayer(_this.playlists[playlist]._id, null);
+                    _this.MemoryPlayerFactory.createPlayer(_this.playlists[playlist]._id);
                 }
                 else {
                     _this.MemoryPlayerFactory.createPlayer(remembered.playlist, remembered.info);
@@ -314,14 +324,37 @@ var MemoryPlayerController = (function () {
         });
         this.$rootScope.$on('MemoryPlayer:playlistChanged', function (event, playlist) {
             _this.selectedPlaylist = playlist;
+            if (_this.isShareable) {
+                _this.setShareLink('playlist', playlist._id);
+            }
         });
         this.$rootScope.$on('MemoryPlayer:trackChanged', function (event, track) {
             _this.selectedTrack = track;
+            if (_this.isShareable) {
+                _this.setShareLink('track', track._id);
+                if (_this.isTimeUsed) {
+                    _this.useTime();
+                }
+            }
+        });
+        this.$rootScope.$on('MemoryPlayer:trackLoaded', function (event, duration) {
+            _this.trackDuration = duration;
         });
         this.$rootScope.$on('MemoryPlayer:isPaused', function (event, isPaused) {
+            if (_this.isShareable && _this.shareLinkTimer !== null) {
+                _this.$interval.cancel(_this.shareLinkTimer);
+            }
             _this.isPaused = isPaused;
         });
         this.$rootScope.$on('MemoryPlayer:trackPlayed', function () {
+            if (_this.isShareable) {
+                if (_this.shareLinkTimer !== null) {
+                    _this.$interval.cancel(_this.shareLinkTimer);
+                }
+                _this.shareLinkTimer = _this.$interval(function () {
+                    _this.shareLinkTime = $.jPlayer.convertTime(_this.MemoryPlayerFactory.getTime());
+                }, 1000);
+            }
             _this.MemoryPlayerFactory.trackPlayedEvent(function (playerInfo) {
                 _this.isPaused = playerInfo.isPaused;
                 _this.$scope.$apply();
@@ -340,21 +373,21 @@ var MemoryPlayerController = (function () {
                 _this.$scope.$apply();
             }
         });
-        angular.element(document).on('click.mp.dropdown', function (e) {
+        angular.element(document).on('click.mp.dropdown', function (event) {
             var $dropdown = angular.element('.mp-dropdown');
-            if (!angular.element(e.target).hasClass('mp-dropdown-toggle') && $dropdown.hasClass('open')) {
+            if (!angular.element(event.target).closest('.mp-dropdown-toggle').length && $dropdown.hasClass('open')) {
                 $dropdown.removeClass('open');
                 $dropdown.find('a').attr('aria-expanded', 'false');
             }
         });
-        angular.element(document).on('click.mp.dropdown', '.mp-dropdown-backdrop', function (e) {
+        angular.element(document).on('click.mp.dropdown', '.mp-dropdown-backdrop', function (event) {
             var $dropdown = angular.element('.mp-dropdown');
-            angular.element(e.target).remove();
+            angular.element(event.target).remove();
             $dropdown.removeClass('open');
             $dropdown.find('a').attr('aria-expanded', 'false');
         });
-        angular.element('#memory-player').on('click.mp.dropdown', '.mp-dropdown-menu', function (e) {
-            e.stopPropagation();
+        angular.element('#memory-player').on('click.mp.dropdown', '.mp-dropdown-menu', function (event) {
+            event.stopPropagation();
         });
     }
     MemoryPlayerController.prototype.setPlaylist = function (album) {
@@ -385,28 +418,108 @@ var MemoryPlayerController = (function () {
         this.MemoryPlayerFactory.mute();
     };
     ;
-    MemoryPlayerController.prototype.toggleDropdown = function ($event) {
-        var $trigger = angular.element($event.target), $parent = $trigger.closest('.mp-dropdown'), isActive = $parent.hasClass('open'), $backdrop = $(document.createElement('div')).addClass('mp-dropdown-backdrop');
+    MemoryPlayerController.prototype.setShareLink = function (key, value) {
+        var shareLink = [], playlist = { name: 'playlist', value: null }, track = { name: 'track', value: null }, time = { name: 'time', value: 0 }, volume = { name: 'volume', value: 0.8 }, isMuted = { name: 'isMuted', value: false }, isPaused = { name: 'isPaused', value: true };
+        var playerSettings = this.shareLink.split('?')[1] || null;
+        if (playerSettings !== null) {
+            playerSettings = decodeURIComponent((playerSettings).replace(/\+/g, '%20'));
+            var ps = playerSettings.split(/&(?!amp;)/g);
+            for (var i = 0, l = ps.length; i < l; i++) {
+                var pair = ps[i].split('=');
+                switch (pair[0]) {
+                    case 'playlist':
+                        playlist.value = pair[1];
+                        break;
+                    case 'track':
+                        track.value = pair[1];
+                        break;
+                    case 'time':
+                        time.value = pair[1];
+                        break;
+                }
+            }
+        }
+        switch (key) {
+            case 'playlist':
+                playlist.value = value;
+                break;
+            case 'track':
+                track.value = value;
+                break;
+            case 'time':
+                var parsedTime = value;
+                if (parsedTime.indexOf(':') > -1) {
+                    parsedTime = parsedTime.split(':')
+                        .reverse()
+                        .map(Number)
+                        .reduce(function (total, currentValue, index) {
+                        return total + currentValue * Math.pow(60, index);
+                    });
+                }
+                time.value = (parsedTime < this.trackDuration) ? parsedTime : 0;
+                break;
+        }
+        shareLink.push(playlist);
+        shareLink.push(track);
+        shareLink.push(time);
+        shareLink.push(volume);
+        shareLink.push(isMuted);
+        shareLink.push(isPaused);
+        this.shareLink = this.shareLink.split('?')[0] + "?" + $.param(shareLink);
+    };
+    MemoryPlayerController.prototype.useTime = function () {
+        this.isTimeUsed = !this.isTimeUsed;
+        if (this.isTimeUsed) {
+            this.setShareLink('time', this.shareLinkTime);
+        }
+        else {
+            this.setShareLink('time', '0');
+        }
+    };
+    MemoryPlayerController.prototype.updateTime = function () {
+        if (this.shareLinkTimer !== null) {
+            this.$interval.cancel(this.shareLinkTimer);
+        }
+        this.isTimeUsed = true;
+        this.setShareLink('time', this.shareLinkTime);
+    };
+    MemoryPlayerController.prototype.cancelTimer = function () {
+        if (this.shareLinkTimer !== null) {
+            this.$interval.cancel(this.shareLinkTimer);
+        }
+    };
+    MemoryPlayerController.prototype.share = function () {
+        var shareLink = document.getElementById('mp-share-link');
+        shareLink.select();
+        document.execCommand('copy');
+    };
+    MemoryPlayerController.prototype.toggleDropdown = function (event) {
+        var $trigger = angular.element(event.target), $parent = $trigger.closest('.mp-dropdown'), isActive = $parent.hasClass('open'), $backdrop = angular.element(document.createElement('div')).addClass('mp-dropdown-backdrop');
         angular.element('.mp-dropdown-backdrop').remove();
-        $parent.removeClass('open');
-        $trigger.attr('aria-expanded', 'false');
+        angular.element('.mp-dropdown-toggle').each(function () {
+            if (!angular.element(this).closest('.mp-dropdown').hasClass('open'))
+                return;
+            angular.element(this).attr('aria-expanded', 'false');
+            angular.element(this).closest('.mp-dropdown').removeClass('open');
+        });
         if (!isActive) {
             if ('ontouchstart' in document.documentElement) {
                 $backdrop.appendTo('body');
             }
             $parent.addClass('open');
-            $trigger.attr('aria-expanded', 'true');
+            $trigger.closest('.mp-dropdown-toggle').attr('aria-expanded', 'true');
         }
     };
-    MemoryPlayerController.instance = [
-        '$rootScope',
-        '$scope',
-        '$location',
-        'MemoryPlayerFactory',
-        MemoryPlayerController
-    ];
     return MemoryPlayerController;
 }());
+MemoryPlayerController.instance = [
+    '$rootScope',
+    '$scope',
+    '$location',
+    '$interval',
+    'MemoryPlayerFactory',
+    MemoryPlayerController
+];
 (function () {
     'use strict';
     angular.module('MemoryPlayer')
@@ -418,10 +531,11 @@ var MemoryPlayerDirective = (function () {
         var _this = this;
         this.$location = $location;
         this.restrict = 'A';
-        this.scope = false;
+        this.scope = true;
         this.replace = true;
         this.templateUrl = '/lib/memory-player/dist/html/memory-player.html';
         MemoryPlayerDirective.prototype.link = function (scope, element, attrs) {
+            scope.isShareable = scope.$eval(attrs['isShareable']) || false;
             var playerState = _this.$location.search();
             if (playerState.hasOwnProperty('playlist') && playerState.hasOwnProperty('track') && playerState.hasOwnProperty('time') && playerState.hasOwnProperty('volume') && playerState.hasOwnProperty('isMuted') && playerState.hasOwnProperty('isPaused')) {
                 var playerInfo = {

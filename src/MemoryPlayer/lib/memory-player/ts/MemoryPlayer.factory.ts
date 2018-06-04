@@ -26,8 +26,11 @@ class MemoryPlayerFactory implements IMemoryPlayerFactory {
      * @param {ITimeoutService} $timeout - The core angular timeout service.
      * @param {IMemoryPlayerAPI} MemoryPlayerAPI - The Memory Player API service.
      */
-    constructor(private $rootScope: angular.IRootScopeService, private $timeout: angular.ITimeoutService, private MemoryPlayerAPI: IMemoryPlayerAPI) {
-    }
+    constructor(
+        private $rootScope: angular.IRootScopeService,
+        private $timeout: angular.ITimeoutService,
+        private MemoryPlayerAPI: IMemoryPlayerAPI
+    ) { }
 
 
 
@@ -51,7 +54,7 @@ class MemoryPlayerFactory implements IMemoryPlayerFactory {
 
     /**
      * @memberof MemoryPlayerFactory
-     * @member {IMemoryTrack} _selectedTrack - Is assigned the active track object.
+     * @member {IMemoryTrack} _selectedTrack - Is assigned the selected track object.
      * @private
      * @default null
      */
@@ -101,16 +104,16 @@ class MemoryPlayerFactory implements IMemoryPlayerFactory {
      * @private
      */
     private _player: IjPlayer = {
-        jPlayer: '#jquery_jplayer',
-        cssSelectorAncestor: '#jp_container'
+        jPlayer: '#mp-jquery_jplayer',
+        cssSelectorAncestor: '#mp-jp_container'
     };
 
 
     /**
      * @memberof MemoryPlayerFactory
-     * @member {string} _playerId - The HTML/CSS id of the jPlayer element.
+     * @member {string} _playerId - The id of the jPlayer element.
      * @private
-     * @default #jquery_jplayer
+     * @default #mp-jquery_jplayer
      */
     private _playerId: string = this._player.jPlayer;
 
@@ -126,24 +129,37 @@ class MemoryPlayerFactory implements IMemoryPlayerFactory {
         supplied: 'mp3',
 
         /**
+         * @fires MemoryPlayer:trackLoaded
+         */
+        loadeddata: (event: IjPlayerEvent) => {
+
+            /**
+             * @event MemoryPlayer:trackLoaded
+             */
+            this.$rootScope.$emit('MemoryPlayer:trackLoaded', Math.floor(event.jPlayer.status.duration));
+        },
+
+        /**
          * @fires MemoryPlayer:trackPlayed
          */
         playing: () => {
+
             /**
              * @event MemoryPlayer:trackPlayed
              */
             this.$rootScope.$emit('MemoryPlayer:trackPlayed');
         },
 
-        volumechange: (e: IjPlayerEvent) => {
-            this._volume = e.jPlayer.options.volume;
-            this._isMuted = e.jPlayer.options.muted;
+        volumechange: (event: IjPlayerEvent) => {
+            this._volume = event.jPlayer.options.volume;
+            this._isMuted = event.jPlayer.options.muted;
         },
 
         /**
          * @fires MemoryPlayer:trackEnded
          */
         ended: () => {
+
             /**
              * @event MemoryPlayer:trackEnded
              */
@@ -191,7 +207,7 @@ class MemoryPlayerFactory implements IMemoryPlayerFactory {
      * Fetches the playlists using the API method.
      * @memberof MemoryPlayerFactory
      * @instance
-     * @param {Function} callback - The callback to execute if the API request is successful, i.e. the response is not null.
+     * @param {Function} callback - The callback to execute if the API request is successful, i.e. the response is not null.  {@link MemoryPlayerAPI}
      */
     public fetchPlaylists(callback: Function): void {
 
@@ -205,7 +221,6 @@ class MemoryPlayerFactory implements IMemoryPlayerFactory {
                     (angular.isFunction(callback)) ? callback() : false;
                 }
             });
-
     };
 
 
@@ -261,7 +276,7 @@ class MemoryPlayerFactory implements IMemoryPlayerFactory {
      * Gets the current track.
      * @memberof MemoryPlayerFactory
      * @instance
-     * @returns {IMemoryTrack} - The object of the selected track.
+     * @returns {IMemoryTrack} - The selected track object.
      */
     public getTrack(): IMemoryTrack {
         return this._selectedTrack;
@@ -272,7 +287,7 @@ class MemoryPlayerFactory implements IMemoryPlayerFactory {
      * Gets the current playlist.
      * @memberof MemoryPlayerFactory
      * @instance
-     * @returns {IMemoryPlaylist} - The object of the selected playlist.
+     * @returns {IMemoryPlaylist} - The selected playlist object.
      */
     public getPlaylist(): IMemoryPlaylist {
         return this._selectedPlaylist;
@@ -316,7 +331,6 @@ class MemoryPlayerFactory implements IMemoryPlayerFactory {
          * @event MemoryPlayer:trackChanged
          */
         this.$rootScope.$emit('MemoryPlayer:trackChanged', this._selectedTrack);
-
     };
 
 
@@ -344,7 +358,6 @@ class MemoryPlayerFactory implements IMemoryPlayerFactory {
          * @event MemoryPlayer:playlistChanged
          */
         this.$rootScope.$emit('MemoryPlayer:playlistChanged', this._selectedPlaylist);
-
     };
 
 
@@ -355,19 +368,19 @@ class MemoryPlayerFactory implements IMemoryPlayerFactory {
      * @param {string} album - The id of the default or selected playlist.
      * @param {IMemoryPlayerInfo} playerInfo - Contains the data required to restart the player.
      */
-    public createPlayer(album: string, playerInfo: IMemoryPlayerInfo): void {
+    public createPlayer(album: string, playerInfo?: IMemoryPlayerInfo): void {
 
         this.setPlaylist(album);
 
         this._playerInstance = new jPlayerPlaylist(this._player, this.getPlaylist().playlist, this._playerOptions);
 
-        if (playerInfo !== null) {
+        if (angular.isDefined(playerInfo)) {
 
             this.setTrack(playerInfo.track);
 
             angular.element(this._playerId).on($.jPlayer.event.ready, () => {
 
-                angular.element('#memory-player').removeClass('loading');
+                angular.element('#memory-player').removeClass('mp-loading');
 
                 this.$timeout(() => {
 
@@ -397,7 +410,7 @@ class MemoryPlayerFactory implements IMemoryPlayerFactory {
         } else {
 
             angular.element(this._playerId).on($.jPlayer.event.ready, () => {
-                angular.element('#memory-player').removeClass('loading');
+                angular.element('#memory-player').removeClass('mp-loading');
             });
         }
     };
@@ -408,7 +421,7 @@ class MemoryPlayerFactory implements IMemoryPlayerFactory {
      * @memberof MemoryPlayerFactory
      * @instance
      *
-     * @fires MemoryPlayer:trackPlayed
+     * @fires MemoryPlayer:isPaused
      */
     public play(): void {
 
@@ -419,7 +432,7 @@ class MemoryPlayerFactory implements IMemoryPlayerFactory {
         if (this.isPaused) {
 
             /**
-             * @event MemoryPlayer:trackPlayed
+             * @event MemoryPlayer:isPaused
              */
             this.$rootScope.$emit('MemoryPlayer:isPaused', this.isPaused);
         }

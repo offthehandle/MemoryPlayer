@@ -2,7 +2,7 @@
 interface IMemoryPlayerFactory {
     isPaused: boolean;
     autoPlay(isAutoPlayed: boolean): void;
-    createPlayer(album: string, playerInfo: IMemoryPlayerInfo): void;
+    createPlayer(album: string, playerInfo?: IMemoryPlayerInfo): void;
     cueTrack(track: number): void;
     fetchPlaylists(callback: Function): void;
     getAllPlaylists(): IMemoryPlaylists;
