@@ -35,20 +35,20 @@ var MemoryPlayerAPI = (function () {
         var _this = this;
         return this.$http.get(this.playlists)
             .then(function (response) {
-            // Check for data in response
+            // If response has data then return it
             if (response.hasOwnProperty('data') && response.data !== null) {
-                // Return playlists
+                // Returns playlists
                 return response.data;
             }
             else {
-                // Remove player
+                // Removes player
                 _this.removePlayer();
                 return null;
             }
         }).catch(function (error) {
-            // Remove player
+            // Removes player
             _this.removePlayer();
-            // Log error
+            // Logs error
             _this.$log.log('XHR Failed for getPlaylists.');
             if (error.data) {
                 _this.$log.log(error.data);

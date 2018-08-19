@@ -2,7 +2,7 @@
 class MemoryPlayerDirective implements angular.IDirective {
 
     public static instance() {
-        var directive = ($location: angular.ILocationService, MemoryPlayerAPI: IMemoryPlayerAPI, MemoryPlayerState: IMemoryPlayerState, MemoryPlayerControls: IMemoryPlayerControls) => {
+        var directive = ($location: angular.ILocationService, MemoryPlayerAPI: IMemoryPlayerAPI, MemoryPlayerState: IMemoryPlayerState, MemoryPlayerControls: IMemoryPlayerControls): MemoryPlayerDirective => {
             return new MemoryPlayerDirective($location, MemoryPlayerAPI, MemoryPlayerState, MemoryPlayerControls);
         };
 
@@ -50,7 +50,7 @@ class MemoryPlayerDirective implements angular.IDirective {
      * @memberof MemoryPlayerDirective
      * @member link - The link option for the directive.
      */
-    public link: (scope: angular.IScope, element: JQuery, attrs: angular.IAttributes) => void;
+    public link: (scope: IMemoryPlayerDirective, element: JQuery, attrs: angular.IAttributes) => void;
 
 
 
@@ -68,25 +68,25 @@ class MemoryPlayerDirective implements angular.IDirective {
         private MemoryPlayerState: IMemoryPlayerState,
         private MemoryPlayerControls: IMemoryPlayerControls
     ) {
-        MemoryPlayerDirective.prototype.link = (scope: IMemoryPlayerDirective, element: JQuery, attrs: angular.IAttributes) => {
+        MemoryPlayerDirective.prototype.link = (scope: IMemoryPlayerDirective, element: JQuery, attrs: angular.IAttributes): void => {
 
-            // Set option for share link
+            // Sets option for share link
             scope.isShareable = scope.$eval(attrs['isShareable']) || false;
 
-            // Get player state from URL
+            // Gets player state from URL
             let state: any = this.$location.search();
 
 
-            // Get playlists from json file
-            this.MemoryPlayerAPI.getPlaylists().then((response: IPlaylists) => {
+            // Gets playlists from json file
+            this.MemoryPlayerAPI.getPlaylists().then((response: IPlaylists): void => {
 
-                // Set playlists response in service
+                // Sets playlists response in service
                 this.MemoryPlayerState.setPlaylists(response);
 
                 // Restart if available settings allow, else start fresh
                 if (isRestartable(state)) {
 
-                    // Set restart settings
+                    // Sets restart settings
                     let settings: IRestartSettings = {
                         track: parseInt(state.track),
                         time: parseInt(state.time),
@@ -99,30 +99,28 @@ class MemoryPlayerDirective implements angular.IDirective {
 
                 } else {
 
-                    // Get name of first playlist
+                    // Gets name of first playlist
                     let playlist: string = Object.keys(response)[0];
 
-                    // Set player to it
+                    // Sets player to it
                     this.MemoryPlayerControls.showtime(response[playlist]._id);
                 }
             });
 
 
             /**
-             * Core Angular event used to append query string for continuous playback.
+             * Core Angular event used to append query string for continued playback.
              *
-             * ?playlist=playlist&track=track&time=time&volume=volume&isMuted=isMuted&isPaused=isPaused
+             * ?playlist=playlist&track=track&time=time&volume=volume&isMuted&isPaused
              *
              * playlist = id of the selected playlist
              * track = id of the selected track
-             * time = track time returned by internal jPlayer event
+             * time = track time returned by internal jplayer event
              * volume = the player volume
-             * isMuted = the player is muted (true) or not (false)
-             * isPaused = the player is paused (true) or not (false)
-             *
-             * @listens MemoryPlayerState#event:$locationChangeStart
+             * isMuted = the player is muted or not (=false)
+             * isPaused = the player is paused or not (=false)
              */
-            scope.$on('$locationChangeStart', ($event: angular.IAngularEvent, newUrl: string, oldUrl: string) => {
+            scope.$on('$locationChangeStart', ($event: angular.IAngularEvent, newUrl: string, oldUrl: string): void => {
 
                 if (newUrl !== oldUrl) {
 
@@ -146,7 +144,7 @@ class MemoryPlayerDirective implements angular.IDirective {
 // Test available settings for restartability
 function isRestartable(state: any): boolean {
 
-    // Set success as initial test result
+    // Sets success as initial test result
     let isRestartable: boolean = true;
 
 
@@ -182,7 +180,7 @@ function isRestartable(state: any): boolean {
     }
 
 
-    // Return test result
+    // Returns test result
     return isRestartable;
 }
 

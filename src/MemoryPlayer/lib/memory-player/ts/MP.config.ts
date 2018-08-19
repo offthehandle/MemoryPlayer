@@ -12,18 +12,21 @@ class MemoryPlayerConfig {
     /**
      * @constructs MemoryPlayerConfig
      * @param {ILocationProvider} $locationProvider - The core angular location provider service.
-     * @param {MemoryPlayerProvider} JPlayerProvider - The provider service that manages jplayer.
+     * @param {MemoryPlayerProvider} JPlayerProvider - Provides jplayer for memory player.
      */
     constructor(
         private $locationProvider: angular.ILocationProvider,
         private JPlayerProvider: MemoryPlayerProvider
     ) {
 
+        // Sets jplayer ids
         this.JPlayerProvider.$setIds(this.JPlayerIds);
 
-        this.JPlayerProvider.$setOptions(this.JPlayerOptions);
+        // Instantiates jplayer with empty playlist
+        this.JPlayerProvider.$setInstance(this.JPlayerIds, [], this.JPlayerOptions);
 
 
+        // Configures HTML5 mode
         this.$locationProvider.html5Mode({
             enabled: true,
             requireBase: false
@@ -32,12 +35,22 @@ class MemoryPlayerConfig {
 
 
 
-    private JPlayerIds = {
+    /**
+     * @memberof MemoryPlayerConfig
+     * @member {IJPlayerIds} JPlayerIds - The CSS selectors to instantiate a playlist jplayer.
+     * @private
+     */
+    private JPlayerIds: IJPlayerIds = {
         jPlayer: '#mp-jquery_jplayer',
         cssSelectorAncestor: '#mp-jp_container'
     };
 
 
+    /**
+     * @memberof MemoryPlayerConfig
+     * @member {any} JPlayerOptions - The options to instantiate a playlist jplayer.
+     * @private
+     */
     private JPlayerOptions: any = {
         wmode: 'window',
 
@@ -68,20 +81,25 @@ class MemoryPlayerRun {
 
     /**
      * @constructs MemoryPlayerRun
-     * @param {ILocationProvider} $locationProvider - The core angular location provider service.
+     * @param {IRootScopeService} $rootScope - The core angular root scope service.
+     * @param {IWindowService} $window - The core angular window service.
      */
     constructor(
         private $rootScope: angular.IRootScopeService,
         private $window: angular.IWindowService
     ) {
 
+        /**
+         * Observes location change success
+         */
         this.$rootScope.$on('$locationChangeSuccess', function ($event: angular.IAngularEvent, newUrl: string, oldUrl: string): void {
 
+            // If page changes then navigate to new page
             if (newUrl !== oldUrl) {
 
+                // Navigates to new page
                 this.$window.location.href = newUrl;
             }
-
         });
     }
 }

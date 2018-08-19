@@ -45,10 +45,10 @@ var MemoryPlayerState = (function () {
      * Sets boolean that player is paused or not.
      * @memberof MemoryPlayerState
      * @instance
-     * @param {boolean} isPaused - The paused state.
+     * @param {boolean} isPaused - The play state.
      */
     MemoryPlayerState.prototype.setIsPaused = function (isPaused) {
-        // Updates paused state
+        // Updates play state
         this.isPaused = isPaused;
     };
     /**
@@ -61,11 +61,10 @@ var MemoryPlayerState = (function () {
         return this.currentPlaylist;
     };
     /**
-     * Sets selected playlist.
+     * Sets current playlist.
      * @memberof MemoryPlayerState
      * @instance
      * @param {string} playlistName - The name of selected playlist.
-     * @fires MemoryPlayerState#MemoryPlayer:NewPlaylist
      */
     MemoryPlayerState.prototype.setPlaylist = function (playlistName) {
         // Updates current playlist
@@ -121,11 +120,10 @@ var MemoryPlayerState = (function () {
         return this.currentTrack;
     };
     /**
-     * Sets selected track.
+     * Sets current track.
      * @memberof MemoryPlayerState
      * @instance
      * @param {number} trackIndex - The id of selected track.
-     * @fires MemoryPlayerState#MemoryPlayer:NewTrack
      */
     MemoryPlayerState.prototype.setTrack = function (trackIndex) {
         // Updates current track

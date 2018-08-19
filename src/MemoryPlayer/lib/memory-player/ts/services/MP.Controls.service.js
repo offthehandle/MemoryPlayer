@@ -15,6 +15,38 @@ var MemoryPlayerControls = (function () {
         this.MemoryPlayerState = MemoryPlayerState;
         // Stores player id for optimization
         this.jPlayerId = this.JPlayer.ids.jPlayer;
+        // Brief timeout for player ready
+        this.$timeout(function () {
+            /**
+             * Observes player volume change.
+             */
+            angular.element(_this.jPlayerId).bind($.jPlayer.event.volumechange, function (event) {
+                // Updates volume
+                _this.MemoryPlayerState.setVolume(event.jPlayer.options.volume);
+                // Updates is muted
+                _this.MemoryPlayerState.setIsMuted(event.jPlayer.options.muted);
+            });
+            /**
+             * Observes current track ended.
+             */
+            angular.element(_this.jPlayerId).bind($.jPlayer.event.ended, function () {
+                // If playlist is not over then update state, else start from beginning
+                if (!_this.isEnd()) {
+                    // Gets next track id
+                    var trackId_1 = (_this.MemoryPlayerState.getTrackId() + 1);
+                    _this.$rootScope.$evalAsync(function () {
+                        // Updates current track
+                        _this.MemoryPlayerState.setTrack(trackId_1);
+                    });
+                }
+                else {
+                    _this.$rootScope.$evalAsync(function () {
+                        // Starts playlist from beginning
+                        _this.selectTrack(0);
+                    });
+                }
+            });
+        }, 200);
         /**
          * Observes open playlist dropdown click inside to prevent close.
          */
@@ -47,12 +79,12 @@ var MemoryPlayerControls = (function () {
             $dropdown.find('a').attr('aria-expanded', 'false');
         });
         /**
-         * Observe that YouTube video has played and prevents simultaneous playback.
+         * Observe custom event that YouTube video has played and prevents simultaneous playback.
          */
-        angular.element(document).on('youtube.onVideoPlayed', function () {
-            // If player is playing then toggle play
+        angular.element(document).on('YouTube.OnVideoPlayed', function () {
+            // If player is playing then toggle playback to pause
             if (!_this.MemoryPlayerState.getIsPaused()) {
-                // Stops player
+                // Pauses player
                 _this.play();
             }
         });
@@ -62,6 +94,7 @@ var MemoryPlayerControls = (function () {
      * @memberof MemoryPlayerControls
      * @instance
      * @returns {boolean} - True if track is last else false.
+     * @private
      */
     MemoryPlayerControls.prototype.isEnd = function () {
         // Compares track index to playlist length
@@ -111,7 +144,7 @@ var MemoryPlayerControls = (function () {
             this.MemoryPlayerState.setTrack(trackId);
             // Plays next track
             this.JPlayer.instance().next();
-            // Updates is paused
+            // Updates play state
             this.MemoryPlayerState.setIsPaused(false);
         }
     };
@@ -119,15 +152,13 @@ var MemoryPlayerControls = (function () {
      * Toggles play and pause.
      * @memberof MemoryPlayerControls
      * @instance
-     *
-     * @fires MemoryPlayerState#MemoryPlayer:Pause
      */
     MemoryPlayerControls.prototype.play = function () {
-        // Gets is paused
+        // Gets play state
         var isPaused = this.MemoryPlayerState.getIsPaused();
         // Toggles play
         (isPaused) ? this.JPlayer.instance().play() : this.JPlayer.instance().pause();
-        // Updates is paused
+        // Updates play state
         this.MemoryPlayerState.setIsPaused(!isPaused);
         // If playing then notify other media
         if (!isPaused) {
@@ -148,7 +179,7 @@ var MemoryPlayerControls = (function () {
             this.MemoryPlayerState.setTrack(trackId);
             // Plays previous track
             this.JPlayer.instance().previous();
-            // Updates is paused
+            // Updates play state
             this.MemoryPlayerState.setIsPaused(false);
         }
     };
@@ -157,6 +188,7 @@ var MemoryPlayerControls = (function () {
      * @memberof MemoryPlayerControls
      * @instance
      * @param {IRestartSettings} settings - Settings required to restart player.
+     * @private
      */
     MemoryPlayerControls.prototype.restart = function (settings) {
         // Updates current track
@@ -174,17 +206,17 @@ var MemoryPlayerControls = (function () {
         }
         // Assigns variable to set playback state
         var playState = 'pause';
-        // If not is paused then update
+        // If playing then update
         if (settings.isPaused !== true) {
             playState = 'play';
-            // Updates is paused
+            // Updates play state
             this.MemoryPlayerState.setIsPaused(false);
         }
         // Sets player to current time and playback state
         angular.element(this.jPlayerId).jPlayer(playState, settings.time);
     };
     /**
-     * Plays selected track.
+     * Plays selected playlist.
      * @memberof MemoryPlayerControls
      * @instance
      * @param {string} playlistName - The name of selected playlist.
@@ -192,17 +224,14 @@ var MemoryPlayerControls = (function () {
     MemoryPlayerControls.prototype.selectPlaylist = function (playlistName) {
         // Updates current playlist
         this.MemoryPlayerState.setPlaylist(playlistName);
-        // If player is defined set playlist and play
-        if (angular.isDefined(this.JPlayer.instance)) {
-            // Gets current playlist
-            var playlist = this.MemoryPlayerState.getPlaylist().playlist;
-            // Sets current playlist in player
-            this.JPlayer.instance().setPlaylist(playlist);
-            // Plays first track
-            this.JPlayer.instance().option('autoPlay', true);
-            // Updates is paused
-            this.MemoryPlayerState.setIsPaused(false);
-        }
+        // Gets current playlist
+        var playlist = this.MemoryPlayerState.getPlaylist().playlist;
+        // Sets current playlist in player
+        this.JPlayer.instance().setPlaylist(playlist);
+        // Plays first track
+        this.JPlayer.instance().option('autoPlay', true);
+        // Updates play state
+        this.MemoryPlayerState.setIsPaused(false);
     };
     /**
      * Plays selected track.
@@ -211,22 +240,22 @@ var MemoryPlayerControls = (function () {
      * @param {number} trackIndex - The index of selected track in playlist.
      */
     MemoryPlayerControls.prototype.selectTrack = function (trackIndex) {
-        // If selected track is different from current then set track and play, else resume
+        // If selected track is different from current then set track and play, else toggle play
         if (trackIndex !== this.MemoryPlayerState.getTrackId()) {
             // Updates current track
             this.MemoryPlayerState.setTrack(trackIndex);
             // Plays selected track
             this.JPlayer.instance().play(trackIndex);
-            // Updates is paused
+            // Updates play state
             this.MemoryPlayerState.setIsPaused(false);
         }
         else {
-            // Resumes track
+            // Toggles play
             this.play();
         }
     };
     /**
-     * Creates player and restarts with previous settings if available.
+     * Creates player and executes restart with previous settings if available.
      * @memberof MemoryPlayerControls
      * @instance
      * @param {string} playlist - The name of current playlist.
@@ -236,63 +265,24 @@ var MemoryPlayerControls = (function () {
         var _this = this;
         // Updates current playlist
         this.MemoryPlayerState.setPlaylist(playlist);
-        // Instantiates jPlayer
-        this.JPlayer.create(this.MemoryPlayerState.getPlaylist().playlist);
-        /**
-         * Observes player ready.
-         */
-        angular.element(this.jPlayerId).on($.jPlayer.event.ready, function () {
-            // Small timeout before configuration
-            _this.$timeout(function () {
-                /**
-                 * Observes player loaded.
-                 */
-                angular.element(_this.jPlayerId).on($.jPlayer.event.loadeddata, function (event) {
-                    console.log(Math.floor(event.jPlayer.status.duration));
-                });
-                /**
-                 * Observes player volume change.
-                 */
-                angular.element(_this.jPlayerId).on($.jPlayer.event.volumechange, function (event) {
-                    // Updates volume
-                    _this.MemoryPlayerState.setVolume(event.jPlayer.options.volume);
-                    // Updates is muted
-                    _this.MemoryPlayerState.setIsMuted(event.jPlayer.options.muted);
-                });
-                /**
-                 * Observes current track ended.
-                 */
-                angular.element(_this.jPlayerId).on($.jPlayer.event.ended, function () {
-                    // If playlist is not over then update state, else start from beginning
-                    if (!_this.isEnd()) {
-                        // Gets next track id
-                        var trackId_1 = (_this.MemoryPlayerState.getTrackId() + 1);
-                        _this.$rootScope.$evalAsync(function () {
-                            // Updates current track
-                            _this.MemoryPlayerState.setTrack(trackId_1);
-                        });
-                    }
-                    else {
-                        _this.$rootScope.$evalAsync(function () {
-                            // Starts playlist from beginning
-                            _this.selectTrack(0);
-                        });
-                    }
-                });
-                // If settings exist then restart
-                if (angular.isDefined(settings)) {
-                    _this.restart(settings);
-                }
-                // Removes loading class
-                angular.element('#memory-player').removeClass('mp-loading');
-            }, 400);
-        });
+        // Brief timeout for player ready
+        this.$timeout(function () {
+            // Sets playlist
+            _this.JPlayer.instance().setPlaylist(_this.MemoryPlayerState.getPlaylist().playlist);
+            // If settings exist then restart
+            if (angular.isDefined(settings)) {
+                // Restarts player
+                _this.restart(settings);
+            }
+            // Removes loading class
+            angular.element('#memory-player').removeClass('mp-loading');
+        }, 200);
     };
     /**
      * Toggles playlist dropdown.
      * @memberof MemoryPlayerControls
      * @instance
-     * @param {JQueryEventObject} event - The event from trigger element.
+     * @param {JQueryEventObject} event - The event from trigging element.
      */
     MemoryPlayerControls.prototype.toggleDropdown = function (event) {
         // Sets values to update dropdown state

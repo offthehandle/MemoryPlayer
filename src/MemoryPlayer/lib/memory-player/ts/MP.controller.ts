@@ -78,17 +78,17 @@ class MemoryPlayerController implements angular.IController {
         });
 
 
-        // Watches state service for play change
+        // Watches state service for play state change
         this.$scope.$watch((): boolean => {
 
             return this.MemoryPlayerState.getIsPaused();
 
         }, (newState, oldState): void => {
 
-            // If is paused changes then update
+            // If play state changes then update
             if (angular.isDefined(newState) && newState !== oldState) {
 
-                // Updates is paused
+                // Updates play state
                 this.isPaused = newState;
             }
         });
@@ -99,7 +99,6 @@ class MemoryPlayerController implements angular.IController {
     /**
      * @memberof MemoryPlayerController
      * @member {IPlaylist} currentPlaylist - Current playlist.
-     * @default null
      */
     public currentPlaylist: IPlaylist;
 
@@ -107,14 +106,13 @@ class MemoryPlayerController implements angular.IController {
     /**
      * @memberof MemoryPlayerController
      * @member {ITrack} currentTrack - Current track.
-     * @default null
      */
     public currentTrack: ITrack;
 
 
     /**
      * @memberof MemoryPlayerController
-     * @member {boolean} isPaused - Current paused state of player.
+     * @member {boolean} isPaused - Current play state.
      * @default true
      */
     public isPaused: boolean;
@@ -123,7 +121,6 @@ class MemoryPlayerController implements angular.IController {
     /**
      * @memberof MemoryPlayerController
      * @member {IPlaylists} playlists - Currently available playlists.
-     * @default null
      */
     public playlists: IPlaylists;
 

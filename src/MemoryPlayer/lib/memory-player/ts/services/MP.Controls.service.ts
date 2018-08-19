@@ -30,6 +30,51 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
         this.jPlayerId = this.JPlayer.ids.jPlayer;
 
 
+        // Brief timeout for player ready
+        this.$timeout((): void => {
+
+            /**
+             * Observes player volume change.
+             */
+            angular.element(this.jPlayerId).bind($.jPlayer.event.volumechange, (event: IjPlayerEvent): void => {
+
+                // Updates volume
+                this.MemoryPlayerState.setVolume(event.jPlayer.options.volume);
+
+                // Updates is muted
+                this.MemoryPlayerState.setIsMuted(event.jPlayer.options.muted);
+            });
+
+            /**
+             * Observes current track ended.
+             */
+            angular.element(this.jPlayerId).bind($.jPlayer.event.ended, (): void => {
+
+                // If playlist is not over then update state, else start from beginning
+                if (!this.isEnd()) {
+
+                    // Gets next track id
+                    let trackId: number = (this.MemoryPlayerState.getTrackId() + 1);
+
+                    this.$rootScope.$evalAsync((): void => {
+
+                        // Updates current track
+                        this.MemoryPlayerState.setTrack(trackId);
+                    });
+
+                } else {
+
+                    this.$rootScope.$evalAsync((): void => {
+
+                        // Starts playlist from beginning
+                        this.selectTrack(0);
+                    });
+                }
+            });
+
+        }, 200);
+
+
         /**
          * Observes open playlist dropdown click inside to prevent close.
          */
@@ -37,7 +82,6 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
 
             event.stopPropagation();
         });
-
 
         /**
          * Observes click to close open playlist dropdown.
@@ -57,7 +101,6 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
             }
         });
 
-
         /**
          * Observes click to close open playlist dropdown on mobile devices.
          */
@@ -76,16 +119,15 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
             $dropdown.find('a').attr('aria-expanded', 'false');
         });
 
-
         /**
-         * Observe that YouTube video has played and prevents simultaneous playback.
+         * Observe custom event that YouTube video has played and prevents simultaneous playback.
          */
-        angular.element(document).on('youtube.onVideoPlayed', (): void => {
+        angular.element(document).on('YouTube.OnVideoPlayed', (): void => {
 
-            // If player is playing then toggle play
+            // If player is playing then toggle playback to pause
             if (!this.MemoryPlayerState.getIsPaused()) {
 
-                // Stops player
+                // Pauses player
                 this.play();
             }
         });
@@ -107,6 +149,7 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
      * @memberof MemoryPlayerControls
      * @instance
      * @returns {boolean} - True if track is last else false.
+     * @private
      */
     private isEnd(): boolean {
 
@@ -177,7 +220,7 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
             // Plays next track
             this.JPlayer.instance().next();
 
-            // Updates is paused
+            // Updates play state
             this.MemoryPlayerState.setIsPaused(false);
         }
     }
@@ -187,18 +230,16 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
      * Toggles play and pause.
      * @memberof MemoryPlayerControls
      * @instance
-     *
-     * @fires MemoryPlayerState#MemoryPlayer:Pause
      */
     public play(): void {
 
-        // Gets is paused
+        // Gets play state
         let isPaused: boolean = this.MemoryPlayerState.getIsPaused();
 
         // Toggles play
         (isPaused) ? this.JPlayer.instance().play() : this.JPlayer.instance().pause();
 
-        // Updates is paused
+        // Updates play state
         this.MemoryPlayerState.setIsPaused(!isPaused);
 
 
@@ -229,7 +270,7 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
             // Plays previous track
             this.JPlayer.instance().previous();
 
-            // Updates is paused
+            // Updates play state
             this.MemoryPlayerState.setIsPaused(false);
         }
     }
@@ -240,6 +281,7 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
      * @memberof MemoryPlayerControls
      * @instance
      * @param {IRestartSettings} settings - Settings required to restart player.
+     * @private
      */
     private restart(settings: IRestartSettings): void {
 
@@ -267,12 +309,12 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
         // Assigns variable to set playback state
         let playState: string = 'pause';
 
-        // If not is paused then update
+        // If playing then update
         if (settings.isPaused !== true) {
 
             playState = 'play';
 
-            // Updates is paused
+            // Updates play state
             this.MemoryPlayerState.setIsPaused(false);
         }
 
@@ -282,7 +324,7 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
 
 
     /**
-     * Plays selected track.
+     * Plays selected playlist.
      * @memberof MemoryPlayerControls
      * @instance
      * @param {string} playlistName - The name of selected playlist.
@@ -292,22 +334,17 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
         // Updates current playlist
         this.MemoryPlayerState.setPlaylist(playlistName);
 
+        // Gets current playlist
+        let playlist: Array<ITrack> = this.MemoryPlayerState.getPlaylist().playlist;
 
-        // If player is defined set playlist and play
-        if (angular.isDefined(this.JPlayer.instance)) {
+        // Sets current playlist in player
+        this.JPlayer.instance().setPlaylist(playlist);
 
-            // Gets current playlist
-            let playlist: Array<ITrack> = this.MemoryPlayerState.getPlaylist().playlist;
+        // Plays first track
+        this.JPlayer.instance().option('autoPlay', true);
 
-            // Sets current playlist in player
-            this.JPlayer.instance().setPlaylist(playlist);
-
-            // Plays first track
-            this.JPlayer.instance().option('autoPlay', true);
-
-            // Updates is paused
-            this.MemoryPlayerState.setIsPaused(false);
-        }
+        // Updates play state
+        this.MemoryPlayerState.setIsPaused(false);
     }
 
 
@@ -319,7 +356,7 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
      */
     public selectTrack(trackIndex: number): void {
 
-        // If selected track is different from current then set track and play, else resume
+        // If selected track is different from current then set track and play, else toggle play
         if (trackIndex !== this.MemoryPlayerState.getTrackId()) {
 
             // Updates current track
@@ -328,19 +365,19 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
             // Plays selected track
             this.JPlayer.instance().play(trackIndex);
 
-            // Updates is paused
+            // Updates play state
             this.MemoryPlayerState.setIsPaused(false);
 
         } else {
 
-            // Resumes track
+            // Toggles play
             this.play();
         }
     }
 
 
     /**
-     * Creates player and restarts with previous settings if available.
+     * Creates player and executes restart with previous settings if available.
      * @memberof MemoryPlayerControls
      * @instance
      * @param {string} playlist - The name of current playlist.
@@ -351,78 +388,25 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
         // Updates current playlist
         this.MemoryPlayerState.setPlaylist(playlist);
 
-        // Instantiates jPlayer
-        this.JPlayer.create(this.MemoryPlayerState.getPlaylist().playlist);
+
+        // Brief timeout for player ready
+        this.$timeout((): void => {
+
+            // Sets playlist
+            this.JPlayer.instance().setPlaylist(this.MemoryPlayerState.getPlaylist().playlist);
 
 
-        /**
-         * Observes player ready.
-         */
-        angular.element(this.jPlayerId).on($.jPlayer.event.ready, (): void => {
+            // If settings exist then restart
+            if (angular.isDefined(settings)) {
 
-            // Small timeout before configuration
-            this.$timeout((): void => {
+                // Restarts player
+                this.restart(settings);
+            }
 
-                /**
-                 * Observes player loaded.
-                 */
-                angular.element(this.jPlayerId).on($.jPlayer.event.loadeddata, function (event: IjPlayerEvent): void {
+            // Removes loading class
+            angular.element('#memory-player').removeClass('mp-loading');
 
-                    console.log(Math.floor(event.jPlayer.status.duration));
-                });
-
-                /**
-                 * Observes player volume change.
-                 */
-                angular.element(this.jPlayerId).on($.jPlayer.event.volumechange, (event: IjPlayerEvent): void => {
-
-                    // Updates volume
-                    this.MemoryPlayerState.setVolume(event.jPlayer.options.volume);
-
-                    // Updates is muted
-                    this.MemoryPlayerState.setIsMuted(event.jPlayer.options.muted);
-                });
-
-                /**
-                 * Observes current track ended.
-                 */
-                angular.element(this.jPlayerId).on($.jPlayer.event.ended, (): void => {
-
-                    // If playlist is not over then update state, else start from beginning
-                    if (!this.isEnd()) {
-
-                        // Gets next track id
-                        let trackId: number = (this.MemoryPlayerState.getTrackId() + 1);
-
-                        this.$rootScope.$evalAsync((): void => {
-
-                            // Updates current track
-                            this.MemoryPlayerState.setTrack(trackId);
-                        });
-
-                    } else {
-
-                        this.$rootScope.$evalAsync((): void => {
-
-                            // Starts playlist from beginning
-                            this.selectTrack(0);
-                        });
-                    }
-                });
-
-
-                // If settings exist then restart
-                if (angular.isDefined(settings)) {
-
-                    this.restart(settings);
-                }
-
-                // Removes loading class
-                angular.element('#memory-player').removeClass('mp-loading');
-
-            }, 400);
-
-        });
+        }, 200);
     }
 
 
@@ -430,7 +414,7 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
      * Toggles playlist dropdown.
      * @memberof MemoryPlayerControls
      * @instance
-     * @param {JQueryEventObject} event - The event from trigger element.
+     * @param {JQueryEventObject} event - The event from trigging element.
      */
     public toggleDropdown(event: JQueryEventObject): void {
 

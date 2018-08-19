@@ -5,48 +5,66 @@ class MemoryPlayerProvider implements angular.IServiceProvider {
 
     /**
      * @memberof MemoryPlayerProvider
-     * @member {IJPlayerIds} id - The CSS selectors to instantiate a playlist jPlayer.
+     * @member {IPlaylistJPlayer} JPlayer - The jplayer instance for memory player.
      * @private
      */
-    private jPlayerIds: IJPlayerIds;
+    private JPlayer: IPlaylistJPlayer;
 
 
     /**
      * @memberof MemoryPlayerProvider
-     * @member {any} jPlayerOptions - The options to instantiate a playlist jPlayer.
+     * @member {IJPlayerIds} JPlayerIds - The CSS selectors to instantiate a playlist jplayer.
      * @private
      */
-    private jPlayerOptions: any;
+    private JPlayerIds: IJPlayerIds;
 
 
 
+    /**
+     * Gets jplayer ids and instance.
+     * @memberof MemoryPlayerProvider
+     * @instance
+     * @returns {IJPlayerProvider} - The return value of provider.
+     */
     $get(): IJPlayerProvider {
 
-        let JPlayer: IPlaylistJPlayer;
-
         return {
-            create: (playlist: Array<ITrack>,): void => {
-
-                JPlayer = new jPlayerPlaylist(this.jPlayerIds, playlist, this.jPlayerOptions);
-            },
-            ids: this.jPlayerIds,
+            ids: this.JPlayerIds,
             instance: (): IPlaylistJPlayer => {
 
-                return JPlayer;
+                return this.JPlayer;
             }
         };
     }
 
 
+    /**
+     * Sets jplayer ids.
+     * @memberof MemoryPlayerProvider
+     * @instance
+     * @param {IJPlayerIds} ids - The CSS selectors to instantiate a playlist jplayer.
+     */
     $setIds(ids: IJPlayerIds): void {
 
-        this.jPlayerIds = ids;
+        this.JPlayerIds = ids;
     }
 
 
-    $setOptions(options: any): void {
+    /**
+     * Instantiates jplayer.
+     * @memberof MemoryPlayerProvider
+     * @instance
+     * @param {IJPlayerIds} cssSelectors - The CSS selectors to instantiate a playlist jplayer.
+     * @param {Array<ITrack>} playlist - The default playlist.
+     * @param {any} options - The options to instantiate a playlist jplayer.
+     */
+    $setInstance(cssSelectors: IJPlayerIds, playlist: Array<ITrack>, options: any): void {
 
-        this.jPlayerOptions = options;
+        window.setTimeout((): void => {
+
+            this.JPlayer = new jPlayerPlaylist(cssSelectors, playlist, options);
+
+        }, 200);
     }
 }
 

@@ -1,4 +1,4 @@
 ﻿
-interface IjPlayerEvent extends Event {
+interface IjPlayerEvent extends JQueryEventObject {
     jPlayer: any;
 }

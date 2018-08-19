@@ -2,16 +2,19 @@ var MemoryPlayerSharing = (function () {
     /**
      * Implements IMemoryPlayerSharing
      * @constructs MemoryPlayerSharing
+     * @param {IRootScopeService} $rootScope - The core angular root scope service.
+     * @param {ITimeoutService} $timeout - The core angular timeout service.
      * @param {IIntervalService} $interval - The core angular interval service.
+     * @param {MemoryPlayerProvider} JPlayer - The provider service that manages jplayer.
+     * @param {IMemoryPlayerState} MemoryPlayerState - The service that manages memory player state.
      */
-    function MemoryPlayerSharing($interval) {
-        /**
-         * Event reporting that the selected track is loaded.
-         *
-         * @listens MemoryPlayerState#event:MemoryPlayer:TrackLoaded
-         */
-        //this.$rootScope.$on('MemoryPlayer:TrackLoaded', ($event: angular.IAngularEvent, duration: number) => {
+    function MemoryPlayerSharing($rootScope, $timeout, $interval, JPlayer, MemoryPlayerState) {
+        var _this = this;
+        this.$rootScope = $rootScope;
+        this.$timeout = $timeout;
         this.$interval = $interval;
+        this.JPlayer = JPlayer;
+        this.MemoryPlayerState = MemoryPlayerState;
         /**
          * @memberof MemoryPlayerController
          * @member {boolean} isShareable - True if the share link is enabled and false if it is not.
@@ -20,15 +23,15 @@ var MemoryPlayerSharing = (function () {
         this.isShareable = true;
         /**
          * @memberof MemoryPlayerController
-         * @member {string} shareLink - The share link URL.
-         */
-        this.shareLink = window.location.protocol + "//" + window.location.hostname + window.location.pathname;
-        /**
-         * @memberof MemoryPlayerController
          * @member {boolean} isTimeUsed - True if the share link start time is used and false if it is not.
          * @default false
          */
         this.isTimeUsed = false;
+        /**
+         * @memberof MemoryPlayerController
+         * @member {string} shareLink - The share link URL.
+         */
+        this.shareLink = window.location.protocol + "//" + window.location.hostname + window.location.pathname;
         /**
          * @memberof MemoryPlayerController
          * @member {number} shareLinkTime - The start time for the share link if used.
@@ -41,18 +44,47 @@ var MemoryPlayerSharing = (function () {
          * @default null
          */
         this.shareLinkTimer = null;
-        //    this.trackDuration = duration;
-        //});
-        /**
-         * Event reporting that the playlist has changed.
-         *
-         * @listens MemoryPlayerState#event:MemoryPlayer:NewPlaylist
-         */
-        //this.$rootScope.$on('MemoryPlayer:NewPlaylist', ($event: angular.IAngularEvent, playlist: IPlaylist) => {
-        //if (this.isShareable) {
-        //    this.setShareLink('playlist', playlist._id);
-        //}
-        //});
+        // Stores player id for optimization
+        this.jPlayerId = this.JPlayer.ids.jPlayer;
+        // If sharing is enabled then set initial values
+        if (this.isShareable) {
+            this.setShareLink('playlist', this.MemoryPlayerState.getPlaylist()._id);
+            this.setShareLink('track', this.MemoryPlayerState.getTrack()._id);
+        }
+        // Watches state service for playlist change
+        this.$rootScope.$watch(function () {
+            return _this.MemoryPlayerState.getPlaylist();
+        }, function (newPlaylist, oldPlaylist) {
+            // If playlist changes then update
+            if (angular.isDefined(newPlaylist) && newPlaylist !== oldPlaylist) {
+                // Updates current playlist
+                _this.setShareLink('playlist', newPlaylist);
+            }
+        });
+        // Watches state service for track change
+        this.$rootScope.$watch(function () {
+            return _this.MemoryPlayerState.getTrack();
+        }, function (newTrack, oldTrack) {
+            // If track changes then update
+            if (angular.isDefined(newTrack) && newTrack !== oldTrack) {
+                // Updates current track
+                _this.setShareLink('track', newTrack);
+            }
+        });
+        this.$timeout(function () {
+            /**
+             * Observes player loaded.
+             */
+            angular.element(_this.jPlayerId).bind($.jPlayer.event.loadeddata, function (event) {
+                this.trackDuration = event.jPlayer.status.duration;
+            });
+            /**
+             * Observes playback started.
+             */
+            angular.element(_this.jPlayerId).bind($.jPlayer.event.playing, function (event) {
+                console.log(event.jPlayer.status.currentTime);
+            });
+        }, 200);
         /**
          * Observes that track has played.
          *
@@ -63,7 +95,7 @@ var MemoryPlayerSharing = (function () {
         //        if (this.shareLinkTimer !== null) {
         //            this.$interval.cancel(this.shareLinkTimer);
         //        }
-        //        this.shareLinkTimer = this.$interval(() => {
+        //        this.shareLinkTimer = this.$interval((): void => {
         //            this.shareLinkTime = $.jPlayer.convertTime(this.MemoryPlayerService.getTime());
         //        }, 1000);
         //    }
@@ -73,7 +105,7 @@ var MemoryPlayerSharing = (function () {
          *
          * @listens MemoryPlayerState#event:MemoryPlayer:NewTrack
          */
-        //this.$rootScope.$on('MemoryPlayer:NewTrack', ($event: angular.IAngularEvent, track: ITrack) => {
+        //this.$rootScope.$on('MemoryPlayer:NewTrack', ($event: angular.IAngularEvent, track: ITrack): void => {
         //    if (this.isShareable) {
         //        this.setShareLink('track', track._id);
         //        if (this.isTimeUsed) {
@@ -82,6 +114,16 @@ var MemoryPlayerSharing = (function () {
         //    }
         //});
     }
+    /**
+     * Cancels timer when start time input is focused.
+     * @memberof MemoryPlayerController
+     * @instance
+     */
+    MemoryPlayerSharing.prototype.cancelTimer = function () {
+        if (this.shareLinkTimer !== null) {
+            this.$interval.cancel(this.shareLinkTimer);
+        }
+    };
     /**
      * Updates the share link value specified by the key.
      * @memberof MemoryPlayerController
@@ -145,18 +187,14 @@ var MemoryPlayerSharing = (function () {
         this.shareLink = this.shareLink.split('?')[0] + "?" + $.param(shareLink);
     };
     /**
-     * Updates the share link time value when start time is used.
+     * Copies the share link to the clipboard.
      * @memberof MemoryPlayerController
      * @instance
      */
-    MemoryPlayerSharing.prototype.useTime = function () {
-        this.isTimeUsed = !this.isTimeUsed;
-        if (this.isTimeUsed) {
-            this.setShareLink('time', this.shareLinkTime);
-        }
-        else {
-            this.setShareLink('time', '0');
-        }
+    MemoryPlayerSharing.prototype.share = function () {
+        var shareLink = document.getElementById('mp-share-link');
+        shareLink.select();
+        document.execCommand('copy');
     };
     /**
      * Triggers update when start time is changed.
@@ -171,29 +209,27 @@ var MemoryPlayerSharing = (function () {
         this.setShareLink('time', this.shareLinkTime);
     };
     /**
-     * Cancels timer when start time input is focused.
+     * Updates the share link time value when start time is used.
      * @memberof MemoryPlayerController
      * @instance
      */
-    MemoryPlayerSharing.prototype.cancelTimer = function () {
-        if (this.shareLinkTimer !== null) {
-            this.$interval.cancel(this.shareLinkTimer);
+    MemoryPlayerSharing.prototype.useTime = function () {
+        this.isTimeUsed = !this.isTimeUsed;
+        if (this.isTimeUsed) {
+            this.setShareLink('time', this.shareLinkTime);
         }
-    };
-    /**
-     * Copies the share link to the clipboard.
-     * @memberof MemoryPlayerController
-     * @instance
-     */
-    MemoryPlayerSharing.prototype.share = function () {
-        var shareLink = document.getElementById('mp-share-link');
-        shareLink.select();
-        document.execCommand('copy');
+        else {
+            this.setShareLink('time', '0');
+        }
     };
     return MemoryPlayerSharing;
 }());
 MemoryPlayerSharing.instance = [
+    '$rootScope',
+    '$timeout',
     '$interval',
+    'JPlayer',
+    'MemoryPlayerState',
     MemoryPlayerSharing
 ];
 (function () {

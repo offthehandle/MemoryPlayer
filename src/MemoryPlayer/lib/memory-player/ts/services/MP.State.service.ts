@@ -60,7 +60,7 @@ class MemoryPlayerState implements IMemoryPlayerState {
 
     /**
      * @memberof MemoryPlayerState
-     * @member {boolean} isPaused - Current paused state of player.
+     * @member {boolean} isPaused - Current play state of player.
      * @private
      * @default true
      */
@@ -135,11 +135,11 @@ class MemoryPlayerState implements IMemoryPlayerState {
      * Sets boolean that player is paused or not.
      * @memberof MemoryPlayerState
      * @instance
-     * @param {boolean} isPaused - The paused state.
+     * @param {boolean} isPaused - The play state.
      */
     public setIsPaused(isPaused: boolean): void {
 
-        // Updates paused state
+        // Updates play state
         this.isPaused = isPaused;
     }
 
@@ -157,11 +157,10 @@ class MemoryPlayerState implements IMemoryPlayerState {
 
 
     /**
-     * Sets selected playlist.
+     * Sets current playlist.
      * @memberof MemoryPlayerState
      * @instance
      * @param {string} playlistName - The name of selected playlist.
-     * @fires MemoryPlayerState#MemoryPlayer:NewPlaylist
      */
     public setPlaylist(playlistName: string): void {
 
@@ -236,11 +235,10 @@ class MemoryPlayerState implements IMemoryPlayerState {
 
 
     /**
-     * Sets selected track.
+     * Sets current track.
      * @memberof MemoryPlayerState
      * @instance
      * @param {number} trackIndex - The id of selected track.
-     * @fires MemoryPlayerState#MemoryPlayer:NewTrack
      */
     public setTrack(trackIndex: number): void {
 

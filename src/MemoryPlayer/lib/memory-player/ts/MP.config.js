@@ -1,9 +1,4 @@
 var MemoryPlayerConfig = (function () {
-    /**
-     * @constructs MemoryPlayerConfig
-     * @param {ILocationProvider} $locationProvider - The core angular location provider service.
-     * @param {MemoryPlayerProvider} JPlayerProvider - The provider service that manages jplayer.
-     */
     function MemoryPlayerConfig($locationProvider, JPlayerProvider) {
         this.$locationProvider = $locationProvider;
         this.JPlayerProvider = JPlayerProvider;
@@ -21,7 +16,7 @@ var MemoryPlayerConfig = (function () {
             }
         };
         this.JPlayerProvider.$setIds(this.JPlayerIds);
-        this.JPlayerProvider.$setOptions(this.JPlayerOptions);
+        this.JPlayerProvider.$setInstance(this.JPlayerIds, [], this.JPlayerOptions);
         this.$locationProvider.html5Mode({
             enabled: true,
             requireBase: false
@@ -35,10 +30,6 @@ MemoryPlayerConfig.instance = [
     MemoryPlayerConfig
 ];
 var MemoryPlayerRun = (function () {
-    /**
-     * @constructs MemoryPlayerRun
-     * @param {ILocationProvider} $locationProvider - The core angular location provider service.
-     */
     function MemoryPlayerRun($rootScope, $window) {
         this.$rootScope = $rootScope;
         this.$window = $window;

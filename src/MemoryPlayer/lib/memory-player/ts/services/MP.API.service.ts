@@ -54,15 +54,15 @@ class MemoryPlayerAPI implements IMemoryPlayerAPI {
         return this.$http.get(this.playlists)
             .then((response: angular.IHttpPromiseCallbackArg<IPlaylists>): angular.IHttpPromiseCallbackArg<IPlaylists> => {
 
-                // Check for data in response
+                // If response has data then return it
                 if (response.hasOwnProperty('data') && response.data !== null) {
 
-                    // Return playlists
+                    // Returns playlists
                     return response.data;
 
                 } else {
 
-                    // Remove player
+                    // Removes player
                     this.removePlayer();
 
                     return null;
@@ -70,10 +70,10 @@ class MemoryPlayerAPI implements IMemoryPlayerAPI {
 
             }).catch((error: angular.IHttpPromiseCallbackArg<IHttpErrorResponse>): angular.IHttpPromiseCallbackArg<IHttpErrorResponse> => {
 
-                // Remove player
+                // Removes player
                 this.removePlayer();
 
-                // Log error
+                // Logs error
                 this.$log.log('XHR Failed for getPlaylists.');
 
                 if (error.data) {

@@ -98,9 +98,7 @@
     <TypeScriptCompile Include="lib\memory-player\ts\interfaces\MemoryPlayer\services\MP.Sharing.d.ts" />
     <TypeScriptCompile Include="lib\memory-player\ts\interfaces\MemoryPlayer\services\MP.Controls.d.ts" />
     <TypeScriptCompile Include="lib\memory-player\ts\interfaces\MemoryPlayer\services\MP.State.d.ts" />
-    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\MemoryPlayer\playlists\MP.Playlist.d.ts" />
-    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\MemoryPlayer\playlists\MP.Playlists.d.ts" />
-    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\MemoryPlayer\playlists\MP.Track.d.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\MemoryPlayer\MP.Playlists.d.ts" />
     <TypeScriptCompile Include="lib\memory-player\ts\interfaces\MemoryPlayer\scopes\MP.Directive.d.ts" />
     <TypeScriptCompile Include="lib\memory-player\ts\MP.config.ts" />
     <TypeScriptCompile Include="lib\memory-player\ts\MP.controller.ts" />

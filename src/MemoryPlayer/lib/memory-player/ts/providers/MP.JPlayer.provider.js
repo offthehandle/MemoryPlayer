@@ -1,24 +1,43 @@
 var MemoryPlayerProvider = (function () {
     function MemoryPlayerProvider() {
     }
+    /**
+     * Gets jplayer ids and instance.
+     * @memberof MemoryPlayerProvider
+     * @instance
+     * @returns {IJPlayerProvider} - The return value of provider.
+     */
     MemoryPlayerProvider.prototype.$get = function () {
         var _this = this;
-        var JPlayer;
         return {
-            create: function (playlist) {
-                JPlayer = new jPlayerPlaylist(_this.jPlayerIds, playlist, _this.jPlayerOptions);
-            },
-            ids: this.jPlayerIds,
+            ids: this.JPlayerIds,
             instance: function () {
-                return JPlayer;
+                return _this.JPlayer;
             }
         };
     };
+    /**
+     * Sets jplayer ids.
+     * @memberof MemoryPlayerProvider
+     * @instance
+     * @param {IJPlayerIds} ids - The CSS selectors to instantiate a playlist jplayer.
+     */
     MemoryPlayerProvider.prototype.$setIds = function (ids) {
-        this.jPlayerIds = ids;
+        this.JPlayerIds = ids;
     };
-    MemoryPlayerProvider.prototype.$setOptions = function (options) {
-        this.jPlayerOptions = options;
+    /**
+     * Instantiates jplayer.
+     * @memberof MemoryPlayerProvider
+     * @instance
+     * @param {IJPlayerIds} cssSelectors - The CSS selectors to instantiate a playlist jplayer.
+     * @param {Array<ITrack>} playlist - The default playlist.
+     * @param {any} options - The options to instantiate a playlist jplayer.
+     */
+    MemoryPlayerProvider.prototype.$setInstance = function (cssSelectors, playlist, options) {
+        var _this = this;
+        window.setTimeout(function () {
+            _this.JPlayer = new jPlayerPlaylist(cssSelectors, playlist, options);
+        }, 200);
     };
     return MemoryPlayerProvider;
 }());
