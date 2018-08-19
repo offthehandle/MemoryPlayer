@@ -1,5 +1,5 @@
 ﻿
-interface IjPlayer {
+interface IJPlayerIds {
     cssSelectorAncestor: string;
     jPlayer: string;
 }

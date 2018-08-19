@@ -1,11 +1,12 @@
-﻿<div class="mp-container">
+﻿
+<div class="mp-container">
     <!-- Begin Memory Player code -->
     <div id="mp-cued-playlist-item">
-        <img class="mp-cued-artwork" data-ng-src="{{player.selectedPlaylist.cover}}" alt="{{player.selectedPlaylist.album}}" />
+        <img class="mp-cued-artwork" data-ng-src="{{player.currentPlaylist.cover}}" alt="{{player.currentPlaylist.album}}" />
         <div data-ng-switch="isShareable">
             <div data-ng-switch-when="true" class="mp-cued-song mp-dropdown">
                 <a data-ng-click="player.toggleDropdown($event)" class="mp-dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
-                    {{player.selectedTrack.title}} <span class="mp-audio-sprite mp-audio-sprite-share"></span>
+                    {{player.currentTrack.title}} <span class="mp-audio-sprite mp-audio-sprite-share"></span>
                 </a>
                 <!-- .mp-dropdown-toggle -->
 
@@ -34,12 +35,12 @@
                 <!-- .mp-dropdown-menu -->
             </div>
             <div data-ng-switch-default class="mp-cued-song">
-                {{player.selectedTrack.title}}
+                {{player.currentTrack.title}}
             </div>
         </div>
 
         <p class="mp-cued-album">
-            {{player.selectedPlaylist.album}}
+            {{player.currentPlaylist.album}}
         </p>
         <!-- .mp-cued-album -->
     </div>
@@ -48,7 +49,7 @@
     <div id="mp-audio-controls">
         <div class="mp-cuing">
             <span data-ng-click="player.previous()" class="mp-audio-sprite mp-audio-sprite-previous"></span>
-            <span data-ng-click="player.play()" data-ng-class="(!player.isPaused) ? 'mp-audio-sprite-pause-lg' : 'mp-audio-sprite-play-lg'" class="mp-audio-sprite"></span>
+            <span data-ng-click="player.play()" data-ng-class="(player.isPaused) ? 'mp-audio-sprite-play-lg' : 'mp-audio-sprite-pause-lg'" class="mp-audio-sprite"></span>
             <span data-ng-click="player.next()" class="mp-audio-sprite mp-audio-sprite-next"></span>
         </div>
         <!-- .mp-cuing -->
@@ -70,7 +71,7 @@
 
             <ul class="mp-dropdown-menu">
                 <li data-ng-repeat="(key, value) in player.playlists" class="mp-playlist">
-                    <a data-ng-click="player.setPlaylist(value._id)">
+                    <a data-ng-click="player.selectPlaylist(value._id)">
                         <img data-ng-src="{{value.cover}}" alt="{{value.album}}" />
                         {{value.album}}
                     </a>
@@ -83,9 +84,9 @@
                 </li>
                 <!-- .mp-dropdown-header -->
 
-                <li data-ng-repeat="track in player.selectedPlaylist.playlist" class="mp-song">
-                    <a data-ng-click="player.cueTrack($index)">
-                        <span data-ng-class="($index === player.selectedTrack._id && !player.isPaused) ? 'mp-audio-sprite-pause' : 'mp-audio-sprite-play'" class="mp-audio-sprite"></span>
+                <li data-ng-repeat="track in player.currentPlaylist.playlist" class="mp-song">
+                    <a data-ng-click="player.selectTrack($index)">
+                        <span data-ng-class="($index === player.currentTrack._id && !player.isPaused) ? 'mp-audio-sprite-pause' : 'mp-audio-sprite-play'" class="mp-audio-sprite"></span>
                         {{track.title}}
                     </a>
                 </li>

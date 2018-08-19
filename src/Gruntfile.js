@@ -3,7 +3,7 @@ module.exports = function (grunt) {
         jsSrc: 'MemoryPlayer/lib/memory-player/ts',
         jsonSrc: 'MemoryPlayer/lib/memory-player/json',
         htmlSrc: 'MemoryPlayer/lib/memory-player/html',
-        scssSrc: 'MemoryPlayer/lib/memory-player/sass',
+        scssSrc: 'MemoryPlayer/lib/memory-player/scss',
         lessSrc: 'MemoryPlayer/lib/memory-player/less',
         jsDist: 'MemoryPlayer/lib/memory-player/dist/js',
         jsonDist: 'MemoryPlayer/lib/memory-player/dist/json',
@@ -58,11 +58,14 @@ module.exports = function (grunt) {
                 },
                 files: {
                     '<%= path.jsDist %>/memory-player.js': [
-                        '<%= path.jsSrc %>/MemoryPlayer.module.js',
-                        '<%= path.jsSrc %>/MemoryPlayerAPI.service.js',
-                        '<%= path.jsSrc %>/MemoryPlayer.factory.js',
-                        '<%= path.jsSrc %>/MemoryPlayer.controller.js',
-                        '<%= path.jsSrc %>/MemoryPlayer.directive.js'
+                        '<%= path.jsSrc %>/MP.module.js',
+                        '<%= path.jsSrc %>/providers/MP.JPlayer.provider.js',
+                        '<%= path.jsSrc %>/MP.config.js',
+                        '<%= path.jsSrc %>/services/MP.API.service.js',
+                        '<%= path.jsSrc %>/services/MP.Controls.service.js',
+                        '<%= path.jsSrc %>/services/MP.State.service.js',
+                        '<%= path.jsSrc %>/MP.controller.js',
+                        '<%= path.jsSrc %>/MP.directive.js'
                     ],
 
                     '<%= path.scssSrc %>/memory-player.scss': [

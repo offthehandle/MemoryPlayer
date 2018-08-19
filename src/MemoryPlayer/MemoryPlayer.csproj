@@ -51,29 +51,29 @@
     <Content Include="js\jquery.jplayer.min.js" />
     <Content Include="js\jquery.jplayer.swf" />
     <Content Include="lib\memory-player\html\memory-player.html" />
-    <None Include="js\jquery-1.9.1.intellisense.js" />
-    <Content Include="js\jquery-1.9.1.js" />
-    <Content Include="js\jquery-1.9.1.min.js" />
     <Content Include="js\angular-mocks.js" />
     <Content Include="js\angular.js" />
     <Content Include="js\angular.min.js" />
+    <None Include="js\jquery-3.3.1.intellisense.js" />
+    <Content Include="js\jquery-3.3.1.js" />
+    <Content Include="js\jquery-3.3.1.min.js" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="lib\memory-player\LICENSE" />
     <Content Include="tsconfig.json" />
     <Content Include="packages.config" />
-    <Content Include="js\jquery-1.9.1.min.map" />
     <Content Include="lib\memory-player\less\module-jplayer.less" />
     <Content Include="lib\memory-player\less\module-memory-player.less" />
     <Content Include="lib\memory-player\less\sprite-memory-player.less" />
     <Content Include="lib\memory-player\json\playlists.json.sample" />
     <Content Include="lib\memory-player\dist\json\playlists-schema.json" />
     <Content Include="lib\memory-player\dist\json\playlists.json" />
-    <Content Include="js\angular.min.js.map" />
     <Content Include="lib\memory-player\scss\module-jplayer.scss" />
     <Content Include="lib\memory-player\scss\module-memory-player.scss" />
     <Content Include="lib\memory-player\scss\sprite-memory-player.scss" />
+    <Content Include="js\angular.min.js.map" />
+    <Content Include="js\jquery-3.3.1.min.map" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -81,28 +81,36 @@
       <DependentUpon>web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Scripts\" />
+  </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="lib\memory-player\ts\DEMO.ts" />
     <TypeScriptCompile Include="lib\memory-player\ts\interfaces\HttpErrorResponse.d.ts" />
     <TypeScriptCompile Include="lib\memory-player\ts\interfaces\jPlayer\jPlayer.d.ts" />
     <TypeScriptCompile Include="lib\memory-player\ts\interfaces\jPlayer\jPlayerEvent.d.ts" />
-    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\jPlayer\jPlayerPlaylist.d.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\jPlayer\PlaylistJPlayer.d.ts" />
     <TypeScriptCompile Include="lib\memory-player\ts\interfaces\jPlayer\jquery-plugin.d.ts" />
-    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\native\MemoryShare.d.ts" />
-    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\native\MemoryInit.d.ts" />
-    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\native\MemoryPlayerAPI.d.ts" />
-    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\native\MemoryPlayerFactory.d.ts" />
-    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\native\MemoryPlayerInfo.d.ts" />
-    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\native\MemoryPlayerResponse.d.ts" />
-    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\native\MemoryPlaylist.d.ts" />
-    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\native\MemoryPlaylists.d.ts" />
-    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\native\MemoryTrack.d.ts" />
-    <TypeScriptCompile Include="lib\memory-player\ts\MemoryPlayer.controller.ts" />
-    <TypeScriptCompile Include="lib\memory-player\ts\MemoryPlayer.directive.ts" />
-    <TypeScriptCompile Include="lib\memory-player\ts\MemoryPlayer.factory.ts" />
-    <TypeScriptCompile Include="lib\memory-player\ts\MemoryPlayer.module.ts" />
-    <TypeScriptCompile Include="lib\memory-player\ts\MemoryPlayerAPI.service.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\MemoryPlayer\MP.Share.d.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\MemoryPlayer\MP.Restart.d.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\MemoryPlayer\providers\MP.Provider.d.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\MemoryPlayer\services\MP.API.d.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\MemoryPlayer\services\MP.Sharing.d.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\MemoryPlayer\services\MP.Controls.d.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\MemoryPlayer\services\MP.State.d.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\MemoryPlayer\playlists\MP.Playlist.d.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\MemoryPlayer\playlists\MP.Playlists.d.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\MemoryPlayer\playlists\MP.Track.d.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\MemoryPlayer\scopes\MP.Directive.d.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\MP.config.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\MP.controller.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\MP.directive.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\providers\MP.JPlayer.provider.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\services\MP.Sharing.service.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\services\MP.Controls.service.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\services\MP.State.service.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\MP.module.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\services\MP.API.service.ts" />
     <TypeScriptCompile Include="js\typings\angularjs\angular-animate.d.ts" />
     <TypeScriptCompile Include="js\typings\angularjs\angular-component-router.d.ts" />
     <TypeScriptCompile Include="js\typings\angularjs\angular-cookies.d.ts" />

@@ -24,56 +24,61 @@ class MemoryPlayerAPI implements IMemoryPlayerAPI {
 
     /**
      * @memberof MemoryPlayerAPI
-     * @member {string} _endPoint - The path to the playlists json file.
+     * @member {string} playlists - The path to playlists json file.
      * @private
      */
-    private _endPoint: string = '/lib/memory-player/dist/json/playlists.json';
+    private playlists: string = '/lib/memory-player/dist/json/playlists.json';
 
 
     /**
-     * Removes the player from the page if it does not initialize successfully.
+     * Removes player if playlists unavailable.
      * @memberof MemoryPlayerAPI
      * @instance
      * @private
      */
-    private _emptyAudioPlayer(): void {
+    private removePlayer(): void {
+
         angular.element('#memory-player').remove();
     };
 
 
 
     /**
-     * Gets the JSON file containing the playlists data.
+     * Gets JSON file containing playlists.
      * @memberof MemoryPlayerAPI
      * @instance
-     * @returns {IHttpPromise} - A promise that returns the data from the playlists json file on success and null on failure.
+     * @returns {IHttpPromise<IPlaylists>} - playlists on success and null on failure.
      */
-    public getPlaylists(): angular.IHttpPromise<{}> {
+    public getPlaylists(): angular.IHttpPromise<IPlaylists> {
 
-        return this.$http.get(this._endPoint)
-            .then((response: angular.IHttpPromiseCallbackArg<IMemoryPlaylists>): angular.IHttpPromiseCallbackArg<IMemoryPlaylists> => {
+        return this.$http.get(this.playlists)
+            .then((response: angular.IHttpPromiseCallbackArg<IPlaylists>): angular.IHttpPromiseCallbackArg<IPlaylists> => {
 
+                // Check for data in response
                 if (response.hasOwnProperty('data') && response.data !== null) {
 
+                    // Return playlists
                     return response.data;
 
                 } else {
 
-                    this._emptyAudioPlayer();
+                    // Remove player
+                    this.removePlayer();
 
                     return null;
                 }
 
             }).catch((error: angular.IHttpPromiseCallbackArg<IHttpErrorResponse>): angular.IHttpPromiseCallbackArg<IHttpErrorResponse> => {
 
-                this._emptyAudioPlayer();
+                // Remove player
+                this.removePlayer();
 
+                // Log error
                 this.$log.log('XHR Failed for getPlaylists.');
 
                 if (error.data) {
 
                     this.$log.log(error.data);
-
                 }
 
                 return null;

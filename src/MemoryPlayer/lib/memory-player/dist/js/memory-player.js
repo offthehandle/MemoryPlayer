@@ -3,29 +3,143 @@
     angular.module('MemoryPlayer', []);
 })();
 
+var MemoryPlayerProvider = (function () {
+    function MemoryPlayerProvider() {
+    }
+    MemoryPlayerProvider.prototype.$get = function () {
+        var _this = this;
+        var JPlayer;
+        return {
+            create: function (playlist) {
+                JPlayer = new jPlayerPlaylist(_this.jPlayerIds, playlist, _this.jPlayerOptions);
+            },
+            ids: this.jPlayerIds,
+            instance: function () {
+                return JPlayer;
+            }
+        };
+    };
+    MemoryPlayerProvider.prototype.$setIds = function (ids) {
+        this.jPlayerIds = ids;
+    };
+    MemoryPlayerProvider.prototype.$setOptions = function (options) {
+        this.jPlayerOptions = options;
+    };
+    return MemoryPlayerProvider;
+}());
+(function () {
+    'use strict';
+    angular.module('MemoryPlayer')
+        .provider('JPlayer', MemoryPlayerProvider);
+})();
+
+var MemoryPlayerConfig = (function () {
+    function MemoryPlayerConfig($locationProvider, JPlayerProvider) {
+        this.$locationProvider = $locationProvider;
+        this.JPlayerProvider = JPlayerProvider;
+        this.JPlayerIds = {
+            jPlayer: '#mp-jquery_jplayer',
+            cssSelectorAncestor: '#mp-jp_container'
+        };
+        this.JPlayerOptions = {
+            wmode: 'window',
+            audioFullScreen: false,
+            smoothPlayBar: false,
+            keyEnabled: false,
+            playlistOptions: {
+                enableRemoveControls: false
+            }
+        };
+        this.JPlayerProvider.$setIds(this.JPlayerIds);
+        this.JPlayerProvider.$setOptions(this.JPlayerOptions);
+        this.$locationProvider.html5Mode({
+            enabled: true,
+            requireBase: false
+        });
+    }
+    return MemoryPlayerConfig;
+}());
+MemoryPlayerConfig.instance = [
+    '$locationProvider',
+    'JPlayerProvider',
+    MemoryPlayerConfig
+];
+var MemoryPlayerRun = (function () {
+    function MemoryPlayerRun($rootScope, $window) {
+        this.$rootScope = $rootScope;
+        this.$window = $window;
+        this.$rootScope.$on('$locationChangeSuccess', function ($event, newUrl, oldUrl) {
+            if (newUrl !== oldUrl) {
+                this.$window.location.href = newUrl;
+            }
+        });
+    }
+    return MemoryPlayerRun;
+}());
+MemoryPlayerRun.instance = [
+    '$rootScope',
+    '$window',
+    MemoryPlayerRun
+];
+(function () {
+    'use strict';
+    angular.module('MemoryPlayer')
+        .config(MemoryPlayerConfig.instance);
+    angular.module('MemoryPlayer')
+        .run(MemoryPlayerRun.instance);
+})();
+
 var MemoryPlayerAPI = (function () {
+    /**
+     * Implements IMemoryPlayerAPI
+     * @constructs MemoryPlayerAPI
+     * @param {IHttpService} $http - The core angular http service.
+     * @param {ILogService} $log - The core angular log service.
+     */
     function MemoryPlayerAPI($http, $log) {
         this.$http = $http;
         this.$log = $log;
-        this._endPoint = '/lib/memory-player/dist/json/playlists.json';
+        /**
+         * @memberof MemoryPlayerAPI
+         * @member {string} playlists - The path to playlists json file.
+         * @private
+         */
+        this.playlists = '/lib/memory-player/dist/json/playlists.json';
     }
-    MemoryPlayerAPI.prototype._emptyAudioPlayer = function () {
+    /**
+     * Removes player if playlists unavailable.
+     * @memberof MemoryPlayerAPI
+     * @instance
+     * @private
+     */
+    MemoryPlayerAPI.prototype.removePlayer = function () {
         angular.element('#memory-player').remove();
     };
     ;
+    /**
+     * Gets JSON file containing playlists.
+     * @memberof MemoryPlayerAPI
+     * @instance
+     * @returns {IHttpPromise<IPlaylists>} - playlists on success and null on failure.
+     */
     MemoryPlayerAPI.prototype.getPlaylists = function () {
         var _this = this;
-        return this.$http.get(this._endPoint)
+        return this.$http.get(this.playlists)
             .then(function (response) {
+            // Check for data in response
             if (response.hasOwnProperty('data') && response.data !== null) {
+                // Return playlists
                 return response.data;
             }
             else {
-                _this._emptyAudioPlayer();
+                // Remove player
+                _this.removePlayer();
                 return null;
             }
         }).catch(function (error) {
-            _this._emptyAudioPlayer();
+            // Remove player
+            _this.removePlayer();
+            // Log error
             _this.$log.log('XHR Failed for getPlaylists.');
             if (error.data) {
                 _this.$log.log(error.data);
@@ -46,478 +160,584 @@ MemoryPlayerAPI.instance = [
         .service('MemoryPlayerAPI', MemoryPlayerAPI.instance);
 })();
 
-var MemoryPlayerFactory = (function () {
-    function MemoryPlayerFactory($rootScope, $timeout, MemoryPlayerAPI) {
+var MemoryPlayerControls = (function () {
+    /**
+     * Implements IMemoryPlayerControls
+     * @constructs MemoryPlayerControls
+     * @param {IRootScopeService} $rootScope - The core angular root scope service.
+     * @param {ITimeoutService} $timeout - The core angular timeout service.
+     * @param {MemoryPlayerProvider} JPlayer - The provider service that manages jplayer.
+     * @param {IMemoryPlayerState} MemoryPlayerState - The service that manages memory player state.
+     */
+    function MemoryPlayerControls($rootScope, $timeout, JPlayer, MemoryPlayerState) {
         var _this = this;
         this.$rootScope = $rootScope;
         this.$timeout = $timeout;
-        this.MemoryPlayerAPI = MemoryPlayerAPI;
-        this._playlists = null;
-        this._selectedPlaylist = null;
-        this._selectedTrack = null;
-        this._volume = 0.8;
-        this._isMuted = false;
-        this.isPaused = true;
-        this._playerInstance = null;
-        this._player = {
-            jPlayer: '#mp-jquery_jplayer',
-            cssSelectorAncestor: '#mp-jp_container'
-        };
-        this._playerId = this._player.jPlayer;
-        this._playerOptions = {
-            swfPath: '/js',
-            supplied: 'mp3',
-            loadeddata: function (event) {
-                _this.$rootScope.$emit('MemoryPlayer:trackLoaded', Math.floor(event.jPlayer.status.duration));
-            },
-            playing: function () {
-                _this.$rootScope.$emit('MemoryPlayer:trackPlayed');
-            },
-            volumechange: function (event) {
-                _this._volume = event.jPlayer.options.volume;
-                _this._isMuted = event.jPlayer.options.muted;
-            },
-            ended: function () {
-                _this.$rootScope.$emit('MemoryPlayer:trackEnded');
-            },
-            wmode: 'window',
-            audioFullScreen: false,
-            smoothPlayBar: false,
-            keyEnabled: false,
-            playlistOptions: {
-                enableRemoveControls: false
-            }
-        };
-    }
-    MemoryPlayerFactory.instance = function () {
-        var factory = function ($rootScope, $timeout, MemoryPlayerAPI) {
-            return new MemoryPlayerFactory($rootScope, $timeout, MemoryPlayerAPI);
-        };
-        factory['$inject'] = [
-            '$rootScope',
-            '$timeout',
-            'MemoryPlayerAPI'
-        ];
-        return factory;
-    };
-    MemoryPlayerFactory.prototype.getAllPlaylists = function () {
-        return this._playlists;
-    };
-    ;
-    MemoryPlayerFactory.prototype.setAllPlaylists = function (playlists) {
-        this._playlists = playlists;
-    };
-    ;
-    MemoryPlayerFactory.prototype.fetchPlaylists = function (callback) {
-        var _this = this;
-        this.MemoryPlayerAPI.getPlaylists()
-            .then(function (response) {
-            if (response !== null) {
-                _this.setAllPlaylists(response);
-                (angular.isFunction(callback)) ? callback() : false;
-            }
-        });
-    };
-    ;
-    MemoryPlayerFactory.prototype.autoPlay = function (isAutoPlayed) {
-        if (this._playerInstance !== null) {
-            this._playerInstance.option('autoPlay', isAutoPlayed);
-        }
-    };
-    ;
-    MemoryPlayerFactory.prototype.getTime = function () {
-        return Math.floor(angular.element(this._playerId).data('jPlayer').status.currentTime);
-    };
-    ;
-    MemoryPlayerFactory.prototype.getVolume = function () {
-        return this._volume.toFixed(2);
-    };
-    ;
-    MemoryPlayerFactory.prototype.getIsMuted = function () {
-        return this._isMuted;
-    };
-    ;
-    MemoryPlayerFactory.prototype.getTrack = function () {
-        return this._selectedTrack;
-    };
-    ;
-    MemoryPlayerFactory.prototype.getPlaylist = function () {
-        return this._selectedPlaylist;
-    };
-    ;
-    MemoryPlayerFactory.prototype.getTrackById = function () {
-        return this._selectedTrack._id;
-    };
-    ;
-    MemoryPlayerFactory.prototype.getPlaylistById = function () {
-        return this._selectedPlaylist._id;
-    };
-    ;
-    MemoryPlayerFactory.prototype.setTrack = function (track) {
-        this._selectedTrack = this.getPlaylist().playlist[track];
-        this.$rootScope.$emit('MemoryPlayer:trackChanged', this._selectedTrack);
-    };
-    ;
-    MemoryPlayerFactory.prototype.setPlaylist = function (album) {
-        this._selectedPlaylist = this.getAllPlaylists()[album];
-        this.setTrack(0);
-        if (this._playerInstance !== null) {
-            this._playerInstance.setPlaylist(this._selectedPlaylist.playlist);
-            this.autoPlay(true);
-        }
-        this.$rootScope.$emit('MemoryPlayer:playlistChanged', this._selectedPlaylist);
-    };
-    ;
-    MemoryPlayerFactory.prototype.createPlayer = function (album, playerInfo) {
-        var _this = this;
-        this.setPlaylist(album);
-        this._playerInstance = new jPlayerPlaylist(this._player, this.getPlaylist().playlist, this._playerOptions);
-        if (angular.isDefined(playerInfo)) {
-            this.setTrack(playerInfo.track);
-            angular.element(this._playerId).on($.jPlayer.event.ready, function () {
-                angular.element('#memory-player').removeClass('mp-loading');
-                _this.$timeout(function () {
-                    _this._playerInstance.select(playerInfo.track);
-                    angular.element(_this._playerId).jPlayer('volume', playerInfo.volume);
-                    if (playerInfo.isMuted !== 'false') {
-                        angular.element(_this._playerId).jPlayer('mute');
-                        _this._isMuted = true;
-                    }
-                    if (playerInfo.isPaused === 'false') {
-                        angular.element(_this._playerId).jPlayer('play', playerInfo.time);
-                    }
-                    else {
-                        angular.element(_this._playerId).jPlayer('pause', playerInfo.time);
-                    }
-                }, 400);
-            });
-        }
-        else {
-            angular.element(this._playerId).on($.jPlayer.event.ready, function () {
-                angular.element('#memory-player').removeClass('mp-loading');
-            });
-        }
-    };
-    ;
-    MemoryPlayerFactory.prototype.play = function () {
-        (this.isPaused) ? angular.element(this._playerId).jPlayer('play') : angular.element(this._playerId).jPlayer('pause');
-        this.isPaused = !this.isPaused;
-        if (this.isPaused) {
-            this.$rootScope.$emit('MemoryPlayer:isPaused', this.isPaused);
-        }
-    };
-    ;
-    MemoryPlayerFactory.prototype.cueTrack = function (track) {
-        if (track !== this.getTrackById()) {
-            this.setTrack(track);
-            this._playerInstance.play(track);
-        }
-        else {
-            this.play();
-        }
-    };
-    ;
-    MemoryPlayerFactory.prototype.next = function () {
-        var trackId = this.getTrackById();
-        if (trackId + 1 < this.getPlaylist().trackCount) {
-            this.setTrack(trackId + 1);
-            this._playerInstance.next();
-        }
-    };
-    ;
-    MemoryPlayerFactory.prototype.previous = function () {
-        var trackId = this.getTrackById();
-        if (trackId > 0) {
-            this.setTrack(trackId - 1);
-            this._playerInstance.previous();
-        }
-    };
-    ;
-    MemoryPlayerFactory.prototype.maxVolume = function () {
-        if (this._isMuted) {
-            angular.element(this._playerId).jPlayer('unmute');
-            this._isMuted = !this._isMuted;
-        }
-        angular.element(this._playerId).jPlayer('volume', 1);
-    };
-    ;
-    MemoryPlayerFactory.prototype.mute = function () {
-        (this.getIsMuted()) ? angular.element(this._playerId).jPlayer('unmute') : angular.element(this._playerId).jPlayer('mute');
-        this._isMuted = !this.getIsMuted();
-    };
-    ;
-    MemoryPlayerFactory.prototype.trackPlayedEvent = function (callback) {
-        this.isPaused = false;
-        angular.element(this._playerId).trigger('MemoryPlayer.trackPlayed');
-        if (angular.isFunction(callback)) {
-            callback({ isPaused: this.isPaused });
-        }
-    };
-    ;
-    MemoryPlayerFactory.prototype.trackEndedEvent = function (callback) {
-        var trackId = this.getTrackById();
-        if (trackId + 1 === this.getPlaylist().trackCount) {
-            this.setTrack(0);
-            this.isPaused = true;
-            this._playerInstance.select(0);
-        }
-        else {
-            this.setTrack(trackId + 1);
-        }
-        if (angular.isFunction(callback)) {
-            callback({ track: this.getTrack(), isPaused: this.isPaused });
-        }
-    };
-    ;
-    return MemoryPlayerFactory;
-}());
-(function () {
-    'use strict';
-    angular.module('MemoryPlayer')
-        .factory('MemoryPlayerFactory', MemoryPlayerFactory.instance());
-})();
-
-var MemoryPlayerController = (function () {
-    function MemoryPlayerController($rootScope, $scope, $location, $interval, MemoryPlayerFactory) {
-        var _this = this;
-        this.$rootScope = $rootScope;
-        this.$scope = $scope;
-        this.$location = $location;
-        this.$interval = $interval;
-        this.MemoryPlayerFactory = MemoryPlayerFactory;
-        this.playlists = null;
-        this.selectedPlaylist = null;
-        this.selectedTrack = null;
-        this.trackDuration = 0;
-        this.isPaused = true;
-        this.isShareable = true;
-        this.shareLink = window.location.protocol + "//" + window.location.hostname + window.location.pathname;
-        this.isTimeUsed = false;
-        this.shareLinkTime = '00:00';
-        this.shareLinkTimer = null;
-        this.$scope.$on('$locationChangeStart', function (event, newUrl, oldUrl) {
-            if (newUrl !== oldUrl) {
-                var newUrlPath = _this.$location.url();
-                _this.$location.path(newUrlPath.split('?')[0]).search({
-                    playlist: _this.MemoryPlayerFactory.getPlaylistById(),
-                    track: _this.MemoryPlayerFactory.getTrackById(),
-                    time: _this.MemoryPlayerFactory.getTime(),
-                    volume: _this.MemoryPlayerFactory.getVolume(),
-                    isMuted: _this.MemoryPlayerFactory.getIsMuted(),
-                    isPaused: _this.MemoryPlayerFactory.isPaused
-                });
-            }
-        });
-        this.$scope.$on('MemoryPlayer:directiveReady', function (event, remembered) {
-            _this.MemoryPlayerFactory.fetchPlaylists(function () {
-                _this.playlists = _this.MemoryPlayerFactory.getAllPlaylists();
-                if (remembered === null) {
-                    for (var playlist in _this.playlists) {
-                        break;
-                    }
-                    _this.MemoryPlayerFactory.createPlayer(_this.playlists[playlist]._id);
-                }
-                else {
-                    _this.MemoryPlayerFactory.createPlayer(remembered.playlist, remembered.info);
-                }
-            });
-        });
-        this.$rootScope.$on('MemoryPlayer:playlistChanged', function (event, playlist) {
-            _this.selectedPlaylist = playlist;
-            if (_this.isShareable) {
-                _this.setShareLink('playlist', playlist._id);
-            }
-        });
-        this.$rootScope.$on('MemoryPlayer:trackChanged', function (event, track) {
-            _this.selectedTrack = track;
-            if (_this.isShareable) {
-                _this.setShareLink('track', track._id);
-                if (_this.isTimeUsed) {
-                    _this.useTime();
-                }
-            }
-        });
-        this.$rootScope.$on('MemoryPlayer:trackLoaded', function (event, duration) {
-            _this.trackDuration = duration;
-        });
-        this.$rootScope.$on('MemoryPlayer:isPaused', function (event, isPaused) {
-            if (_this.isShareable && _this.shareLinkTimer !== null) {
-                _this.$interval.cancel(_this.shareLinkTimer);
-            }
-            _this.isPaused = isPaused;
-        });
-        this.$rootScope.$on('MemoryPlayer:trackPlayed', function () {
-            if (_this.isShareable) {
-                if (_this.shareLinkTimer !== null) {
-                    _this.$interval.cancel(_this.shareLinkTimer);
-                }
-                _this.shareLinkTimer = _this.$interval(function () {
-                    _this.shareLinkTime = $.jPlayer.convertTime(_this.MemoryPlayerFactory.getTime());
-                }, 1000);
-            }
-            _this.MemoryPlayerFactory.trackPlayedEvent(function (playerInfo) {
-                _this.isPaused = playerInfo.isPaused;
-                _this.$scope.$apply();
-            });
-        });
-        this.$rootScope.$on('MemoryPlayer:trackEnded', function () {
-            _this.MemoryPlayerFactory.trackEndedEvent(function (playerInfo) {
-                _this.selectedTrack = playerInfo.track;
-                _this.isPaused = playerInfo.isPaused;
-                _this.$scope.$apply();
-            });
-        });
-        angular.element(document).on('youtube.onVideoPlayed', function () {
-            if (!_this.isPaused) {
-                _this.play();
-                _this.$scope.$apply();
-            }
-        });
-        angular.element(document).on('click.mp.dropdown', function (event) {
-            var $dropdown = angular.element('.mp-dropdown');
-            if (!angular.element(event.target).closest('.mp-dropdown-toggle').length && $dropdown.hasClass('open')) {
-                $dropdown.removeClass('open');
-                $dropdown.find('a').attr('aria-expanded', 'false');
-            }
-        });
-        angular.element(document).on('click.mp.dropdown', '.mp-dropdown-backdrop', function (event) {
-            var $dropdown = angular.element('.mp-dropdown');
-            angular.element(event.target).remove();
-            $dropdown.removeClass('open');
-            $dropdown.find('a').attr('aria-expanded', 'false');
-        });
+        this.JPlayer = JPlayer;
+        this.MemoryPlayerState = MemoryPlayerState;
+        // Stores player id for optimization
+        this.jPlayerId = this.JPlayer.ids.jPlayer;
+        /**
+         * Observes open playlist dropdown click inside to prevent close.
+         */
         angular.element('#memory-player').on('click.mp.dropdown', '.mp-dropdown-menu', function (event) {
             event.stopPropagation();
         });
-    }
-    MemoryPlayerController.prototype.setPlaylist = function (album) {
-        this.MemoryPlayerFactory.setPlaylist(album);
-    };
-    ;
-    MemoryPlayerController.prototype.play = function () {
-        this.MemoryPlayerFactory.play();
-    };
-    ;
-    MemoryPlayerController.prototype.cueTrack = function (track) {
-        this.MemoryPlayerFactory.cueTrack(track);
-    };
-    ;
-    MemoryPlayerController.prototype.next = function () {
-        this.MemoryPlayerFactory.next();
-    };
-    ;
-    MemoryPlayerController.prototype.previous = function () {
-        this.MemoryPlayerFactory.previous();
-    };
-    ;
-    MemoryPlayerController.prototype.maxVolume = function () {
-        this.MemoryPlayerFactory.maxVolume();
-    };
-    ;
-    MemoryPlayerController.prototype.mute = function () {
-        this.MemoryPlayerFactory.mute();
-    };
-    ;
-    MemoryPlayerController.prototype.setShareLink = function (key, value) {
-        var shareLink = [], playlist = { name: 'playlist', value: null }, track = { name: 'track', value: null }, time = { name: 'time', value: 0 }, volume = { name: 'volume', value: 0.8 }, isMuted = { name: 'isMuted', value: false }, isPaused = { name: 'isPaused', value: true };
-        var playerSettings = this.shareLink.split('?')[1] || null;
-        if (playerSettings !== null) {
-            playerSettings = decodeURIComponent((playerSettings).replace(/\+/g, '%20'));
-            var ps = playerSettings.split(/&(?!amp;)/g);
-            for (var i = 0, l = ps.length; i < l; i++) {
-                var pair = ps[i].split('=');
-                switch (pair[0]) {
-                    case 'playlist':
-                        playlist.value = pair[1];
-                        break;
-                    case 'track':
-                        track.value = pair[1];
-                        break;
-                    case 'time':
-                        time.value = pair[1];
-                        break;
-                }
+        /**
+         * Observes click to close open playlist dropdown.
+         */
+        angular.element(document).on('click.mp.dropdown', function (event) {
+            var $dropdown = angular.element('.mp-dropdown');
+            // If dropdown is open then close it
+            if (!angular.element(event.target).closest('.mp-dropdown-toggle').length && $dropdown.hasClass('open')) {
+                // Closes dropdown
+                $dropdown.removeClass('open');
+                // Updates aria for accessibility
+                $dropdown.find('a').attr('aria-expanded', 'false');
             }
-        }
-        switch (key) {
-            case 'playlist':
-                playlist.value = value;
-                break;
-            case 'track':
-                track.value = value;
-                break;
-            case 'time':
-                var parsedTime = value;
-                if (parsedTime.indexOf(':') > -1) {
-                    parsedTime = parsedTime.split(':')
-                        .reverse()
-                        .map(Number)
-                        .reduce(function (total, currentValue, index) {
-                        return total + currentValue * Math.pow(60, index);
-                    });
-                }
-                time.value = (parsedTime < this.trackDuration) ? parsedTime : 0;
-                break;
-        }
-        shareLink.push(playlist);
-        shareLink.push(track);
-        shareLink.push(time);
-        shareLink.push(volume);
-        shareLink.push(isMuted);
-        shareLink.push(isPaused);
-        this.shareLink = this.shareLink.split('?')[0] + "?" + $.param(shareLink);
+        });
+        /**
+         * Observes click to close open playlist dropdown on mobile devices.
+         */
+        angular.element(document).on('click.mp.dropdown', '.mp-dropdown-backdrop', function (event) {
+            // Removes dropdown backdrop
+            angular.element(event.target).remove();
+            var $dropdown = angular.element('.mp-dropdown');
+            // Closes dropdown
+            $dropdown.removeClass('open');
+            // Updates aria for accessibility
+            $dropdown.find('a').attr('aria-expanded', 'false');
+        });
+        /**
+         * Observe that YouTube video has played and prevents simultaneous playback.
+         */
+        angular.element(document).on('youtube.onVideoPlayed', function () {
+            // If player is playing then toggle play
+            if (!_this.MemoryPlayerState.getIsPaused()) {
+                // Stops player
+                _this.play();
+            }
+        });
+    }
+    /**
+     * Checks if current track is last in playlist.
+     * @memberof MemoryPlayerControls
+     * @instance
+     * @returns {boolean} - True if track is last else false.
+     */
+    MemoryPlayerControls.prototype.isEnd = function () {
+        // Compares track index to playlist length
+        var trackId = (this.MemoryPlayerState.getTrackId() + 1), currentPlaylist = this.MemoryPlayerState.getPlaylist();
+        return !(trackId < currentPlaylist.trackCount);
     };
-    MemoryPlayerController.prototype.useTime = function () {
-        this.isTimeUsed = !this.isTimeUsed;
-        if (this.isTimeUsed) {
-            this.setShareLink('time', this.shareLinkTime);
+    /**
+     * Sets player to max volume.
+     * @memberof MemoryPlayerControls
+     * @instance
+     */
+    MemoryPlayerControls.prototype.maxVolume = function () {
+        // If muted then unmute
+        if (this.MemoryPlayerState.getIsMuted()) {
+            // Unmutes player
+            angular.element(this.jPlayerId).jPlayer('unmute');
+            // Updates is muted
+            this.MemoryPlayerState.setIsMuted(false);
+        }
+        // Sets max volume
+        angular.element(this.jPlayerId).jPlayer('volume', 1);
+    };
+    /**
+     * Toggles mute and unmute.
+     * @memberof MemoryPlayerControls
+     * @instance
+     */
+    MemoryPlayerControls.prototype.mute = function () {
+        // Gets is muted
+        var isMuted = this.MemoryPlayerState.getIsMuted();
+        // Toggles mute
+        (isMuted) ? angular.element(this.jPlayerId).jPlayer('unmute') : angular.element(this.jPlayerId).jPlayer('mute');
+        // Updates is muted
+        this.MemoryPlayerState.setIsMuted(!isMuted);
+    };
+    /**
+     * Plays next track.
+     * @memberof MemoryPlayerControls
+     * @instance
+     */
+    MemoryPlayerControls.prototype.next = function () {
+        // If current track is not last in playlist then play next
+        if (!this.isEnd()) {
+            // Gets next track id
+            var trackId = (this.MemoryPlayerState.getTrackId() + 1);
+            // Updates current track
+            this.MemoryPlayerState.setTrack(trackId);
+            // Plays next track
+            this.JPlayer.instance().next();
+            // Updates is paused
+            this.MemoryPlayerState.setIsPaused(false);
+        }
+    };
+    /**
+     * Toggles play and pause.
+     * @memberof MemoryPlayerControls
+     * @instance
+     *
+     * @fires MemoryPlayerState#MemoryPlayer:Pause
+     */
+    MemoryPlayerControls.prototype.play = function () {
+        // Gets is paused
+        var isPaused = this.MemoryPlayerState.getIsPaused();
+        // Toggles play
+        (isPaused) ? this.JPlayer.instance().play() : this.JPlayer.instance().pause();
+        // Updates is paused
+        this.MemoryPlayerState.setIsPaused(!isPaused);
+        // If playing then notify other media
+        if (!isPaused) {
+            angular.element(this.jPlayerId).trigger('MemoryPlayer.TrackPlayed');
+        }
+    };
+    /**
+     * Plays previous track.
+     * @memberof MemoryPlayerControls
+     * @instance
+     */
+    MemoryPlayerControls.prototype.previous = function () {
+        // Gets previous track id
+        var trackId = (this.MemoryPlayerState.getTrackId() - 1);
+        // If current track is not first in playlist then play previous
+        if (trackId >= 0) {
+            // Updates current track
+            this.MemoryPlayerState.setTrack(trackId);
+            // Plays previous track
+            this.JPlayer.instance().previous();
+            // Updates is paused
+            this.MemoryPlayerState.setIsPaused(false);
+        }
+    };
+    /**
+     * Restarts player with previous settings.
+     * @memberof MemoryPlayerControls
+     * @instance
+     * @param {IRestartSettings} settings - Settings required to restart player.
+     */
+    MemoryPlayerControls.prototype.restart = function (settings) {
+        // Updates current track
+        this.MemoryPlayerState.setTrack(settings.track);
+        // Sets player to current track
+        this.JPlayer.instance().select(settings.track);
+        // Sets player to current volume
+        angular.element(this.jPlayerId).jPlayer('volume', settings.volume);
+        // If is muted then set player and update state
+        if (settings.isMuted === true) {
+            // Mutes player
+            angular.element(this.jPlayerId).jPlayer('mute');
+            // Updates is muted
+            this.MemoryPlayerState.setIsMuted(true);
+        }
+        // Assigns variable to set playback state
+        var playState = 'pause';
+        // If not is paused then update
+        if (settings.isPaused !== true) {
+            playState = 'play';
+            // Updates is paused
+            this.MemoryPlayerState.setIsPaused(false);
+        }
+        // Sets player to current time and playback state
+        angular.element(this.jPlayerId).jPlayer(playState, settings.time);
+    };
+    /**
+     * Plays selected track.
+     * @memberof MemoryPlayerControls
+     * @instance
+     * @param {string} playlistName - The name of selected playlist.
+     */
+    MemoryPlayerControls.prototype.selectPlaylist = function (playlistName) {
+        // Updates current playlist
+        this.MemoryPlayerState.setPlaylist(playlistName);
+        // If player is defined set playlist and play
+        if (angular.isDefined(this.JPlayer.instance)) {
+            // Gets current playlist
+            var playlist = this.MemoryPlayerState.getPlaylist().playlist;
+            // Sets current playlist in player
+            this.JPlayer.instance().setPlaylist(playlist);
+            // Plays first track
+            this.JPlayer.instance().option('autoPlay', true);
+            // Updates is paused
+            this.MemoryPlayerState.setIsPaused(false);
+        }
+    };
+    /**
+     * Plays selected track.
+     * @memberof MemoryPlayerControls
+     * @instance
+     * @param {number} trackIndex - The index of selected track in playlist.
+     */
+    MemoryPlayerControls.prototype.selectTrack = function (trackIndex) {
+        // If selected track is different from current then set track and play, else resume
+        if (trackIndex !== this.MemoryPlayerState.getTrackId()) {
+            // Updates current track
+            this.MemoryPlayerState.setTrack(trackIndex);
+            // Plays selected track
+            this.JPlayer.instance().play(trackIndex);
+            // Updates is paused
+            this.MemoryPlayerState.setIsPaused(false);
         }
         else {
-            this.setShareLink('time', '0');
+            // Resumes track
+            this.play();
         }
     };
-    MemoryPlayerController.prototype.updateTime = function () {
-        if (this.shareLinkTimer !== null) {
-            this.$interval.cancel(this.shareLinkTimer);
-        }
-        this.isTimeUsed = true;
-        this.setShareLink('time', this.shareLinkTime);
+    /**
+     * Creates player and restarts with previous settings if available.
+     * @memberof MemoryPlayerControls
+     * @instance
+     * @param {string} playlist - The name of current playlist.
+     * @param {IRestartSettings} settings - Settings required to restart player.
+     */
+    MemoryPlayerControls.prototype.showtime = function (playlist, settings) {
+        var _this = this;
+        // Updates current playlist
+        this.MemoryPlayerState.setPlaylist(playlist);
+        // Instantiates jPlayer
+        this.JPlayer.create(this.MemoryPlayerState.getPlaylist().playlist);
+        /**
+         * Observes player ready.
+         */
+        angular.element(this.jPlayerId).on($.jPlayer.event.ready, function () {
+            // Small timeout before configuration
+            _this.$timeout(function () {
+                /**
+                 * Observes player loaded.
+                 */
+                angular.element(_this.jPlayerId).on($.jPlayer.event.loadeddata, function (event) {
+                    console.log(Math.floor(event.jPlayer.status.duration));
+                });
+                /**
+                 * Observes player volume change.
+                 */
+                angular.element(_this.jPlayerId).on($.jPlayer.event.volumechange, function (event) {
+                    // Updates volume
+                    _this.MemoryPlayerState.setVolume(event.jPlayer.options.volume);
+                    // Updates is muted
+                    _this.MemoryPlayerState.setIsMuted(event.jPlayer.options.muted);
+                });
+                /**
+                 * Observes current track ended.
+                 */
+                angular.element(_this.jPlayerId).on($.jPlayer.event.ended, function () {
+                    // If playlist is not over then update state, else start from beginning
+                    if (!_this.isEnd()) {
+                        // Gets next track id
+                        var trackId_1 = (_this.MemoryPlayerState.getTrackId() + 1);
+                        _this.$rootScope.$evalAsync(function () {
+                            // Updates current track
+                            _this.MemoryPlayerState.setTrack(trackId_1);
+                        });
+                    }
+                    else {
+                        _this.$rootScope.$evalAsync(function () {
+                            // Starts playlist from beginning
+                            _this.selectTrack(0);
+                        });
+                    }
+                });
+                // If settings exist then restart
+                if (angular.isDefined(settings)) {
+                    _this.restart(settings);
+                }
+                // Removes loading class
+                angular.element('#memory-player').removeClass('mp-loading');
+            }, 400);
+        });
     };
-    MemoryPlayerController.prototype.cancelTimer = function () {
-        if (this.shareLinkTimer !== null) {
-            this.$interval.cancel(this.shareLinkTimer);
-        }
-    };
-    MemoryPlayerController.prototype.share = function () {
-        var shareLink = document.getElementById('mp-share-link');
-        shareLink.select();
-        document.execCommand('copy');
-    };
-    MemoryPlayerController.prototype.toggleDropdown = function (event) {
+    /**
+     * Toggles playlist dropdown.
+     * @memberof MemoryPlayerControls
+     * @instance
+     * @param {JQueryEventObject} event - The event from trigger element.
+     */
+    MemoryPlayerControls.prototype.toggleDropdown = function (event) {
+        // Sets values to update dropdown state
         var $trigger = angular.element(event.target), $parent = $trigger.closest('.mp-dropdown'), isActive = $parent.hasClass('open'), $backdrop = angular.element(document.createElement('div')).addClass('mp-dropdown-backdrop');
+        // Removes dropdown backdrop
         angular.element('.mp-dropdown-backdrop').remove();
+        // Resets each dropdown
         angular.element('.mp-dropdown-toggle').each(function () {
+            // Ignores closed dropdowns
             if (!angular.element(this).closest('.mp-dropdown').hasClass('open'))
                 return;
-            angular.element(this).attr('aria-expanded', 'false');
+            // Closes open dropdowns
             angular.element(this).closest('.mp-dropdown').removeClass('open');
+            // Updates aria for accessibility
+            angular.element(this).attr('aria-expanded', 'false');
         });
+        // If dropdown was closed then open it
         if (!isActive) {
+            // If user is on mobile device append backdrop
             if ('ontouchstart' in document.documentElement) {
                 $backdrop.appendTo('body');
             }
+            // Opens dropdown
             $parent.addClass('open');
+            // Updates aria for accessibility
             $trigger.closest('.mp-dropdown-toggle').attr('aria-expanded', 'true');
         }
+    };
+    return MemoryPlayerControls;
+}());
+MemoryPlayerControls.instance = [
+    '$rootScope',
+    '$timeout',
+    'JPlayer',
+    'MemoryPlayerState',
+    MemoryPlayerControls
+];
+(function () {
+    'use strict';
+    angular.module('MemoryPlayer')
+        .service('MemoryPlayerControls', MemoryPlayerControls.instance);
+})();
+
+var MemoryPlayerState = (function () {
+    /**
+     * Implements IMemoryPlayerState
+     * @constructs MemoryPlayerState
+     * @param {MemoryPlayerProvider} JPlayer - The provider service that manages jplayer.
+     */
+    function MemoryPlayerState(JPlayer) {
+        this.JPlayer = JPlayer;
+        // Initializes JPlayer id
+        this.jPlayerId = this.JPlayer.ids.jPlayer;
+        // Initializes some player settings
+        this.isMuted = false;
+        this.isPaused = true;
+        this.volume = 0.80;
+    }
+    /**
+     * Gets boolean that player is muted or not.
+     * @memberof MemoryPlayerState
+     * @instance
+     * @returns {boolean} - True if player is muted else false.
+     */
+    MemoryPlayerState.prototype.getIsMuted = function () {
+        return this.isMuted;
+    };
+    /**
+     * Sets boolean that player is muted or not.
+     * @memberof MemoryPlayerState
+     * @instance
+     * @param {boolean} isMuted - The muted state.
+     */
+    MemoryPlayerState.prototype.setIsMuted = function (isMuted) {
+        // Updates muted state
+        this.isMuted = isMuted;
+    };
+    /**
+     * Gets boolean that player is paused or not.
+     * @memberof MemoryPlayerState
+     * @instance
+     * @returns {boolean} - True if player is paused else false.
+     */
+    MemoryPlayerState.prototype.getIsPaused = function () {
+        return this.isPaused;
+    };
+    /**
+     * Sets boolean that player is paused or not.
+     * @memberof MemoryPlayerState
+     * @instance
+     * @param {boolean} isPaused - The paused state.
+     */
+    MemoryPlayerState.prototype.setIsPaused = function (isPaused) {
+        // Updates paused state
+        this.isPaused = isPaused;
+    };
+    /**
+     * Gets current playlist.
+     * @memberof MemoryPlayerState
+     * @instance
+     * @returns {IPlaylist} - The playlist.
+     */
+    MemoryPlayerState.prototype.getPlaylist = function () {
+        return this.currentPlaylist;
+    };
+    /**
+     * Sets selected playlist.
+     * @memberof MemoryPlayerState
+     * @instance
+     * @param {string} playlistName - The name of selected playlist.
+     * @fires MemoryPlayerState#MemoryPlayer:NewPlaylist
+     */
+    MemoryPlayerState.prototype.setPlaylist = function (playlistName) {
+        // Updates current playlist
+        this.currentPlaylist = this.playlists[playlistName];
+        // Sets current track to first track in current playlist
+        this.setTrack(0);
+    };
+    /**
+     * Gets current playlist id.
+     * @memberof MemoryPlayerState
+     * @instance
+     * @returns {string} - The id of playlist.
+     */
+    MemoryPlayerState.prototype.getPlaylistId = function () {
+        return this.currentPlaylist._id;
+    };
+    /**
+     * Gets playlists.
+     * @memberof MemoryPlayerState
+     * @instance
+     * @returns {IPlaylists} - The playlists.
+     */
+    MemoryPlayerState.prototype.getPlaylists = function () {
+        return this.playlists;
+    };
+    /**
+     * Sets playlists returned by API.
+     * @memberof MemoryPlayerState
+     * @instance
+     * @param {IPlaylists} playlists - The playlists.
+     */
+    MemoryPlayerState.prototype.setPlaylists = function (playlists) {
+        // Updates current playlists
+        this.playlists = playlists;
+    };
+    /**
+     * Gets current playback time of player.
+     * @memberof MemoryPlayerState
+     * @instance
+     * @returns {number} - The playback time of player.
+     */
+    MemoryPlayerState.prototype.getTime = function () {
+        // Rounds current playback time
+        return Math.floor(angular.element(this.jPlayerId).data('jPlayer').status.currentTime);
+    };
+    /**
+     * Gets current track.
+     * @memberof MemoryPlayerState
+     * @instance
+     * @returns {ITrack} - The track.
+     */
+    MemoryPlayerState.prototype.getTrack = function () {
+        return this.currentTrack;
+    };
+    /**
+     * Sets selected track.
+     * @memberof MemoryPlayerState
+     * @instance
+     * @param {number} trackIndex - The id of selected track.
+     * @fires MemoryPlayerState#MemoryPlayer:NewTrack
+     */
+    MemoryPlayerState.prototype.setTrack = function (trackIndex) {
+        // Updates current track
+        this.currentTrack = this.currentPlaylist.playlist[trackIndex];
+    };
+    /**
+     * Gets current track id.
+     * @memberof MemoryPlayerState
+     * @instance
+     * @returns {number} - The id of track.
+     */
+    MemoryPlayerState.prototype.getTrackId = function () {
+        return this.currentTrack._id;
+    };
+    /**
+     * Gets current volume of player.
+     * @memberof MemoryPlayerState
+     * @instance
+     * @returns {string} - The 2 digit decimal volume of player.
+     */
+    MemoryPlayerState.prototype.getVolume = function () {
+        return this.volume.toFixed(2);
+    };
+    /**
+     * Sets volume of player.
+     * @memberof MemoryPlayerState
+     * @instance
+     */
+    MemoryPlayerState.prototype.setVolume = function (volume) {
+        this.volume = volume;
+    };
+    return MemoryPlayerState;
+}());
+MemoryPlayerState.instance = [
+    'JPlayer',
+    MemoryPlayerState
+];
+(function () {
+    'use strict';
+    angular.module('MemoryPlayer')
+        .service('MemoryPlayerState', MemoryPlayerState.instance);
+})();
+
+var MemoryPlayerController = (function () {
+    function MemoryPlayerController($scope, MemoryPlayerState, MemoryPlayerControls) {
+        var _this = this;
+        this.$scope = $scope;
+        this.MemoryPlayerState = MemoryPlayerState;
+        this.MemoryPlayerControls = MemoryPlayerControls;
+        this.playlists = this.MemoryPlayerState.getPlaylists();
+        this.currentPlaylist = this.MemoryPlayerState.getPlaylist();
+        this.currentTrack = this.MemoryPlayerState.getTrack();
+        this.isPaused = this.MemoryPlayerState.getIsPaused();
+        this.$scope.$watch(function () {
+            return _this.MemoryPlayerState.getPlaylists();
+        }, function (newPlaylists, oldPlaylists) {
+            if (angular.isDefined(newPlaylists) && newPlaylists !== oldPlaylists) {
+                _this.playlists = newPlaylists;
+            }
+        });
+        this.$scope.$watch(function () {
+            return _this.MemoryPlayerState.getPlaylist();
+        }, function (newPlaylist, oldPlaylist) {
+            if (angular.isDefined(newPlaylist) && newPlaylist !== oldPlaylist) {
+                _this.currentPlaylist = newPlaylist;
+            }
+        });
+        this.$scope.$watch(function () {
+            return _this.MemoryPlayerState.getTrack();
+        }, function (newTrack, oldTrack) {
+            if (angular.isDefined(newTrack) && newTrack !== oldTrack) {
+                _this.currentTrack = newTrack;
+            }
+        });
+        this.$scope.$watch(function () {
+            return _this.MemoryPlayerState.getIsPaused();
+        }, function (newState, oldState) {
+            if (angular.isDefined(newState) && newState !== oldState) {
+                _this.isPaused = newState;
+            }
+        });
+    }
+    MemoryPlayerController.prototype.maxVolume = function () {
+        this.MemoryPlayerControls.maxVolume();
+    };
+    MemoryPlayerController.prototype.mute = function () {
+        this.MemoryPlayerControls.mute();
+    };
+    MemoryPlayerController.prototype.next = function () {
+        this.MemoryPlayerControls.next();
+    };
+    MemoryPlayerController.prototype.play = function () {
+        this.MemoryPlayerControls.play();
+    };
+    MemoryPlayerController.prototype.previous = function () {
+        this.MemoryPlayerControls.previous();
+    };
+    MemoryPlayerController.prototype.selectPlaylist = function (playlistName) {
+        this.MemoryPlayerControls.selectPlaylist(playlistName);
+    };
+    MemoryPlayerController.prototype.selectTrack = function (trackIndex) {
+        this.MemoryPlayerControls.selectTrack(trackIndex);
+    };
+    MemoryPlayerController.prototype.toggleDropdown = function (event) {
+        this.MemoryPlayerControls.toggleDropdown(event);
     };
     return MemoryPlayerController;
 }());
 MemoryPlayerController.instance = [
-    '$rootScope',
     '$scope',
-    '$location',
-    '$interval',
-    'MemoryPlayerFactory',
+    'MemoryPlayerState',
+    'MemoryPlayerControls',
     MemoryPlayerController
 ];
 (function () {
@@ -527,42 +747,87 @@ MemoryPlayerController.instance = [
 })();
 
 var MemoryPlayerDirective = (function () {
-    function MemoryPlayerDirective($location) {
+    function MemoryPlayerDirective($location, MemoryPlayerAPI, MemoryPlayerState, MemoryPlayerControls) {
         var _this = this;
         this.$location = $location;
+        this.MemoryPlayerAPI = MemoryPlayerAPI;
+        this.MemoryPlayerState = MemoryPlayerState;
+        this.MemoryPlayerControls = MemoryPlayerControls;
         this.restrict = 'A';
         this.scope = true;
         this.replace = true;
         this.templateUrl = '/lib/memory-player/dist/html/memory-player.html';
         MemoryPlayerDirective.prototype.link = function (scope, element, attrs) {
             scope.isShareable = scope.$eval(attrs['isShareable']) || false;
-            var playerState = _this.$location.search();
-            if (playerState.hasOwnProperty('playlist') && playerState.hasOwnProperty('track') && playerState.hasOwnProperty('time') && playerState.hasOwnProperty('volume') && playerState.hasOwnProperty('isMuted') && playerState.hasOwnProperty('isPaused')) {
-                var playerInfo = {
-                    track: parseInt(playerState.track),
-                    time: parseInt(playerState.time),
-                    volume: parseFloat(playerState.volume),
-                    isMuted: playerState.isMuted,
-                    isPaused: playerState.isPaused
-                };
-                scope.$emit('MemoryPlayer:directiveReady', { playlist: playerState.playlist, info: playerInfo });
-            }
-            else {
-                scope.$emit('MemoryPlayer:directiveReady', null);
-            }
+            var state = _this.$location.search();
+            _this.MemoryPlayerAPI.getPlaylists().then(function (response) {
+                _this.MemoryPlayerState.setPlaylists(response);
+                if (isRestartable(state)) {
+                    var settings = {
+                        track: parseInt(state.track),
+                        time: parseInt(state.time),
+                        volume: parseFloat(state.volume),
+                        isMuted: state.isMuted,
+                        isPaused: state.isPaused,
+                    };
+                    _this.MemoryPlayerControls.showtime(state.playlist, settings);
+                }
+                else {
+                    var playlist = Object.keys(response)[0];
+                    _this.MemoryPlayerControls.showtime(response[playlist]._id);
+                }
+            });
+            scope.$on('$locationChangeStart', function ($event, newUrl, oldUrl) {
+                if (newUrl !== oldUrl) {
+                    var newUrlPath = _this.$location.url();
+                    _this.$location.path(newUrlPath.split('?')[0]).search({
+                        playlist: _this.MemoryPlayerState.getPlaylistId(),
+                        track: _this.MemoryPlayerState.getTrackId(),
+                        time: _this.MemoryPlayerState.getTime(),
+                        volume: _this.MemoryPlayerState.getVolume(),
+                        isMuted: _this.MemoryPlayerState.getIsMuted(),
+                        isPaused: _this.MemoryPlayerState.getIsPaused()
+                    });
+                }
+            });
         };
     }
     MemoryPlayerDirective.instance = function () {
-        var directive = function ($location) {
-            return new MemoryPlayerDirective($location);
+        var directive = function ($location, MemoryPlayerAPI, MemoryPlayerState, MemoryPlayerControls) {
+            return new MemoryPlayerDirective($location, MemoryPlayerAPI, MemoryPlayerState, MemoryPlayerControls);
         };
         directive['$inject'] = [
-            '$location'
+            '$location',
+            'MemoryPlayerAPI',
+            'MemoryPlayerState',
+            'MemoryPlayerControls',
         ];
         return directive;
     };
     return MemoryPlayerDirective;
 }());
+function isRestartable(state) {
+    var isRestartable = true;
+    if (!state.hasOwnProperty('isMuted')) {
+        isRestartable = false;
+    }
+    if (!state.hasOwnProperty('isPaused')) {
+        isRestartable = false;
+    }
+    if (!state.hasOwnProperty('playlist')) {
+        isRestartable = false;
+    }
+    if (!state.hasOwnProperty('time')) {
+        isRestartable = false;
+    }
+    if (!state.hasOwnProperty('track')) {
+        isRestartable = false;
+    }
+    if (!state.hasOwnProperty('volume')) {
+        isRestartable = false;
+    }
+    return isRestartable;
+}
 (function () {
     'use strict';
     angular.module('MemoryPlayer')

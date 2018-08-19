@@ -1,5 +1,5 @@
 ﻿
-interface IMemoryShare {
+interface IShare {
     name: string;
     value: any;
 }
