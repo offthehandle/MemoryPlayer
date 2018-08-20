@@ -1,9 +1,11 @@
 var MemoryPlayerController = (function () {
-    function MemoryPlayerController($scope, MemoryPlayerState, MemoryPlayerControls) {
+    function MemoryPlayerController($scope, MemoryPlayerState, MemoryPlayerControls, MemoryPlayerSharing) {
         var _this = this;
         this.$scope = $scope;
         this.MemoryPlayerState = MemoryPlayerState;
         this.MemoryPlayerControls = MemoryPlayerControls;
+        this.MemoryPlayerSharing = MemoryPlayerSharing;
+        this.isShareable = true;
         this.playlists = this.MemoryPlayerState.getPlaylists();
         this.currentPlaylist = this.MemoryPlayerState.getPlaylist();
         this.currentTrack = this.MemoryPlayerState.getTrack();
@@ -37,6 +39,9 @@ var MemoryPlayerController = (function () {
             }
         });
     }
+    MemoryPlayerController.prototype.cancelTimer = function () {
+        this.MemoryPlayerSharing.cancelTimer();
+    };
     MemoryPlayerController.prototype.maxVolume = function () {
         this.MemoryPlayerControls.maxVolume();
     };
@@ -58,8 +63,17 @@ var MemoryPlayerController = (function () {
     MemoryPlayerController.prototype.selectTrack = function (trackIndex) {
         this.MemoryPlayerControls.selectTrack(trackIndex);
     };
+    MemoryPlayerController.prototype.share = function () {
+        this.MemoryPlayerSharing.share();
+    };
     MemoryPlayerController.prototype.toggleDropdown = function (event) {
         this.MemoryPlayerControls.toggleDropdown(event);
+    };
+    MemoryPlayerController.prototype.updateTime = function () {
+        this.MemoryPlayerSharing.updateTime();
+    };
+    MemoryPlayerController.prototype.useTime = function () {
+        this.MemoryPlayerSharing.useTime();
     };
     return MemoryPlayerController;
 }());
@@ -67,6 +81,7 @@ MemoryPlayerController.instance = [
     '$scope',
     'MemoryPlayerState',
     'MemoryPlayerControls',
+    'MemoryPlayerSharing',
     MemoryPlayerController
 ];
 (function () {

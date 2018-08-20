@@ -46,7 +46,7 @@ var MemoryPlayerControls = (function () {
                     });
                 }
             });
-        }, 200);
+        }, 300);
         /**
          * Observes open playlist dropdown click inside to prevent close.
          */
@@ -276,7 +276,7 @@ var MemoryPlayerControls = (function () {
             }
             // Removes loading class
             angular.element('#memory-player').removeClass('mp-loading');
-        }, 200);
+        }, 300);
     };
     /**
      * Toggles playlist dropdown.

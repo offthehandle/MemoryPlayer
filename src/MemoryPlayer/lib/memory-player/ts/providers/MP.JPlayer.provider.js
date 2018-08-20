@@ -37,7 +37,7 @@ var MemoryPlayerProvider = (function () {
         var _this = this;
         window.setTimeout(function () {
             _this.JPlayer = new jPlayerPlaylist(cssSelectors, playlist, options);
-        }, 200);
+        }, 300);
     };
     return MemoryPlayerProvider;
 }());

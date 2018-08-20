@@ -64,7 +64,7 @@ class MemoryPlayerProvider implements angular.IServiceProvider {
 
             this.JPlayer = new jPlayerPlaylist(cssSelectors, playlist, options);
 
-        }, 200);
+        }, 300);
     }
 }
 

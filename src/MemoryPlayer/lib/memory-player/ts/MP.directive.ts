@@ -70,9 +70,6 @@ class MemoryPlayerDirective implements angular.IDirective {
     ) {
         MemoryPlayerDirective.prototype.link = (scope: IMemoryPlayerDirective, element: JQuery, attrs: angular.IAttributes): void => {
 
-            // Sets option for share link
-            scope.isShareable = scope.$eval(attrs['isShareable']) || false;
-
             // Gets player state from URL
             let state: any = this.$location.search();
 

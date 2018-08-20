@@ -5,6 +5,7 @@ class MemoryPlayerController implements angular.IController {
         '$scope',
         'MemoryPlayerState',
         'MemoryPlayerControls',
+        'MemoryPlayerSharing',
         MemoryPlayerController
     ];
 
@@ -16,12 +17,17 @@ class MemoryPlayerController implements angular.IController {
      * @param {IScope} $scope - The core angular scope service.
      * @param {IMemoryPlayerState} MemoryPlayerState - The service that manages memory player state.
      * @param {IMemoryPlayerControls} MemoryPlayerControls - The service that manages memory player controls.
+     * @param {IMemoryPlayerSharing} MemoryPlayerSharing - The service that manages memory player link sharing.
      */
     constructor(
         private $scope: angular.IScope,
         private MemoryPlayerState: IMemoryPlayerState,
-        private MemoryPlayerControls: IMemoryPlayerControls
+        private MemoryPlayerControls: IMemoryPlayerControls,
+        private MemoryPlayerSharing: IMemoryPlayerSharing
     ) {
+
+        // Turns on sharing
+        this.isShareable = true;
 
         // Sets initial state of player
         this.playlists = this.MemoryPlayerState.getPlaylists();
@@ -120,10 +126,29 @@ class MemoryPlayerController implements angular.IController {
 
     /**
      * @memberof MemoryPlayerController
+     * @member {boolean} isShareable - Share link is enabled or not.
+     * @default true
+     */
+    public isShareable: boolean;
+
+
+    /**
+     * @memberof MemoryPlayerController
      * @member {IPlaylists} playlists - Currently available playlists.
      */
     public playlists: IPlaylists;
 
+
+
+    /**
+     * Implements toggle use time method of {@link MemoryPlayerSharing}
+     * @memberof MemoryPlayerController
+     * @instance
+     */
+    public cancelTimer(): void {
+
+        this.MemoryPlayerSharing.cancelTimer();
+    }
 
 
     /**
@@ -206,6 +231,17 @@ class MemoryPlayerController implements angular.IController {
 
 
     /**
+     * Implements toggle use time method of {@link MemoryPlayerSharing}
+     * @memberof MemoryPlayerController
+     * @instance
+     */
+    public share(): void {
+
+        this.MemoryPlayerSharing.share();
+    }
+
+
+    /**
      * Implements toggle playlist dropdown method of {@link MemoryPlayerControls}
      * @memberof MemoryPlayerController
      * @instance
@@ -214,6 +250,28 @@ class MemoryPlayerController implements angular.IController {
     public toggleDropdown(event: JQueryEventObject): void {
 
         this.MemoryPlayerControls.toggleDropdown(event);
+    }
+
+
+    /**
+     * Implements toggle use time method of {@link MemoryPlayerSharing}
+     * @memberof MemoryPlayerController
+     * @instance
+     */
+    public updateTime(): void {
+
+        this.MemoryPlayerSharing.updateTime();
+    }
+
+
+    /**
+     * Implements toggle use time method of {@link MemoryPlayerSharing}
+     * @memberof MemoryPlayerController
+     * @instance
+     */
+    public useTime(): void {
+
+        this.MemoryPlayerSharing.useTime();
     }
 }
 

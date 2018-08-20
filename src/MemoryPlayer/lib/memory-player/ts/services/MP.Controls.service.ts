@@ -72,7 +72,7 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
                 }
             });
 
-        }, 200);
+        }, 300);
 
 
         /**
@@ -406,7 +406,7 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
             // Removes loading class
             angular.element('#memory-player').removeClass('mp-loading');
 
-        }, 200);
+        }, 300);
     }
 
 

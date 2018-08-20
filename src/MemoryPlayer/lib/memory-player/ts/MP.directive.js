@@ -10,7 +10,6 @@ var MemoryPlayerDirective = (function () {
         this.replace = true;
         this.templateUrl = '/lib/memory-player/dist/html/memory-player.html';
         MemoryPlayerDirective.prototype.link = function (scope, element, attrs) {
-            scope.isShareable = scope.$eval(attrs['isShareable']) || false;
             var state = _this.$location.search();
             _this.MemoryPlayerAPI.getPlaylists().then(function (response) {
                 _this.MemoryPlayerState.setPlaylists(response);

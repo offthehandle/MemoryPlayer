@@ -64,6 +64,7 @@ module.exports = function (grunt) {
                         '<%= path.jsSrc %>/services/MP.API.service.js',
                         '<%= path.jsSrc %>/services/MP.Controls.service.js',
                         '<%= path.jsSrc %>/services/MP.State.service.js',
+                        '<%= path.jsSrc %>/services/MP.Sharing.service.js',
                         '<%= path.jsSrc %>/MP.controller.js',
                         '<%= path.jsSrc %>/MP.directive.js'
                     ],
