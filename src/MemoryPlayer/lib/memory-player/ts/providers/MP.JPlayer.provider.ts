@@ -62,6 +62,7 @@ class MemoryPlayerProvider implements angular.IServiceProvider {
 
         window.setTimeout((): void => {
 
+            // Sets immutable jplayer instance
             this.JPlayer = new jPlayerPlaylist(cssSelectors, playlist, options);
 
         }, 300);

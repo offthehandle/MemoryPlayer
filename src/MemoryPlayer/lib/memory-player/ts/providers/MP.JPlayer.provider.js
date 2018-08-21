@@ -36,6 +36,7 @@ var MemoryPlayerProvider = (function () {
     MemoryPlayerProvider.prototype.$setInstance = function (cssSelectors, playlist, options) {
         var _this = this;
         window.setTimeout(function () {
+            // Sets immutable jplayer instance
             _this.JPlayer = new jPlayerPlaylist(cssSelectors, playlist, options);
         }, 300);
     };

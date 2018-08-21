@@ -41,6 +41,7 @@ var MemoryPlayerProvider = (function () {
     MemoryPlayerProvider.prototype.$setInstance = function (cssSelectors, playlist, options) {
         var _this = this;
         window.setTimeout(function () {
+            // Sets immutable jplayer instance
             _this.JPlayer = new jPlayerPlaylist(cssSelectors, playlist, options);
         }, 300);
     };
@@ -61,12 +62,18 @@ var MemoryPlayerConfig = (function () {
             cssSelectorAncestor: '#mp-jp_container'
         };
         this.JPlayerOptions = {
+            swfPath: '/js/jquery.jplayer.swf',
+            supplied: 'mp3',
             wmode: 'window',
             audioFullScreen: false,
             smoothPlayBar: false,
             keyEnabled: false,
             playlistOptions: {
-                enableRemoveControls: false
+                enableRemoveControls: false,
+                displayTime: 0,
+                addTime: 0,
+                removeTime: 0,
+                shuffleTime: 0
             }
         };
         this.JPlayerProvider.$setIds(this.JPlayerIds);
@@ -1075,4 +1082,31 @@ function isRestartable(state) {
     'use strict';
     angular.module('MemoryPlayer')
         .directive('memoryPlayer', MemoryPlayerDirective.instance());
+})();
+
+var SharingDirective = (function () {
+    function SharingDirective(MemoryPlayerSharing) {
+        this.MemoryPlayerSharing = MemoryPlayerSharing;
+        this.restrict = 'A';
+        this.scope = true;
+        this.replace = true;
+        this.templateUrl = '/lib/memory-player/dist/html/sharing.html';
+        SharingDirective.prototype.link = function (scope, element, attrs) {
+        };
+    }
+    SharingDirective.instance = function () {
+        var directive = function (MemoryPlayerSharing) {
+            return new SharingDirective(MemoryPlayerSharing);
+        };
+        directive['$inject'] = [
+            'MemoryPlayerSharing',
+        ];
+        return directive;
+    };
+    return SharingDirective;
+}());
+(function () {
+    'use strict';
+    angular.module('MemoryPlayer')
+        .directive('sharing', SharingDirective.instance());
 })();

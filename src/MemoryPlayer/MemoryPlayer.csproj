@@ -35,9 +35,11 @@
     <Content Include="lib\memory-player\dist\css\memory-player.css" />
     <Content Include="lib\memory-player\dist\css\memory-player.min.css" />
     <Content Include="lib\memory-player\dist\html\memory-player.html" />
+    <Content Include="lib\memory-player\dist\html\sharing.html" />
     <Content Include="lib\memory-player\dist\js\DEMO.js" />
     <Content Include="lib\memory-player\dist\js\memory-player.js" />
     <Content Include="lib\memory-player\dist\js\memory-player.min.js" />
+    <Content Include="lib\memory-player\html\sharing.html" />
     <Content Include="lib\memory-player\unit\MockResponse.js" />
     <Content Include="lib\memory-player\unit\specs\MemoryPlayer.controller.spec.js" />
     <Content Include="lib\memory-player\unit\specs\MemoryPlayer.directive.spec.js" />
@@ -81,9 +83,7 @@
       <DependentUpon>web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Scripts\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <TypeScriptCompile Include="lib\memory-player\ts\DEMO.ts" />
     <TypeScriptCompile Include="lib\memory-player\ts\interfaces\HttpErrorResponse.d.ts" />
@@ -102,6 +102,7 @@
     <TypeScriptCompile Include="lib\memory-player\ts\interfaces\MemoryPlayer\scopes\MP.Directive.d.ts" />
     <TypeScriptCompile Include="lib\memory-player\ts\MP.config.ts" />
     <TypeScriptCompile Include="lib\memory-player\ts\MP.controller.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\MP.Sharing.directive.ts" />
     <TypeScriptCompile Include="lib\memory-player\ts\MP.directive.ts" />
     <TypeScriptCompile Include="lib\memory-player\ts\providers\MP.JPlayer.provider.ts" />
     <TypeScriptCompile Include="lib\memory-player\ts\services\MP.Sharing.service.ts" />

@@ -52,6 +52,10 @@ class MemoryPlayerConfig {
      * @private
      */
     private JPlayerOptions: any = {
+        swfPath: '/js/jquery.jplayer.swf',
+
+        supplied: 'mp3',
+
         wmode: 'window',
 
         audioFullScreen: false,
@@ -62,7 +66,15 @@ class MemoryPlayerConfig {
 
         playlistOptions: {
 
-            enableRemoveControls: false
+            enableRemoveControls: false,
+
+            displayTime: 0,
+
+            addTime: 0,
+
+            removeTime: 0,
+
+            shuffleTime: 0
         }
     };
 }

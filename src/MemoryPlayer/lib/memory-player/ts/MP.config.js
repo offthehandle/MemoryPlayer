@@ -7,12 +7,18 @@ var MemoryPlayerConfig = (function () {
             cssSelectorAncestor: '#mp-jp_container'
         };
         this.JPlayerOptions = {
+            swfPath: '/js/jquery.jplayer.swf',
+            supplied: 'mp3',
             wmode: 'window',
             audioFullScreen: false,
             smoothPlayBar: false,
             keyEnabled: false,
             playlistOptions: {
-                enableRemoveControls: false
+                enableRemoveControls: false,
+                displayTime: 0,
+                addTime: 0,
+                removeTime: 0,
+                shuffleTime: 0
             }
         };
         this.JPlayerProvider.$setIds(this.JPlayerIds);

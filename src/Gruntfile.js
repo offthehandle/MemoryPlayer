@@ -19,6 +19,7 @@ module.exports = function (grunt) {
                 '<%= path.jsDist %>/',
                 '<%= path.jsonDist %>/playlists.json',
                 '<%= path.htmlDist %>/memory-player.html',
+                '<%= path.htmlDist %>/sharing.html',
                 '<%= path.cssDist %>/*.css'
             ],
 
@@ -66,7 +67,8 @@ module.exports = function (grunt) {
                         '<%= path.jsSrc %>/services/MP.State.service.js',
                         '<%= path.jsSrc %>/services/MP.Sharing.service.js',
                         '<%= path.jsSrc %>/MP.controller.js',
-                        '<%= path.jsSrc %>/MP.directive.js'
+                        '<%= path.jsSrc %>/MP.directive.js',
+                        '<%= path.jsSrc %>/MP.Sharing.directive.js'
                     ],
 
                     '<%= path.scssSrc %>/memory-player.scss': [
@@ -91,6 +93,7 @@ module.exports = function (grunt) {
             dist: {
                 files: {
                     '<%= path.htmlDist %>/memory-player.html': ['<%= path.htmlSrc %>/memory-player.html'],
+                    '<%= path.htmlDist %>/sharing.html': ['<%= path.htmlSrc %>/sharing.html'],
                     '<%= path.jsonDist %>/playlists.json': ['<%= path.jsonSrc %>/playlists.json.sample'],
                     '<%= path.jsDist %>/DEMO.js': ['<%= path.jsSrc %>/DEMO.js']
                 }
