@@ -4,7 +4,7 @@ var SharingDirective = (function () {
         this.restrict = 'A';
         this.scope = true;
         this.replace = true;
-        this.templateUrl = '/lib/memory-player/dist/html/sharing.html';
+        this.templateUrl = '/lib/memory-player/dist/html/mp-sharing.html';
         SharingDirective.prototype.link = function (scope, element, attrs) {
         };
     }

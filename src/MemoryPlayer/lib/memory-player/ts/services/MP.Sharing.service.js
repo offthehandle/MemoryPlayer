@@ -3,14 +3,12 @@ var MemoryPlayerSharing = (function () {
      * Implements IMemoryPlayerSharing
      * @constructs MemoryPlayerSharing
      * @param {IRootScopeService} $rootScope - The core angular root scope service.
-     * @param {ITimeoutService} $timeout - The core angular timeout service.
      * @param {MemoryPlayerProvider} JPlayer - The provider service that manages jplayer.
      * @param {IMemoryPlayerState} MemoryPlayerState - The service that manages memory player state.
      */
-    function MemoryPlayerSharing($rootScope, $timeout, JPlayer, MemoryPlayerState) {
+    function MemoryPlayerSharing($rootScope, JPlayer, MemoryPlayerState) {
         var _this = this;
         this.$rootScope = $rootScope;
-        this.$timeout = $timeout;
         this.JPlayer = JPlayer;
         this.MemoryPlayerState = MemoryPlayerState;
         /**
@@ -49,22 +47,14 @@ var MemoryPlayerSharing = (function () {
             if (angular.isDefined(newTrack) && newTrack !== oldTrack) {
                 // Updates current track
                 _this.setShareVal('track', newTrack._id);
+                // Resets is time used
                 if (_this.isTimeUsed) {
                     _this.useTime();
                 }
-                /**
-                 * Observes time updated.
-                 */
-                angular.element(_this.jPlayerId).bind($.jPlayer.event.timeupdate, function (event) {
-                    _this.$rootScope.$evalAsync(function () {
-                        // Updates share link time
-                        _this.sharelinkTime = $.jPlayer.convertTime(event.jPlayer.status.currentTime);
-                    });
-                });
             }
         });
-        // Brief timeout for player ready
-        this.$timeout(function () {
+        // Waits for player ready
+        this.$rootScope.$on('MP:Ready', function ($event) {
             /**
              * Observes player loaded.
              */
@@ -83,7 +73,7 @@ var MemoryPlayerSharing = (function () {
                     _this.sharelinkTime = $.jPlayer.convertTime(event.jPlayer.status.currentTime);
                 });
             });
-        }, 300);
+        });
     }
     /**
      * Cancels timer when user focuses start time input.
@@ -209,7 +199,6 @@ var MemoryPlayerSharing = (function () {
 }());
 MemoryPlayerSharing.instance = [
     '$rootScope',
-    '$timeout',
     'JPlayer',
     'MemoryPlayerState',
     MemoryPlayerSharing

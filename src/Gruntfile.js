@@ -93,7 +93,7 @@ module.exports = function (grunt) {
             dist: {
                 files: {
                     '<%= path.htmlDist %>/memory-player.html': ['<%= path.htmlSrc %>/memory-player.html'],
-                    '<%= path.htmlDist %>/sharing.html': ['<%= path.htmlSrc %>/sharing.html'],
+                    '<%= path.htmlDist %>/mp-sharing.html': ['<%= path.htmlSrc %>/mp-sharing.html'],
                     '<%= path.jsonDist %>/playlists.json': ['<%= path.jsonSrc %>/playlists.json.sample'],
                     '<%= path.jsDist %>/DEMO.js': ['<%= path.jsSrc %>/DEMO.js']
                 }

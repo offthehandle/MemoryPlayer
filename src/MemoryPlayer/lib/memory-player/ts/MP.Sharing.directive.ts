@@ -40,7 +40,7 @@ class SharingDirective implements angular.IDirective {
      * @memberof SharingDirective
      * @member {string} templateUrl - The url to the HTML template.
      */
-    public templateUrl: string = '/lib/memory-player/dist/html/sharing.html';
+    public templateUrl: string = '/lib/memory-player/dist/html/mp-sharing.html';
 
 
     /**

@@ -35,11 +35,11 @@
     <Content Include="lib\memory-player\dist\css\memory-player.css" />
     <Content Include="lib\memory-player\dist\css\memory-player.min.css" />
     <Content Include="lib\memory-player\dist\html\memory-player.html" />
-    <Content Include="lib\memory-player\dist\html\sharing.html" />
+    <Content Include="lib\memory-player\dist\html\mp-sharing.html" />
     <Content Include="lib\memory-player\dist\js\DEMO.js" />
     <Content Include="lib\memory-player\dist\js\memory-player.js" />
     <Content Include="lib\memory-player\dist\js\memory-player.min.js" />
-    <Content Include="lib\memory-player\html\sharing.html" />
+    <Content Include="lib\memory-player\html\mp-sharing.html" />
     <Content Include="lib\memory-player\unit\MockResponse.js" />
     <Content Include="lib\memory-player\unit\specs\MemoryPlayer.controller.spec.js" />
     <Content Include="lib\memory-player\unit\specs\MemoryPlayer.directive.spec.js" />

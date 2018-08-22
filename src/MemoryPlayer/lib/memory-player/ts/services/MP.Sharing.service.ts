@@ -3,7 +3,6 @@ class MemoryPlayerSharing implements IMemoryPlayerSharing {
 
     public static instance: any[] = [
         '$rootScope',
-        '$timeout',
         'JPlayer',
         'MemoryPlayerState',
         MemoryPlayerSharing
@@ -15,13 +14,11 @@ class MemoryPlayerSharing implements IMemoryPlayerSharing {
      * Implements IMemoryPlayerSharing
      * @constructs MemoryPlayerSharing
      * @param {IRootScopeService} $rootScope - The core angular root scope service.
-     * @param {ITimeoutService} $timeout - The core angular timeout service.
      * @param {MemoryPlayerProvider} JPlayer - The provider service that manages jplayer.
      * @param {IMemoryPlayerState} MemoryPlayerState - The service that manages memory player state.
      */
     constructor(
         private $rootScope: angular.IRootScopeService,
-        private $timeout: angular.ITimeoutService,
         private JPlayer: IJPlayerProvider,
         private MemoryPlayerState: IMemoryPlayerState
     ) {
@@ -79,28 +76,17 @@ class MemoryPlayerSharing implements IMemoryPlayerSharing {
                 this.setShareVal('track', newTrack._id);
 
 
+                // Resets is time used
                 if (this.isTimeUsed) {
 
                     this.useTime();
                 }
-
-                /**
-                 * Observes time updated.
-                 */
-                angular.element(this.jPlayerId).bind($.jPlayer.event.timeupdate, (event: IjPlayerEvent): void => {
-
-                    this.$rootScope.$evalAsync((): void => {
-
-                        // Updates share link time
-                        this.sharelinkTime = $.jPlayer.convertTime(event.jPlayer.status.currentTime);
-                    });
-                });
             }
         });
 
 
-        // Brief timeout for player ready
-        this.$timeout((): void => {
+        // Waits for player ready
+        this.$rootScope.$on('MP:Ready', ($event: angular.IAngularEvent): void => {
 
             /**
              * Observes player loaded.
@@ -125,8 +111,7 @@ class MemoryPlayerSharing implements IMemoryPlayerSharing {
                     this.sharelinkTime = $.jPlayer.convertTime(event.jPlayer.status.currentTime);
                 });
             });
-
-        }, 300);
+        });
     }
 
 
