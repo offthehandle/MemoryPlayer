@@ -11,6 +11,13 @@ var MemoryPlayerProvider = (function () {
         var _this = this;
         return {
             ids: this.JPlayerIds,
+            create: function (playlist) {
+                // If jplayer is defined then allow create
+                if (angular.isUndefined(_this.JPlayer)) {
+                    // Sets immutable jplayer instance
+                    _this.JPlayer = new jPlayerPlaylist(_this.JPlayerIds, playlist, _this.JPlayerOptions);
+                }
+            },
             instance: function () {
                 return _this.JPlayer;
             }
@@ -26,19 +33,13 @@ var MemoryPlayerProvider = (function () {
         this.JPlayerIds = ids;
     };
     /**
-     * Instantiates jplayer.
+     * Sets jplayer options.
      * @memberof MemoryPlayerProvider
      * @instance
-     * @param {IJPlayerIds} cssSelectors - The CSS selectors to instantiate a playlist jplayer.
-     * @param {Array<ITrack>} playlist - The default playlist.
      * @param {any} options - The options to instantiate a playlist jplayer.
      */
-    MemoryPlayerProvider.prototype.$setInstance = function (cssSelectors, playlist, options) {
-        var _this = this;
-        window.setTimeout(function () {
-            // Sets immutable jplayer instance
-            _this.JPlayer = new jPlayerPlaylist(cssSelectors, playlist, options);
-        }, 300);
+    MemoryPlayerProvider.prototype.$setOptions = function (options) {
+        this.JPlayerOptions = options;
     };
     return MemoryPlayerProvider;
 }());

@@ -3,20 +3,18 @@ var MemoryPlayerControls = (function () {
      * Implements IMemoryPlayerControls
      * @constructs MemoryPlayerControls
      * @param {IRootScopeService} $rootScope - The core angular root scope service.
-     * @param {ITimeoutService} $timeout - The core angular timeout service.
      * @param {MemoryPlayerProvider} JPlayer - The provider service that manages jplayer.
      * @param {IMemoryPlayerState} MemoryPlayerState - The service that manages memory player state.
      */
-    function MemoryPlayerControls($rootScope, $timeout, JPlayer, MemoryPlayerState) {
+    function MemoryPlayerControls($rootScope, JPlayer, MemoryPlayerState) {
         var _this = this;
         this.$rootScope = $rootScope;
-        this.$timeout = $timeout;
         this.JPlayer = JPlayer;
         this.MemoryPlayerState = MemoryPlayerState;
         // Stores player id for optimization
         this.jPlayerId = this.JPlayer.ids.jPlayer;
-        // Brief timeout for player ready
-        this.$timeout(function () {
+        // Waits for player ready
+        this.$rootScope.$on('MP:Ready', function ($event) {
             /**
              * Observes player volume change.
              */
@@ -46,7 +44,7 @@ var MemoryPlayerControls = (function () {
                     });
                 }
             });
-        }, 300);
+        });
         /**
          * Observes open playlist dropdown click inside to prevent close.
          */
@@ -81,7 +79,7 @@ var MemoryPlayerControls = (function () {
         /**
          * Observe custom event that YouTube video has played and prevents simultaneous playback.
          */
-        angular.element(document).on('YouTube.OnVideoPlayed', function () {
+        angular.element(document).on('YT.VideoPlayed', function () {
             // If player is playing then toggle playback to pause
             if (!_this.MemoryPlayerState.getIsPaused()) {
                 // Pauses player
@@ -162,7 +160,7 @@ var MemoryPlayerControls = (function () {
         this.MemoryPlayerState.setIsPaused(!isPaused);
         // If playing then notify other media
         if (!isPaused) {
-            angular.element(this.jPlayerId).trigger('MemoryPlayer.TrackPlayed');
+            angular.element(this.jPlayerId).trigger('MP.TrackPlayed');
         }
     };
     /**
@@ -265,10 +263,10 @@ var MemoryPlayerControls = (function () {
         var _this = this;
         // Updates current playlist
         this.MemoryPlayerState.setPlaylist(playlist);
-        // Brief timeout for player ready
-        this.$timeout(function () {
-            // Sets playlist
-            _this.JPlayer.instance().setPlaylist(_this.MemoryPlayerState.getPlaylist().playlist);
+        // Creates jplayer instance with current playlist
+        this.JPlayer.create(this.MemoryPlayerState.getPlaylist().playlist);
+        // Waits for player ready
+        angular.element(this.jPlayerId).bind($.jPlayer.event.ready, function () {
             // If settings exist then restart
             if (angular.isDefined(settings)) {
                 // Restarts player
@@ -276,7 +274,9 @@ var MemoryPlayerControls = (function () {
             }
             // Removes loading class
             angular.element('#memory-player').removeClass('mp-loading');
-        }, 300);
+            // Notifies that player setup is complete
+            _this.$rootScope.$emit('MP:Ready');
+        });
     };
     /**
      * Toggles playlist dropdown.
@@ -315,7 +315,6 @@ var MemoryPlayerControls = (function () {
 }());
 MemoryPlayerControls.instance = [
     '$rootScope',
-    '$timeout',
     'JPlayer',
     'MemoryPlayerState',
     MemoryPlayerControls

@@ -22,7 +22,7 @@ var MemoryPlayerConfig = (function () {
             }
         };
         this.JPlayerProvider.$setIds(this.JPlayerIds);
-        this.JPlayerProvider.$setInstance(this.JPlayerIds, [], this.JPlayerOptions);
+        this.JPlayerProvider.$setOptions(this.JPlayerOptions);
         this.$locationProvider.html5Mode({
             enabled: true,
             requireBase: false

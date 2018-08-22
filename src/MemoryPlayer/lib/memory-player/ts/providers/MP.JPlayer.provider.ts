@@ -19,6 +19,14 @@ class MemoryPlayerProvider implements angular.IServiceProvider {
     private JPlayerIds: IJPlayerIds;
 
 
+    /**
+     * @memberof MemoryPlayerProvider
+     * @member {any} JPlayerOptions - The options to instantiate a playlist jplayer.
+     * @private
+     */
+    private JPlayerOptions: any;
+
+
 
     /**
      * Gets jplayer ids and instance.
@@ -30,6 +38,15 @@ class MemoryPlayerProvider implements angular.IServiceProvider {
 
         return {
             ids: this.JPlayerIds,
+            create: (playlist: Array<ITrack>): void => {
+
+                // If jplayer is defined then allow create
+                if (angular.isUndefined(this.JPlayer)) {
+
+                    // Sets immutable jplayer instance
+                    this.JPlayer = new jPlayerPlaylist(this.JPlayerIds, playlist, this.JPlayerOptions);
+                }
+            },
             instance: (): IPlaylistJPlayer => {
 
                 return this.JPlayer;
@@ -51,21 +68,14 @@ class MemoryPlayerProvider implements angular.IServiceProvider {
 
 
     /**
-     * Instantiates jplayer.
+     * Sets jplayer options.
      * @memberof MemoryPlayerProvider
      * @instance
-     * @param {IJPlayerIds} cssSelectors - The CSS selectors to instantiate a playlist jplayer.
-     * @param {Array<ITrack>} playlist - The default playlist.
      * @param {any} options - The options to instantiate a playlist jplayer.
      */
-    $setInstance(cssSelectors: IJPlayerIds, playlist: Array<ITrack>, options: any): void {
+    $setOptions(options: any): void {
 
-        window.setTimeout((): void => {
-
-            // Sets immutable jplayer instance
-            this.JPlayer = new jPlayerPlaylist(cssSelectors, playlist, options);
-
-        }, 300);
+        this.JPlayerOptions = options;
     }
 }
 

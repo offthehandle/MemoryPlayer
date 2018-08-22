@@ -23,7 +23,7 @@ class MemoryPlayerConfig {
         this.JPlayerProvider.$setIds(this.JPlayerIds);
 
         // Instantiates jplayer with empty playlist
-        this.JPlayerProvider.$setInstance(this.JPlayerIds, [], this.JPlayerOptions);
+        this.JPlayerProvider.$setOptions(this.JPlayerOptions);
 
 
         // Configures HTML5 mode

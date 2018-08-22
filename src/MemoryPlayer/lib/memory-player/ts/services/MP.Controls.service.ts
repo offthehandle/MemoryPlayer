@@ -3,7 +3,6 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
 
     public static instance: any[] = [
         '$rootScope',
-        '$timeout',
         'JPlayer',
         'MemoryPlayerState',
         MemoryPlayerControls
@@ -15,13 +14,11 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
      * Implements IMemoryPlayerControls
      * @constructs MemoryPlayerControls
      * @param {IRootScopeService} $rootScope - The core angular root scope service.
-     * @param {ITimeoutService} $timeout - The core angular timeout service.
      * @param {MemoryPlayerProvider} JPlayer - The provider service that manages jplayer.
      * @param {IMemoryPlayerState} MemoryPlayerState - The service that manages memory player state.
      */
     constructor(
         private $rootScope: angular.IRootScopeService,
-        private $timeout: angular.ITimeoutService,
         private JPlayer: IJPlayerProvider,
         private MemoryPlayerState: IMemoryPlayerState
     ) {
@@ -30,8 +27,8 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
         this.jPlayerId = this.JPlayer.ids.jPlayer;
 
 
-        // Brief timeout for player ready
-        this.$timeout((): void => {
+        // Waits for player ready
+        this.$rootScope.$on('MP:Ready', ($event: angular.IAngularEvent): void => {
 
             /**
              * Observes player volume change.
@@ -71,8 +68,7 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
                     });
                 }
             });
-
-        }, 300);
+        });
 
 
         /**
@@ -122,7 +118,7 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
         /**
          * Observe custom event that YouTube video has played and prevents simultaneous playback.
          */
-        angular.element(document).on('YouTube.OnVideoPlayed', (): void => {
+        angular.element(document).on('YT.VideoPlayed', (): void => {
 
             // If player is playing then toggle playback to pause
             if (!this.MemoryPlayerState.getIsPaused()) {
@@ -246,7 +242,7 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
         // If playing then notify other media
         if (!isPaused) {
 
-            angular.element(this.jPlayerId).trigger('MemoryPlayer.TrackPlayed');
+            angular.element(this.jPlayerId).trigger('MP.TrackPlayed');
         }
     }
 
@@ -388,13 +384,12 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
         // Updates current playlist
         this.MemoryPlayerState.setPlaylist(playlist);
 
+        // Creates jplayer instance with current playlist
+        this.JPlayer.create(this.MemoryPlayerState.getPlaylist().playlist);
 
-        // Brief timeout for player ready
-        this.$timeout((): void => {
 
-            // Sets playlist
-            this.JPlayer.instance().setPlaylist(this.MemoryPlayerState.getPlaylist().playlist);
-
+        // Waits for player ready
+        angular.element(this.jPlayerId).bind($.jPlayer.event.ready, (): void => {
 
             // If settings exist then restart
             if (angular.isDefined(settings)) {
@@ -406,7 +401,9 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
             // Removes loading class
             angular.element('#memory-player').removeClass('mp-loading');
 
-        }, 300);
+            // Notifies that player setup is complete
+            this.$rootScope.$emit('MP:Ready');
+        });
     }
 
 
