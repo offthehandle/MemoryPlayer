@@ -411,9 +411,9 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
      * Toggles playlist dropdown.
      * @memberof MemoryPlayerControls
      * @instance
-     * @param {JQueryEventObject} event - The event from trigging element.
+     * @param {JQueryEventObject} $event - The event from trigging element.
      */
-    public toggleDropdown(event: JQueryEventObject): void {
+    public toggleDropdown($event: JQueryEventObject): void {
 
         // Sets values to update dropdown state
         let $trigger = angular.element(event.target),

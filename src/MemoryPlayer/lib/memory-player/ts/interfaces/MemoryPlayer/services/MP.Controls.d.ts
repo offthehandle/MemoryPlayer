@@ -8,5 +8,5 @@ interface IMemoryPlayerControls {
     selectPlaylist(playlistName: string): void;
     selectTrack(trackIndex: number): void;
     showtime(playlist: string, settings?: IRestartSettings): void;
-    toggleDropdown(event: JQueryEventObject): void
+    toggleDropdown($event: JQueryEventObject): void
 }

@@ -471,9 +471,9 @@ var MemoryPlayerControls = (function () {
      * Toggles playlist dropdown.
      * @memberof MemoryPlayerControls
      * @instance
-     * @param {JQueryEventObject} event - The event from trigging element.
+     * @param {JQueryEventObject} $event - The event from trigging element.
      */
-    MemoryPlayerControls.prototype.toggleDropdown = function (event) {
+    MemoryPlayerControls.prototype.toggleDropdown = function ($event) {
         // Sets values to update dropdown state
         var $trigger = angular.element(event.target), $parent = $trigger.closest('.mp-dropdown'), isActive = $parent.hasClass('open'), $backdrop = angular.element(document.createElement('div')).addClass('mp-dropdown-backdrop');
         // Removes dropdown backdrop
@@ -962,8 +962,8 @@ var MemoryPlayerController = (function () {
     MemoryPlayerController.prototype.share = function () {
         this.MemoryPlayerSharing.share();
     };
-    MemoryPlayerController.prototype.toggleDropdown = function (event) {
-        this.MemoryPlayerControls.toggleDropdown(event);
+    MemoryPlayerController.prototype.toggleDropdown = function ($event) {
+        this.MemoryPlayerControls.toggleDropdown($event);
     };
     MemoryPlayerController.prototype.updateTime = function () {
         this.MemoryPlayerSharing.updateTime();
