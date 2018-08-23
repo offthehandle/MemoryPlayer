@@ -40,7 +40,7 @@ class MemoryPlayerProvider implements angular.IServiceProvider {
             ids: this.JPlayerIds,
             create: (playlist: Array<ITrack>): void => {
 
-                // If jplayer is defined then allow create
+                // If jplayer is undefined then allow create
                 if (angular.isUndefined(this.JPlayer)) {
 
                     // Sets immutable jplayer instance

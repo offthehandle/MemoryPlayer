@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>DocStrap Classes</title>
+	<title>DocStrap Source: providers/MP.JPlayer.provider.js</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -60,124 +60,70 @@
 <div class="row">
 
 	
-	<div class="col-md-8">
+	<div class="col-md-12">
 	
 		<div id="main">
 			
 
-	<h1 class="page-title">Classes</h1>
+		<h1 class="page-title">Source: providers/MP.JPlayer.provider.js</h1>
+    
 <section>
-
-<header>
-    
-        <h2>
-        
-        </h2>
-        
-    
-</header>
-
-
-<article>
-    <div class="container-overview">
-    
-        
-
-        
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-        
-    
-    </div>
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Classes</h3>
-
-        <dl>
-            <dt><a href="MemoryPlayerAPI.html">MemoryPlayerAPI</a></dt>
-            <dd></dd>
-        
-            <dt><a href="MemoryPlayerConfig.html">MemoryPlayerConfig</a></dt>
-            <dd></dd>
-        
-            <dt><a href="MemoryPlayerController.html">MemoryPlayerController</a></dt>
-            <dd></dd>
-        
-            <dt><a href="MemoryPlayerControls.html">MemoryPlayerControls</a></dt>
-            <dd></dd>
-        
-            <dt><a href="MemoryPlayerDirective.html">MemoryPlayerDirective</a></dt>
-            <dd></dd>
-        
-            <dt><a href="MemoryPlayerRun.html">MemoryPlayerRun</a></dt>
-            <dd></dd>
-        
-            <dt><a href="MemoryPlayerSharing.html">MemoryPlayerSharing</a></dt>
-            <dd></dd>
-        
-            <dt><a href="MemoryPlayerState.html">MemoryPlayerState</a></dt>
-            <dd></dd>
-        
-            <dt><a href="SharingDirective.html">SharingDirective</a></dt>
-            <dd></dd>
-        </dl>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
+    <article>
+        <pre
+            class="sunlight-highlight-javascript linenums">var MemoryPlayerProvider = (function () {
+    function MemoryPlayerProvider() {
+    }
+    /**
+     * Gets jplayer ids and instance.
+     * @memberof MemoryPlayerProvider
+     * @instance
+     * @returns {IJPlayerProvider} - The return value of provider.
+     */
+    MemoryPlayerProvider.prototype.$get = function () {
+        var _this = this;
+        return {
+            ids: this.JPlayerIds,
+            create: function (playlist) {
+                // If jplayer is defined then allow create
+                if (angular.isUndefined(_this.JPlayer)) {
+                    // Sets immutable jplayer instance
+                    _this.JPlayer = new jPlayerPlaylist(_this.JPlayerIds, playlist, _this.JPlayerOptions);
+                }
+            },
+            instance: function () {
+                return _this.JPlayer;
+            }
+        };
+    };
+    /**
+     * Sets jplayer ids.
+     * @memberof MemoryPlayerProvider
+     * @instance
+     * @param {IJPlayerIds} ids - The CSS selectors to instantiate a playlist jplayer.
+     */
+    MemoryPlayerProvider.prototype.$setIds = function (ids) {
+        this.JPlayerIds = ids;
+    };
+    /**
+     * Sets jplayer options.
+     * @memberof MemoryPlayerProvider
+     * @instance
+     * @param {any} options - The options to instantiate a playlist jplayer.
+     */
+    MemoryPlayerProvider.prototype.$setOptions = function (options) {
+        this.JPlayerOptions = options;
+    };
+    return MemoryPlayerProvider;
+}());
+(function () {
+    'use strict';
+    angular.module('MemoryPlayer')
+        .provider('JPlayer', MemoryPlayerProvider);
+})();
+</pre>
+    </article>
 </section>
+
 
 
 
@@ -187,10 +133,6 @@
 
 	<div class="clearfix"></div>
 
-	
-		<div class="col-md-3">
-			<div id="toc" class="col-md-3 hidden-xs hidden-sm hidden-md"></div>
-		</div>
 	
 
 </div>

@@ -141,7 +141,7 @@ class MemoryPlayerController implements angular.IController {
 
 
     /**
-     * Implements toggle use time method of {@link MemoryPlayerSharing}
+     * Implements cancel timer method of {@link MemoryPlayerSharing}
      * @memberof MemoryPlayerController
      * @instance
      */
@@ -231,7 +231,7 @@ class MemoryPlayerController implements angular.IController {
 
 
     /**
-     * Implements toggle use time method of {@link MemoryPlayerSharing}
+     * Implements share method of {@link MemoryPlayerSharing}
      * @memberof MemoryPlayerController
      * @instance
      */
@@ -254,7 +254,7 @@ class MemoryPlayerController implements angular.IController {
 
 
     /**
-     * Implements toggle use time method of {@link MemoryPlayerSharing}
+     * Implements update time method of {@link MemoryPlayerSharing}
      * @memberof MemoryPlayerController
      * @instance
      */

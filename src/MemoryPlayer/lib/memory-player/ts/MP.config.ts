@@ -22,7 +22,7 @@ class MemoryPlayerConfig {
         // Sets jplayer ids
         this.JPlayerProvider.$setIds(this.JPlayerIds);
 
-        // Instantiates jplayer with empty playlist
+        // Sets jplayer options
         this.JPlayerProvider.$setOptions(this.JPlayerOptions);
 
 

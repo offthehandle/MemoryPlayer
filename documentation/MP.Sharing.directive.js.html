@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>DocStrap Classes</title>
+	<title>DocStrap Source: MP.Sharing.directive.js</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -60,124 +60,67 @@
 <div class="row">
 
 	
-	<div class="col-md-8">
+	<div class="col-md-12">
 	
 		<div id="main">
 			
 
-	<h1 class="page-title">Classes</h1>
+		<h1 class="page-title">Source: MP.Sharing.directive.js</h1>
+    
 <section>
-
-<header>
-    
-        <h2>
-        
-        </h2>
-        
-    
-</header>
-
-
-<article>
-    <div class="container-overview">
-    
-        
-
-        
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-        
-    
-    </div>
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Classes</h3>
-
-        <dl>
-            <dt><a href="MemoryPlayerAPI.html">MemoryPlayerAPI</a></dt>
-            <dd></dd>
-        
-            <dt><a href="MemoryPlayerConfig.html">MemoryPlayerConfig</a></dt>
-            <dd></dd>
-        
-            <dt><a href="MemoryPlayerController.html">MemoryPlayerController</a></dt>
-            <dd></dd>
-        
-            <dt><a href="MemoryPlayerControls.html">MemoryPlayerControls</a></dt>
-            <dd></dd>
-        
-            <dt><a href="MemoryPlayerDirective.html">MemoryPlayerDirective</a></dt>
-            <dd></dd>
-        
-            <dt><a href="MemoryPlayerRun.html">MemoryPlayerRun</a></dt>
-            <dd></dd>
-        
-            <dt><a href="MemoryPlayerSharing.html">MemoryPlayerSharing</a></dt>
-            <dd></dd>
-        
-            <dt><a href="MemoryPlayerState.html">MemoryPlayerState</a></dt>
-            <dd></dd>
-        
-            <dt><a href="SharingDirective.html">SharingDirective</a></dt>
-            <dd></dd>
-        </dl>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
+    <article>
+        <pre
+            class="sunlight-highlight-javascript linenums">var SharingDirective = (function () {
+    /**
+     * Implements IDirective
+     * @constructs SharingDirective
+     * @param {IMemoryPlayerSharing} MemoryPlayerSharing - The service that manages memory player link sharing.
+     */
+    function SharingDirective(MemoryPlayerSharing) {
+        this.MemoryPlayerSharing = MemoryPlayerSharing;
+        /**
+         * @memberof SharingDirective
+         * @member {string} restrict - The directive restriction - attribute only.
+         */
+        this.restrict = 'A';
+        /**
+         * @memberof SharingDirective
+         * @member {boolean} scope - The directive scope.
+         */
+        this.scope = true;
+        /**
+         * @memberof SharingDirective
+         * @member {boolean} replace - Whether the directive should replace its calling node.
+         */
+        this.replace = true;
+        /**
+         * @memberof SharingDirective
+         * @member {string} templateUrl - The url to the HTML template.
+         */
+        this.templateUrl = '/lib/memory-player/dist/html/mp-sharing.html';
+        SharingDirective.prototype.link = function (scope, element, attrs) {
+        };
+    }
+    SharingDirective.instance = function () {
+        var directive = function (MemoryPlayerSharing) {
+            return new SharingDirective(MemoryPlayerSharing);
+        };
+        directive['$inject'] = [
+            'MemoryPlayerSharing',
+        ];
+        return directive;
+    };
+    return SharingDirective;
+}());
+(function () {
+    'use strict';
+    angular.module('MemoryPlayer')
+        .directive('sharing', SharingDirective.instance());
+})();
+</pre>
+    </article>
 </section>
+
 
 
 
@@ -187,10 +130,6 @@
 
 	<div class="clearfix"></div>
 
-	
-		<div class="col-md-3">
-			<div id="toc" class="col-md-3 hidden-xs hidden-sm hidden-md"></div>
-		</div>
 	
 
 </div>

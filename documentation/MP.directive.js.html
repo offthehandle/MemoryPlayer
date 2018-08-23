@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>DocStrap Source: MP.directive.js</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.cosmo.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">DocStrap</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="MemoryPlayerAPI.html">MemoryPlayerAPI</a></li><li><a href="MemoryPlayerConfig.html">MemoryPlayerConfig</a></li><li><a href="MemoryPlayerController.html">MemoryPlayerController</a></li><li><a href="MemoryPlayerControls.html">MemoryPlayerControls</a></li><li><a href="MemoryPlayerDirective.html">MemoryPlayerDirective</a></li><li><a href="MemoryPlayerRun.html">MemoryPlayerRun</a></li><li><a href="MemoryPlayerSharing.html">MemoryPlayerSharing</a></li><li><a href="MemoryPlayerState.html">MemoryPlayerState</a></li><li><a href="SharingDirective.html">SharingDirective</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-12">
+	
+		<div id="main">
+			
+
+		<h1 class="page-title">Source: MP.directive.js</h1>
+    
+<section>
+    <article>
+        <pre
+            class="sunlight-highlight-javascript linenums">var MemoryPlayerDirective = (function () {
+    /**
+     * Implements IDirective
+     * @constructs MemoryPlayerDirective
+     * @param {ILocationService} $location - The core angular location service.
+     * @param {IMemoryPlayerAPI} MemoryPlayerAPI - The service that manages API calls.
+     * @param {IMemoryPlayerState} MemoryPlayerState - The service that manages memory player state.
+     * @param {IMemoryPlayerControls} MemoryPlayerControls - The service that manages memory player controls.
+     */
+    function MemoryPlayerDirective($location, MemoryPlayerAPI, MemoryPlayerState, MemoryPlayerControls) {
+        var _this = this;
+        this.$location = $location;
+        this.MemoryPlayerAPI = MemoryPlayerAPI;
+        this.MemoryPlayerState = MemoryPlayerState;
+        this.MemoryPlayerControls = MemoryPlayerControls;
+        /**
+         * @memberof MemoryPlayerDirective
+         * @member {string} restrict - The directive restriction - attribute only.
+         */
+        this.restrict = 'A';
+        /**
+         * @memberof MemoryPlayerDirective
+         * @member {boolean} scope - The directive scope.
+         */
+        this.scope = true;
+        /**
+         * @memberof MemoryPlayerDirective
+         * @member {boolean} replace - Whether the directive should replace its calling node.
+         */
+        this.replace = true;
+        /**
+         * @memberof MemoryPlayerDirective
+         * @member {string} templateUrl - The url to the HTML template.
+         */
+        this.templateUrl = '/lib/memory-player/dist/html/memory-player.html';
+        MemoryPlayerDirective.prototype.link = function (scope, element, attrs) {
+            // Gets player state from URL
+            var state = _this.$location.search();
+            // Gets playlists from json file
+            _this.MemoryPlayerAPI.getPlaylists().then(function (response) {
+                // Sets playlists response in service
+                _this.MemoryPlayerState.setPlaylists(response);
+                // Restart if available settings allow, else start fresh
+                if (isRestartable(state)) {
+                    // Sets restart settings
+                    var settings = {
+                        track: parseInt(state.track),
+                        time: parseInt(state.time),
+                        volume: parseFloat(state.volume),
+                        isMuted: state.isMuted,
+                        isPaused: state.isPaused,
+                    };
+                    _this.MemoryPlayerControls.showtime(state.playlist, settings);
+                }
+                else {
+                    // Gets name of first playlist
+                    var playlist = Object.keys(response)[0];
+                    // Sets player to it
+                    _this.MemoryPlayerControls.showtime(response[playlist]._id);
+                }
+            });
+            /**
+             * Core Angular event used to append query string for continued playback.
+             *
+             * ?playlist=playlist&amp;track=track&amp;time=time&amp;volume=volume&amp;isMuted&amp;isPaused
+             *
+             * playlist = id of the selected playlist
+             * track = id of the selected track
+             * time = track time returned by internal jplayer event
+             * volume = the player volume
+             * isMuted = the player is muted or not (=false)
+             * isPaused = the player is paused or not (=false)
+             */
+            scope.$on('$locationChangeStart', function ($event, newUrl, oldUrl) {
+                if (newUrl !== oldUrl) {
+                    var newUrlPath = _this.$location.url();
+                    _this.$location.path(newUrlPath.split('?')[0]).search({
+                        playlist: _this.MemoryPlayerState.getPlaylistId(),
+                        track: _this.MemoryPlayerState.getTrackId(),
+                        time: _this.MemoryPlayerState.getTime(),
+                        volume: _this.MemoryPlayerState.getVolume(),
+                        isMuted: _this.MemoryPlayerState.getIsMuted(),
+                        isPaused: _this.MemoryPlayerState.getIsPaused()
+                    });
+                }
+            });
+        };
+    }
+    MemoryPlayerDirective.instance = function () {
+        var directive = function ($location, MemoryPlayerAPI, MemoryPlayerState, MemoryPlayerControls) {
+            return new MemoryPlayerDirective($location, MemoryPlayerAPI, MemoryPlayerState, MemoryPlayerControls);
+        };
+        directive['$inject'] = [
+            '$location',
+            'MemoryPlayerAPI',
+            'MemoryPlayerState',
+            'MemoryPlayerControls',
+        ];
+        return directive;
+    };
+    return MemoryPlayerDirective;
+}());
+// Test available settings for restartability
+function isRestartable(state) {
+    // Sets success as initial test result
+    var isRestartable = true;
+    // If any required setting is missing, set failure result
+    if (!state.hasOwnProperty('isMuted')) {
+        isRestartable = false;
+    }
+    if (!state.hasOwnProperty('isPaused')) {
+        isRestartable = false;
+    }
+    if (!state.hasOwnProperty('playlist')) {
+        isRestartable = false;
+    }
+    if (!state.hasOwnProperty('time')) {
+        isRestartable = false;
+    }
+    if (!state.hasOwnProperty('track')) {
+        isRestartable = false;
+    }
+    if (!state.hasOwnProperty('volume')) {
+        isRestartable = false;
+    }
+    // Returns test result
+    return isRestartable;
+}
+(function () {
+    'use strict';
+    angular.module('MemoryPlayer')
+        .directive('memoryPlayer', MemoryPlayerDirective.instance());
+})();
+</pre>
+    </article>
+</section>
+
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+
+</div>
+</div>
+
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+<footer>
+
+
+	<span class="copyright">
+	DocStrap Copyright © 2012-2017 The contributors to the JSDoc3 and DocStrap projects.
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a>
+	
+		on Wed Aug 22nd 2018
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
+</body>
+</html>

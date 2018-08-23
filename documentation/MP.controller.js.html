@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>DocStrap Source: MP.controller.js</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.cosmo.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">DocStrap</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="MemoryPlayerAPI.html">MemoryPlayerAPI</a></li><li><a href="MemoryPlayerConfig.html">MemoryPlayerConfig</a></li><li><a href="MemoryPlayerController.html">MemoryPlayerController</a></li><li><a href="MemoryPlayerControls.html">MemoryPlayerControls</a></li><li><a href="MemoryPlayerDirective.html">MemoryPlayerDirective</a></li><li><a href="MemoryPlayerRun.html">MemoryPlayerRun</a></li><li><a href="MemoryPlayerSharing.html">MemoryPlayerSharing</a></li><li><a href="MemoryPlayerState.html">MemoryPlayerState</a></li><li><a href="SharingDirective.html">SharingDirective</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-12">
+	
+		<div id="main">
+			
+
+		<h1 class="page-title">Source: MP.controller.js</h1>
+    
+<section>
+    <article>
+        <pre
+            class="sunlight-highlight-javascript linenums">var MemoryPlayerController = (function () {
+    /**
+     * Implements IController
+     * @constructs MemoryPlayerController
+     * @param {IScope} $scope - The core angular scope service.
+     * @param {IMemoryPlayerState} MemoryPlayerState - The service that manages memory player state.
+     * @param {IMemoryPlayerControls} MemoryPlayerControls - The service that manages memory player controls.
+     * @param {IMemoryPlayerSharing} MemoryPlayerSharing - The service that manages memory player link sharing.
+     */
+    function MemoryPlayerController($scope, MemoryPlayerState, MemoryPlayerControls, MemoryPlayerSharing) {
+        var _this = this;
+        this.$scope = $scope;
+        this.MemoryPlayerState = MemoryPlayerState;
+        this.MemoryPlayerControls = MemoryPlayerControls;
+        this.MemoryPlayerSharing = MemoryPlayerSharing;
+        // Turns on sharing
+        this.isShareable = true;
+        // Sets initial state of player
+        this.playlists = this.MemoryPlayerState.getPlaylists();
+        this.currentPlaylist = this.MemoryPlayerState.getPlaylist();
+        this.currentTrack = this.MemoryPlayerState.getTrack();
+        this.isPaused = this.MemoryPlayerState.getIsPaused();
+        // Watches state service for playlists change
+        this.$scope.$watch(function () {
+            return _this.MemoryPlayerState.getPlaylists();
+        }, function (newPlaylists, oldPlaylists) {
+            // If playlists change then update
+            if (angular.isDefined(newPlaylists) &amp;&amp; newPlaylists !== oldPlaylists) {
+                // Updates playlists
+                _this.playlists = newPlaylists;
+            }
+        });
+        // Watches state service for playlist change
+        this.$scope.$watch(function () {
+            return _this.MemoryPlayerState.getPlaylist();
+        }, function (newPlaylist, oldPlaylist) {
+            // If playlist changes then update
+            if (angular.isDefined(newPlaylist) &amp;&amp; newPlaylist !== oldPlaylist) {
+                // Updates current playlist
+                _this.currentPlaylist = newPlaylist;
+            }
+        });
+        // Watches state service for track change
+        this.$scope.$watch(function () {
+            return _this.MemoryPlayerState.getTrack();
+        }, function (newTrack, oldTrack) {
+            // If track changes then update
+            if (angular.isDefined(newTrack) &amp;&amp; newTrack !== oldTrack) {
+                // Updates current track
+                _this.currentTrack = newTrack;
+            }
+        });
+        // Watches state service for play state change
+        this.$scope.$watch(function () {
+            return _this.MemoryPlayerState.getIsPaused();
+        }, function (newState, oldState) {
+            // If play state changes then update
+            if (angular.isDefined(newState) &amp;&amp; newState !== oldState) {
+                // Updates play state
+                _this.isPaused = newState;
+            }
+        });
+    }
+    /**
+     * Implements toggle use time method of {@link MemoryPlayerSharing}
+     * @memberof MemoryPlayerController
+     * @instance
+     */
+    MemoryPlayerController.prototype.cancelTimer = function () {
+        this.MemoryPlayerSharing.cancelTimer();
+    };
+    /**
+     * Implements max volume method of {@link MemoryPlayerControls}
+     * @memberof MemoryPlayerController
+     * @instance
+     */
+    MemoryPlayerController.prototype.maxVolume = function () {
+        this.MemoryPlayerControls.maxVolume();
+    };
+    /**
+     * Implements toggle mute and unmute method of {@link MemoryPlayerControls}
+     * @memberof MemoryPlayerController
+     * @instance
+     */
+    MemoryPlayerController.prototype.mute = function () {
+        this.MemoryPlayerControls.mute();
+    };
+    /**
+     * Implements play next track method of {@link MemoryPlayerControls}
+     * @memberof MemoryPlayerController
+     * @instance
+     */
+    MemoryPlayerController.prototype.next = function () {
+        this.MemoryPlayerControls.next();
+    };
+    /**
+     * Implements toggle play and pause method of {@link MemoryPlayerControls}
+     * @memberof MemoryPlayerController
+     * @instance
+     */
+    MemoryPlayerController.prototype.play = function () {
+        this.MemoryPlayerControls.play();
+    };
+    /**
+     * Implements play previous track method of {@link MemoryPlayerControls}
+     * @memberof MemoryPlayerController
+     * @instance
+     */
+    MemoryPlayerController.prototype.previous = function () {
+        this.MemoryPlayerControls.previous();
+    };
+    /**
+     * Implements play selected playlist method of {@link MemoryPlayerControls}
+     * @memberof MemoryPlayerController
+     * @instance
+     * @param {string} playlistName - The name of selected playlist.
+     */
+    MemoryPlayerController.prototype.selectPlaylist = function (playlistName) {
+        this.MemoryPlayerControls.selectPlaylist(playlistName);
+    };
+    /**
+     * Implements play selected track method of {@link MemoryPlayerControls}
+     * @memberof MemoryPlayerController
+     * @instance
+     * @param {number} trackIndex - The index of selected track in playlist.
+     */
+    MemoryPlayerController.prototype.selectTrack = function (trackIndex) {
+        this.MemoryPlayerControls.selectTrack(trackIndex);
+    };
+    /**
+     * Implements toggle use time method of {@link MemoryPlayerSharing}
+     * @memberof MemoryPlayerController
+     * @instance
+     */
+    MemoryPlayerController.prototype.share = function () {
+        this.MemoryPlayerSharing.share();
+    };
+    /**
+     * Implements toggle playlist dropdown method of {@link MemoryPlayerControls}
+     * @memberof MemoryPlayerController
+     * @instance
+     * @param {JQueryEventObject} $event - The event from trigger element.
+     */
+    MemoryPlayerController.prototype.toggleDropdown = function ($event) {
+        this.MemoryPlayerControls.toggleDropdown($event);
+    };
+    /**
+     * Implements toggle use time method of {@link MemoryPlayerSharing}
+     * @memberof MemoryPlayerController
+     * @instance
+     */
+    MemoryPlayerController.prototype.updateTime = function () {
+        this.MemoryPlayerSharing.updateTime();
+    };
+    /**
+     * Implements toggle use time method of {@link MemoryPlayerSharing}
+     * @memberof MemoryPlayerController
+     * @instance
+     */
+    MemoryPlayerController.prototype.useTime = function () {
+        this.MemoryPlayerSharing.useTime();
+    };
+    return MemoryPlayerController;
+}());
+MemoryPlayerController.instance = [
+    '$scope',
+    'MemoryPlayerState',
+    'MemoryPlayerControls',
+    'MemoryPlayerSharing',
+    MemoryPlayerController
+];
+(function () {
+    'use strict';
+    angular.module('MemoryPlayer')
+        .controller('MemoryPlayerController', MemoryPlayerController.instance);
+})();
+</pre>
+    </article>
+</section>
+
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+
+</div>
+</div>
+
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+<footer>
+
+
+	<span class="copyright">
+	DocStrap Copyright © 2012-2017 The contributors to the JSDoc3 and DocStrap projects.
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a>
+	
+		on Wed Aug 22nd 2018
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
+</body>
+</html>

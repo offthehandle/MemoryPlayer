@@ -50,7 +50,7 @@ class MemoryPlayerDirective implements angular.IDirective {
      * @memberof MemoryPlayerDirective
      * @member link - The link option for the directive.
      */
-    public link: (scope: IMemoryPlayerDirective, element: JQuery, attrs: angular.IAttributes) => void;
+    public link: (scope: angular.IScope, element: JQuery, attrs: angular.IAttributes) => void;
 
 
 
@@ -68,13 +68,13 @@ class MemoryPlayerDirective implements angular.IDirective {
         private MemoryPlayerState: IMemoryPlayerState,
         private MemoryPlayerControls: IMemoryPlayerControls
     ) {
-        MemoryPlayerDirective.prototype.link = (scope: IMemoryPlayerDirective, element: JQuery, attrs: angular.IAttributes): void => {
+        MemoryPlayerDirective.prototype.link = (scope: angular.IScope, element: JQuery, attrs: angular.IAttributes): void => {
 
             // Gets player state from URL
             let state: any = this.$location.search();
 
 
-            // Gets playlists from json file
+            // Gets playlists using API
             this.MemoryPlayerAPI.getPlaylists().then((response: IPlaylists): void => {
 
                 // Sets playlists response in service
@@ -92,6 +92,7 @@ class MemoryPlayerDirective implements angular.IDirective {
                         isPaused: state.isPaused,
                     };
 
+                    // Restarts player
                     this.MemoryPlayerControls.showtime(state.playlist, settings);
 
                 } else {
@@ -99,7 +100,7 @@ class MemoryPlayerDirective implements angular.IDirective {
                     // Gets name of first playlist
                     let playlist: string = Object.keys(response)[0];
 
-                    // Sets player to it
+                    // Starts player fresh
                     this.MemoryPlayerControls.showtime(response[playlist]._id);
                 }
             });
@@ -110,18 +111,19 @@ class MemoryPlayerDirective implements angular.IDirective {
              *
              * ?playlist=playlist&track=track&time=time&volume=volume&isMuted&isPaused
              *
-             * playlist = id of the selected playlist
-             * track = id of the selected track
-             * time = track time returned by internal jplayer event
-             * volume = the player volume
+             * playlist = id of the current playlist
+             * track = id of the current track
+             * time = current playback time
+             * volume = current player volume
              * isMuted = the player is muted or not (=false)
              * isPaused = the player is paused or not (=false)
              */
             scope.$on('$locationChangeStart', ($event: angular.IAngularEvent, newUrl: string, oldUrl: string): void => {
 
+                // If new page is requested then append query string
                 if (newUrl !== oldUrl) {
 
-                    var newUrlPath = this.$location.url();
+                    let newUrlPath = this.$location.url();
 
                     this.$location.path(newUrlPath.split('?')[0]).search({
                         playlist: this.MemoryPlayerState.getPlaylistId(),

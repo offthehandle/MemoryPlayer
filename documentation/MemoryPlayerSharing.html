@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>DocStrap Class: MemoryPlayerDirective</title>
+	<title>DocStrap Class: MemoryPlayerSharing</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -65,13 +65,13 @@
 		<div id="main">
 			
 
-	<h1 class="page-title">Class: MemoryPlayerDirective</h1>
+	<h1 class="page-title">Class: MemoryPlayerSharing</h1>
 <section>
 
 <header>
     
         <h2>
-        MemoryPlayerDirective
+        MemoryPlayerSharing
         </h2>
         
     
@@ -84,7 +84,7 @@
         
 <hr>
 <dt>
-    <h4 class="name" id="MemoryPlayerDirective"><span class="type-signature"></span>new MemoryPlayerDirective($location, MemoryPlayerAPI, MemoryPlayerState, MemoryPlayerControls)</h4>
+    <h4 class="name" id="MemoryPlayerSharing"><span class="type-signature"></span>new MemoryPlayerSharing($rootScope, JPlayer, MemoryPlayerState)</h4>
     
     
 </dt>
@@ -92,7 +92,7 @@
 
     
     <div class="description">
-        <p>Implements IDirective</p>
+        <p>Implements IMemoryPlayerSharing</p>
     </div>
     
 
@@ -127,13 +127,13 @@
 
         <tr>
             
-                <td class="name"><code>$location</code></td>
+                <td class="name"><code>$rootScope</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">ILocationService</span>
+<span class="param-type">IRootScopeService</span>
 
 
 
@@ -144,20 +144,20 @@
 
             
 
-            <td class="description last"><p>The core angular location service.</p></td>
+            <td class="description last"><p>The core angular root scope service.</p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>MemoryPlayerAPI</code></td>
+                <td class="name"><code>JPlayer</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">IMemoryPlayerAPI</span>
+<span class="param-type"><a href="MemoryPlayerProvider.html">MemoryPlayerProvider</a></span>
 
 
 
@@ -168,7 +168,7 @@
 
             
 
-            <td class="description last"><p>The service that manages API calls.</p></td>
+            <td class="description last"><p>The provider service that manages jplayer.</p></td>
         </tr>
 
     
@@ -193,30 +193,6 @@
             
 
             <td class="description last"><p>The service that manages memory player state.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>MemoryPlayerControls</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">IMemoryPlayerControls</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The service that manages memory player controls.</p></td>
         </tr>
 
     
@@ -260,8 +236,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="MP.directive.js.html">MP.directive.js</a>,
-				 <a href="MP.directive.js.html#sunlight-1-line-10">line 10</a>
+				<a href="services_MP.Sharing.service.js.html">services/MP.Sharing.service.js</a>,
+				 <a href="services_MP.Sharing.service.js.html#sunlight-1-line-9">line 9</a>
 			</li>
 		</ul>
 	</dd>
@@ -304,34 +280,31 @@
     
 
     
-        <h3 class="subsection-title">Members</h3>
+
+    
+        <h3 class="subsection-title">Methods</h3>
 
         <dl>
             
 <hr>
-<dt class="name" id=".replace">
-    <h4 id=".replace"><span class="type-signature">&lt;static> </span>replace<span class="type-signature"> :boolean</span></h4>
-
+<dt>
+    <h4 class="name" id="cancelTimer"><span class="type-signature"></span>cancelTimer()</h4>
+    
     
 </dt>
 <dd>
+
     
     <div class="description">
-        <p>Whether the directive should replace its calling node.</p>
+        <p>Cancels timer when user focuses start time input.</p>
     </div>
     
 
     
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type">boolean</span>
 
+    
 
-
-            </li>
-        </ul>
+    
     
 
     
@@ -369,8 +342,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="MP.directive.js.html">MP.directive.js</a>,
-				 <a href="MP.directive.js.html#sunlight-1-line-26">line 26</a>
+				<a href="services_MP.Sharing.service.js.html">services/MP.Sharing.service.js</a>,
+				 <a href="services_MP.Sharing.service.js.html#sunlight-1-line-83">line 83</a>
 			</li>
 		</ul>
 	</dd>
@@ -385,196 +358,118 @@
 
 
     
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
 </dd>
 
         
             
 <hr>
-<dt class="name" id=".restrict">
-    <h4 id=".restrict"><span class="type-signature">&lt;static> </span>restrict<span class="type-signature"> :string</span></h4>
-
+<dt>
+    <h4 class="name" id="setShareVal"><span class="type-signature"></span>setShareVal(key, value)</h4>
+    
     
 </dt>
 <dd>
+
     
     <div class="description">
-        <p>The directive restriction - attribute only.</p>
+        <p>Updates value specified by key.</p>
     </div>
     
 
     
-        <h5>Type:</h5>
-        <ul>
-            <li>
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+
+            <td class="type">
+            
                 
 <span class="param-type">string</span>
 
 
 
-            </li>
-        </ul>
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="MP.directive.js.html">MP.directive.js</a>,
-				 <a href="MP.directive.js.html#sunlight-1-line-16">line 16</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-</dd>
-
-        
             
-<hr>
-<dt class="name" id=".scope">
-    <h4 id=".scope"><span class="type-signature">&lt;static> </span>scope<span class="type-signature"> :boolean</span></h4>
+            </td>
 
-    
-</dt>
-<dd>
-    
-    <div class="description">
-        <p>The directive scope.</p>
-    </div>
-    
-
-    
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type">boolean</span>
-
-
-
-            </li>
-        </ul>
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="MP.directive.js.html">MP.directive.js</a>,
-				 <a href="MP.directive.js.html#sunlight-1-line-21">line 21</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-</dd>
-
-        
             
-<hr>
-<dt class="name" id=".templateUrl">
-    <h4 id=".templateUrl"><span class="type-signature">&lt;static> </span>templateUrl<span class="type-signature"> :string</span></h4>
+
+            
+
+            <td class="description last"><p>The key of value to be set.</p></td>
+        </tr>
 
     
-</dt>
-<dd>
-    
-    <div class="description">
-        <p>The url to the HTML template.</p>
-    </div>
-    
 
-    
-        <h5>Type:</h5>
-        <ul>
-            <li>
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
                 
 <span class="param-type">string</span>
+|
+
+<span class="param-type">number</span>
 
 
 
-            </li>
-        </ul>
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The value to set.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
     
 
     
@@ -612,8 +507,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="MP.directive.js.html">MP.directive.js</a>,
-				 <a href="MP.directive.js.html#sunlight-1-line-31">line 31</a>
+				<a href="services_MP.Sharing.service.js.html">services/MP.Sharing.service.js</a>,
+				 <a href="services_MP.Sharing.service.js.html#sunlight-1-line-94">line 94</a>
 			</li>
 		</ul>
 	</dd>
@@ -626,13 +521,287 @@
 	
 </dl>
 
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="share"><span class="type-signature"></span>share()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Copies share link to clipboard.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="services_MP.Sharing.service.js.html">services/MP.Sharing.service.js</a>,
+				 <a href="services_MP.Sharing.service.js.html#sunlight-1-line-161">line 161</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="updateTime"><span class="type-signature"></span>updateTime()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Updates time in share link.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="services_MP.Sharing.service.js.html">services/MP.Sharing.service.js</a>,
+				 <a href="services_MP.Sharing.service.js.html#sunlight-1-line-174">line 174</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="useTime"><span class="type-signature"></span>useTime()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Updates the share link time value when start time is used.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="services_MP.Sharing.service.js.html">services/MP.Sharing.service.js</a>,
+				 <a href="services_MP.Sharing.service.js.html#sunlight-1-line-185">line 185</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
 
     
 </dd>
 
         </dl>
-    
-
     
 
     

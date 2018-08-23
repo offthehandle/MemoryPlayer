@@ -24,7 +24,7 @@ class MemoryPlayerAPI implements IMemoryPlayerAPI {
 
     /**
      * @memberof MemoryPlayerAPI
-     * @member {string} playlists - The path to playlists json file.
+     * @member {string} playlists - The path to retrieve playlists.
      * @private
      */
     private playlists: string = '/lib/memory-player/dist/json/playlists.json';
@@ -44,7 +44,7 @@ class MemoryPlayerAPI implements IMemoryPlayerAPI {
 
 
     /**
-     * Gets JSON file containing playlists.
+     * Gets playlists JSON response.
      * @memberof MemoryPlayerAPI
      * @instance
      * @returns {IHttpPromise<IPlaylists>} - playlists on success and null on failure.

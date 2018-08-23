@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>DocStrap Source: services/MP.State.service.js</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.cosmo.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">DocStrap</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="MemoryPlayerAPI.html">MemoryPlayerAPI</a></li><li><a href="MemoryPlayerConfig.html">MemoryPlayerConfig</a></li><li><a href="MemoryPlayerController.html">MemoryPlayerController</a></li><li><a href="MemoryPlayerControls.html">MemoryPlayerControls</a></li><li><a href="MemoryPlayerDirective.html">MemoryPlayerDirective</a></li><li><a href="MemoryPlayerRun.html">MemoryPlayerRun</a></li><li><a href="MemoryPlayerSharing.html">MemoryPlayerSharing</a></li><li><a href="MemoryPlayerState.html">MemoryPlayerState</a></li><li><a href="SharingDirective.html">SharingDirective</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-12">
+	
+		<div id="main">
+			
+
+		<h1 class="page-title">Source: services/MP.State.service.js</h1>
+    
+<section>
+    <article>
+        <pre
+            class="sunlight-highlight-javascript linenums">var MemoryPlayerState = (function () {
+    /**
+     * Implements IMemoryPlayerState
+     * @constructs MemoryPlayerState
+     * @param {MemoryPlayerProvider} JPlayer - The provider service that manages jplayer.
+     */
+    function MemoryPlayerState(JPlayer) {
+        this.JPlayer = JPlayer;
+        // Initializes JPlayer id
+        this.jPlayerId = this.JPlayer.ids.jPlayer;
+        // Initializes some player settings
+        this.isMuted = false;
+        this.isPaused = true;
+        this.volume = 0.80;
+    }
+    /**
+     * Gets boolean that player is muted or not.
+     * @memberof MemoryPlayerState
+     * @instance
+     * @returns {boolean} - True if player is muted else false.
+     */
+    MemoryPlayerState.prototype.getIsMuted = function () {
+        return this.isMuted;
+    };
+    /**
+     * Sets boolean that player is muted or not.
+     * @memberof MemoryPlayerState
+     * @instance
+     * @param {boolean} isMuted - The muted state.
+     */
+    MemoryPlayerState.prototype.setIsMuted = function (isMuted) {
+        // Updates muted state
+        this.isMuted = isMuted;
+    };
+    /**
+     * Gets boolean that player is paused or not.
+     * @memberof MemoryPlayerState
+     * @instance
+     * @returns {boolean} - True if player is paused else false.
+     */
+    MemoryPlayerState.prototype.getIsPaused = function () {
+        return this.isPaused;
+    };
+    /**
+     * Sets boolean that player is paused or not.
+     * @memberof MemoryPlayerState
+     * @instance
+     * @param {boolean} isPaused - The play state.
+     */
+    MemoryPlayerState.prototype.setIsPaused = function (isPaused) {
+        // Updates play state
+        this.isPaused = isPaused;
+    };
+    /**
+     * Gets current playlist.
+     * @memberof MemoryPlayerState
+     * @instance
+     * @returns {IPlaylist} - The playlist.
+     */
+    MemoryPlayerState.prototype.getPlaylist = function () {
+        return this.currentPlaylist;
+    };
+    /**
+     * Sets current playlist.
+     * @memberof MemoryPlayerState
+     * @instance
+     * @param {string} playlistName - The name of selected playlist.
+     */
+    MemoryPlayerState.prototype.setPlaylist = function (playlistName) {
+        // Updates current playlist
+        this.currentPlaylist = this.playlists[playlistName];
+        // Sets current track to first track in current playlist
+        this.setTrack(0);
+    };
+    /**
+     * Gets current playlist id.
+     * @memberof MemoryPlayerState
+     * @instance
+     * @returns {string} - The id of playlist.
+     */
+    MemoryPlayerState.prototype.getPlaylistId = function () {
+        return this.currentPlaylist._id;
+    };
+    /**
+     * Gets playlists.
+     * @memberof MemoryPlayerState
+     * @instance
+     * @returns {IPlaylists} - The playlists.
+     */
+    MemoryPlayerState.prototype.getPlaylists = function () {
+        return this.playlists;
+    };
+    /**
+     * Sets playlists returned by API.
+     * @memberof MemoryPlayerState
+     * @instance
+     * @param {IPlaylists} playlists - The playlists.
+     */
+    MemoryPlayerState.prototype.setPlaylists = function (playlists) {
+        // Updates current playlists
+        this.playlists = playlists;
+    };
+    /**
+     * Gets current playback time of player.
+     * @memberof MemoryPlayerState
+     * @instance
+     * @returns {number} - The playback time of player.
+     */
+    MemoryPlayerState.prototype.getTime = function () {
+        // Rounds current playback time
+        return Math.floor(angular.element(this.jPlayerId).data('jPlayer').status.currentTime);
+    };
+    /**
+     * Gets current track.
+     * @memberof MemoryPlayerState
+     * @instance
+     * @returns {ITrack} - The track.
+     */
+    MemoryPlayerState.prototype.getTrack = function () {
+        return this.currentTrack;
+    };
+    /**
+     * Sets current track.
+     * @memberof MemoryPlayerState
+     * @instance
+     * @param {number} trackIndex - The id of selected track.
+     */
+    MemoryPlayerState.prototype.setTrack = function (trackIndex) {
+        // Updates current track
+        this.currentTrack = this.currentPlaylist.playlist[trackIndex];
+    };
+    /**
+     * Gets current track id.
+     * @memberof MemoryPlayerState
+     * @instance
+     * @returns {number} - The id of track.
+     */
+    MemoryPlayerState.prototype.getTrackId = function () {
+        return this.currentTrack._id;
+    };
+    /**
+     * Gets current volume of player.
+     * @memberof MemoryPlayerState
+     * @instance
+     * @returns {string} - The 2 digit decimal volume of player.
+     */
+    MemoryPlayerState.prototype.getVolume = function () {
+        return this.volume.toFixed(2);
+    };
+    /**
+     * Sets volume of player.
+     * @memberof MemoryPlayerState
+     * @instance
+     */
+    MemoryPlayerState.prototype.setVolume = function (volume) {
+        this.volume = volume;
+    };
+    return MemoryPlayerState;
+}());
+MemoryPlayerState.instance = [
+    'JPlayer',
+    MemoryPlayerState
+];
+(function () {
+    'use strict';
+    angular.module('MemoryPlayer')
+        .service('MemoryPlayerState', MemoryPlayerState.instance);
+})();
+</pre>
+    </article>
+</section>
+
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+
+</div>
+</div>
+
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+<footer>
+
+
+	<span class="copyright">
+	DocStrap Copyright © 2012-2017 The contributors to the JSDoc3 and DocStrap projects.
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a>
+	
+		on Wed Aug 22nd 2018
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
+</body>
+</html>

@@ -19,7 +19,7 @@ class MemoryPlayerState implements IMemoryPlayerState {
         private JPlayer: IJPlayerProvider
     ) {
 
-        // Initializes JPlayer id
+        // Stores player id for optimization
         this.jPlayerId = this.JPlayer.ids.jPlayer;
 
 
@@ -217,7 +217,7 @@ class MemoryPlayerState implements IMemoryPlayerState {
      */
     public getTime(): number {
 
-        // Rounds current playback time
+        // Rounds current playback time down
         return Math.floor(angular.element(this.jPlayerId).data('jPlayer').status.currentTime);
     }
 
