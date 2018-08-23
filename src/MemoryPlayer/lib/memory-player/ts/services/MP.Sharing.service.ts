@@ -14,7 +14,7 @@ class MemoryPlayerSharing implements IMemoryPlayerSharing {
      * Implements IMemoryPlayerSharing
      * @constructs MemoryPlayerSharing
      * @param {IRootScopeService} $rootScope - The core angular root scope service.
-     * @param {MemoryPlayerProvider} JPlayer - The provider service that manages jplayer.
+     * @param {IJPlayerProvider} JPlayer - The provider service that manages jplayer.
      * @param {IMemoryPlayerState} MemoryPlayerState - The service that manages memory player state.
      */
     constructor(
@@ -85,6 +85,22 @@ class MemoryPlayerSharing implements IMemoryPlayerSharing {
         });
 
 
+        // Watches state service for volume change
+        this.$rootScope.$watch((): string => {
+
+            return this.MemoryPlayerState.getVolume();
+
+        }, (newVolume, oldVolume): void => {
+
+            // If track changes then update
+            if (angular.isDefined(newVolume) && newVolume !== oldVolume) {
+
+                // Updates current track
+                this.setShareVal('volume', newVolume);
+            }
+        });
+
+
         // Waits for player ready
         this.$rootScope.$on('MP:Ready', ($event: angular.IAngularEvent): void => {
 
@@ -99,25 +115,13 @@ class MemoryPlayerSharing implements IMemoryPlayerSharing {
                     this.trackDuration = event.jPlayer.status.duration;
                 });
             });
-
-            /**
-             * Observes time updated.
-             */
-            angular.element(this.jPlayerId).bind($.jPlayer.event.timeupdate, (event: IjPlayerEvent): void => {
-
-                this.$rootScope.$evalAsync((): void => {
-
-                    // Updates share link time
-                    this.sharelinkTime = $.jPlayer.convertTime(event.jPlayer.status.currentTime);
-                });
-            });
         });
     }
 
 
 
     /**
-     * @memberof MemoryPlayerController
+     * @memberof MemoryPlayerSharing
      * @member {boolean} isTimeUsed - True if time is used, else false.
      * @default false
      */
@@ -125,7 +129,7 @@ class MemoryPlayerSharing implements IMemoryPlayerSharing {
 
 
     /**
-     * @memberof MemoryPlayerControls
+     * @memberof MemoryPlayerSharing
      * @member {string} jPlayerId - The player id from {@link MemoryPlayerProvider}.
      * @private
      */
@@ -133,16 +137,16 @@ class MemoryPlayerSharing implements IMemoryPlayerSharing {
 
 
     /**
-     * @memberof MemoryPlayerController
+     * @memberof MemoryPlayerSharing
      * @member {string} sharelink - The link back URL to share media in memory player.
      */
     public sharelink: string = `${window.location.protocol}//${window.location.hostname}${window.location.pathname}`;
 
 
     /**
-     * @memberof MemoryPlayerController
+     * @memberof MemoryPlayerSharing
      * @member {number} sharelinkTime - The optional start at time for share link.
-     * @default 0
+     * @default 00:00
      */
     public sharelinkTime: string;
 
@@ -150,6 +154,7 @@ class MemoryPlayerSharing implements IMemoryPlayerSharing {
     /**
      * @memberof MemoryPlayerSharing
      * @member {number} trackDuration - The current track duration.
+     * @private
      */
     private trackDuration: number;
 
@@ -174,7 +179,7 @@ class MemoryPlayerSharing implements IMemoryPlayerSharing {
      * @param {string} key - The key of value to be set.
      * @param {string | number} value - The value to set.
      */
-    private setShareVal(key: string, value: any): void {
+    public setShareVal(key: string, value: any): void {
 
         // Sets default share link values
         let sharelink: Array<IShare> = [],
@@ -289,14 +294,15 @@ class MemoryPlayerSharing implements IMemoryPlayerSharing {
      * Updates time in share link.
      * @memberof MemoryPlayerSharing
      * @instance
+     * @param {string} updatedTime - The updated sharelink time.
      */
-    public updateTime(): void {
+    public updateTime(updatedTime: string): void {
 
         // Includes time in share link
         this.isTimeUsed = true;
 
         // Sets time in share link
-        this.setShareVal('time', this.sharelinkTime);
+        this.setShareVal('time', updatedTime);
     }
 
 
@@ -309,19 +315,6 @@ class MemoryPlayerSharing implements IMemoryPlayerSharing {
 
         // Sets use time to latest user setting
         this.isTimeUsed = !this.isTimeUsed;
-
-
-        // If time is use then set start time, else start at beginning
-        if (this.isTimeUsed) {
-
-            // Set start time
-            this.setShareVal('time', this.sharelinkTime);
-
-        } else {
-
-            // Start at beginning
-            this.setShareVal('time', '0');
-        }
     }
 }
 

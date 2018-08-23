@@ -3,7 +3,7 @@ var MemoryPlayerControls = (function () {
      * Implements IMemoryPlayerControls
      * @constructs MemoryPlayerControls
      * @param {IRootScopeService} $rootScope - The core angular root scope service.
-     * @param {MemoryPlayerProvider} JPlayer - The provider service that manages jplayer.
+     * @param {IJPlayerProvider} JPlayer - The provider service that manages jplayer.
      * @param {IMemoryPlayerState} MemoryPlayerState - The service that manages memory player state.
      */
     function MemoryPlayerControls($rootScope, JPlayer, MemoryPlayerState) {
@@ -91,7 +91,7 @@ var MemoryPlayerControls = (function () {
      * Checks if current track is last in playlist.
      * @memberof MemoryPlayerControls
      * @instance
-     * @returns {boolean} - True if track is last else false.
+     * @returns {boolean} - True if current track is last else false.
      * @private
      */
     MemoryPlayerControls.prototype.isEnd = function () {
@@ -275,14 +275,14 @@ var MemoryPlayerControls = (function () {
             // Removes loading class
             angular.element('#memory-player').removeClass('mp-loading');
             // Notifies that player setup is complete
-            _this.$rootScope.$emit('MP:Ready');
+            _this.$rootScope.$broadcast('MP:Ready');
         });
     };
     /**
      * Toggles playlist dropdown.
      * @memberof MemoryPlayerControls
      * @instance
-     * @param {JQueryEventObject} $event - The event from trigging element.
+     * @param {JQueryEventObject} $event - The event from trigger element.
      */
     MemoryPlayerControls.prototype.toggleDropdown = function ($event) {
         // Sets values to update dropdown state

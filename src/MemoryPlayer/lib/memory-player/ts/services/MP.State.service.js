@@ -2,11 +2,11 @@ var MemoryPlayerState = (function () {
     /**
      * Implements IMemoryPlayerState
      * @constructs MemoryPlayerState
-     * @param {MemoryPlayerProvider} JPlayer - The provider service that manages jplayer.
+     * @param {IJPlayerProvider} JPlayer - The provider service that manages jplayer.
      */
     function MemoryPlayerState(JPlayer) {
         this.JPlayer = JPlayer;
-        // Initializes JPlayer id
+        // Stores player id for optimization
         this.jPlayerId = this.JPlayer.ids.jPlayer;
         // Initializes some player settings
         this.isMuted = false;
@@ -107,7 +107,7 @@ var MemoryPlayerState = (function () {
      * @returns {number} - The playback time of player.
      */
     MemoryPlayerState.prototype.getTime = function () {
-        // Rounds current playback time
+        // Rounds current playback time down
         return Math.floor(angular.element(this.jPlayerId).data('jPlayer').status.currentTime);
     };
     /**

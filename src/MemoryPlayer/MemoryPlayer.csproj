@@ -94,6 +94,7 @@
     <TypeScriptCompile Include="lib\memory-player\ts\interfaces\MemoryPlayer\MP.Share.d.ts" />
     <TypeScriptCompile Include="lib\memory-player\ts\interfaces\MemoryPlayer\MP.Restart.d.ts" />
     <TypeScriptCompile Include="lib\memory-player\ts\interfaces\MemoryPlayer\providers\MP.Provider.d.ts" />
+    <TypeScriptCompile Include="lib\memory-player\ts\interfaces\MemoryPlayer\scopes\MP.Sharing.d.ts" />
     <TypeScriptCompile Include="lib\memory-player\ts\interfaces\MemoryPlayer\services\MP.API.d.ts" />
     <TypeScriptCompile Include="lib\memory-player\ts\interfaces\MemoryPlayer\services\MP.Sharing.d.ts" />
     <TypeScriptCompile Include="lib\memory-player\ts\interfaces\MemoryPlayer\services\MP.Controls.d.ts" />

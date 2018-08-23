@@ -12,7 +12,7 @@ var MemoryPlayerProvider = (function () {
         return {
             ids: this.JPlayerIds,
             create: function (playlist) {
-                // If jplayer is defined then allow create
+                // If jplayer is undefined then allow create
                 if (angular.isUndefined(_this.JPlayer)) {
                     // Sets immutable jplayer instance
                     _this.JPlayer = new jPlayerPlaylist(_this.JPlayerIds, playlist, _this.JPlayerOptions);

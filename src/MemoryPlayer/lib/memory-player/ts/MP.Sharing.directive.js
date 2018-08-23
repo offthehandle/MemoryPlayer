@@ -1,39 +1,61 @@
 var SharingDirective = (function () {
-    /**
-     * Implements IDirective
-     * @constructs SharingDirective
-     * @param {IMemoryPlayerSharing} MemoryPlayerSharing - The service that manages memory player link sharing.
-     */
-    function SharingDirective(MemoryPlayerSharing) {
+    function SharingDirective(JPlayer, MemoryPlayerSharing) {
+        var _this = this;
+        this.JPlayer = JPlayer;
         this.MemoryPlayerSharing = MemoryPlayerSharing;
-        /**
-         * @memberof SharingDirective
-         * @member {string} restrict - The directive restriction - attribute only.
-         */
         this.restrict = 'A';
-        /**
-         * @memberof SharingDirective
-         * @member {boolean} scope - The directive scope.
-         */
-        this.scope = true;
-        /**
-         * @memberof SharingDirective
-         * @member {boolean} replace - Whether the directive should replace its calling node.
-         */
+        this.scope = {
+            currentTrack: '<',
+            cancelTimer: '&',
+            share: '&',
+            toggleDropdown: '&',
+            updateTime: '&',
+            useTime: '&'
+        };
         this.replace = true;
-        /**
-         * @memberof SharingDirective
-         * @member {string} templateUrl - The url to the HTML template.
-         */
         this.templateUrl = '/lib/memory-player/dist/html/mp-sharing.html';
         SharingDirective.prototype.link = function (scope, element, attrs) {
+            scope.isTimeUsed = false;
+            scope.sharelink = null;
+            scope.sharelinkTime = '00:00';
+            var unbindSharelinkWatch = scope.$watch(function () {
+                return _this.MemoryPlayerSharing.sharelink;
+            }, function (newSharelink, oldSharelink) {
+                if (angular.isDefined(newSharelink) && newSharelink !== oldSharelink) {
+                    scope.sharelink = newSharelink;
+                }
+            });
+            var unbindIsTimeUsedWatch = scope.$watch(function () {
+                return _this.MemoryPlayerSharing.isTimeUsed;
+            }, function (newValue, oldValue) {
+                if (angular.isDefined(newValue) && newValue !== oldValue) {
+                    scope.isTimeUsed = newValue;
+                    if (scope.isTimeUsed) {
+                        angular.element(_this.JPlayer.ids.jPlayer).bind($.jPlayer.event.timeupdate, function (event) {
+                            scope.$evalAsync(function () {
+                                scope.sharelinkTime = $.jPlayer.convertTime(event.jPlayer.status.currentTime);
+                                _this.MemoryPlayerSharing.setShareVal('time', scope.sharelinkTime);
+                            });
+                        });
+                    }
+                    else {
+                        angular.element(_this.JPlayer.ids.jPlayer).unbind($.jPlayer.event.timeupdate);
+                        _this.MemoryPlayerSharing.setShareVal('time', '0');
+                    }
+                }
+            });
+            scope.$on('$destroy', function () {
+                unbindSharelinkWatch();
+                unbindIsTimeUsedWatch();
+            });
         };
     }
     SharingDirective.instance = function () {
-        var directive = function (MemoryPlayerSharing) {
-            return new SharingDirective(MemoryPlayerSharing);
+        var directive = function (JPlayer, MemoryPlayerSharing) {
+            return new SharingDirective(JPlayer, MemoryPlayerSharing);
         };
         directive['$inject'] = [
+            'JPlayer',
             'MemoryPlayerSharing',
         ];
         return directive;

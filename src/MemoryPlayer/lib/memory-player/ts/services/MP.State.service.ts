@@ -13,7 +13,7 @@ class MemoryPlayerState implements IMemoryPlayerState {
     /**
      * Implements IMemoryPlayerState
      * @constructs MemoryPlayerState
-     * @param {MemoryPlayerProvider} JPlayer - The provider service that manages jplayer.
+     * @param {IJPlayerProvider} JPlayer - The provider service that manages jplayer.
      */
     constructor(
         private JPlayer: IJPlayerProvider

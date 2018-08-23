@@ -27,9 +27,27 @@ class MemoryPlayerDirective implements angular.IDirective {
 
     /**
      * @memberof MemoryPlayerDirective
-     * @member {boolean} scope - The directive scope.
+     * @member {{ [boundProperty: string]: string }} scope - The directive scope.
      */
-    public scope: boolean = true;
+    public scope: { [boundProperty: string]: string } = {
+        cancelTimer: '&',
+        currentPlaylist: '<',
+        currentTrack: '<',
+        isPaused: '<',
+        isShareable: '<',
+        maxVolume: '&',
+        mute: '&',
+        next: '&',
+        play: '&',
+        playlists: '<',
+        previous: '&',
+        selectPlaylist: '&',
+        selectTrack: '&',
+        share: '&',
+        toggleDropdown: '&',
+        updateTime: '&',
+        useTime: '&'
+    };
 
 
     /**

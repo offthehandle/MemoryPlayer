@@ -14,7 +14,7 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
      * Implements IMemoryPlayerControls
      * @constructs MemoryPlayerControls
      * @param {IRootScopeService} $rootScope - The core angular root scope service.
-     * @param {MemoryPlayerProvider} JPlayer - The provider service that manages jplayer.
+     * @param {IJPlayerProvider} JPlayer - The provider service that manages jplayer.
      * @param {IMemoryPlayerState} MemoryPlayerState - The service that manages memory player state.
      */
     constructor(
@@ -402,7 +402,7 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
             angular.element('#memory-player').removeClass('mp-loading');
 
             // Notifies that player setup is complete
-            this.$rootScope.$emit('MP:Ready');
+            this.$rootScope.$broadcast('MP:Ready');
         });
     }
 

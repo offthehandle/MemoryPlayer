@@ -17,7 +17,7 @@ var MemoryPlayerProvider = (function () {
         return {
             ids: this.JPlayerIds,
             create: function (playlist) {
-                // If jplayer is defined then allow create
+                // If jplayer is undefined then allow create
                 if (angular.isUndefined(_this.JPlayer)) {
                     // Sets immutable jplayer instance
                     _this.JPlayer = new jPlayerPlaylist(_this.JPlayerIds, playlist, _this.JPlayerOptions);
@@ -128,7 +128,7 @@ var MemoryPlayerAPI = (function () {
         this.$log = $log;
         /**
          * @memberof MemoryPlayerAPI
-         * @member {string} playlists - The path to playlists json file.
+         * @member {string} playlists - The path to retrieve playlists.
          * @private
          */
         this.playlists = '/lib/memory-player/dist/json/playlists.json';
@@ -144,7 +144,7 @@ var MemoryPlayerAPI = (function () {
     };
     ;
     /**
-     * Gets JSON file containing playlists.
+     * Gets playlists JSON response.
      * @memberof MemoryPlayerAPI
      * @instance
      * @returns {IHttpPromise<IPlaylists>} - playlists on success and null on failure.
@@ -192,7 +192,7 @@ var MemoryPlayerControls = (function () {
      * Implements IMemoryPlayerControls
      * @constructs MemoryPlayerControls
      * @param {IRootScopeService} $rootScope - The core angular root scope service.
-     * @param {MemoryPlayerProvider} JPlayer - The provider service that manages jplayer.
+     * @param {IJPlayerProvider} JPlayer - The provider service that manages jplayer.
      * @param {IMemoryPlayerState} MemoryPlayerState - The service that manages memory player state.
      */
     function MemoryPlayerControls($rootScope, JPlayer, MemoryPlayerState) {
@@ -280,7 +280,7 @@ var MemoryPlayerControls = (function () {
      * Checks if current track is last in playlist.
      * @memberof MemoryPlayerControls
      * @instance
-     * @returns {boolean} - True if track is last else false.
+     * @returns {boolean} - True if current track is last else false.
      * @private
      */
     MemoryPlayerControls.prototype.isEnd = function () {
@@ -464,14 +464,14 @@ var MemoryPlayerControls = (function () {
             // Removes loading class
             angular.element('#memory-player').removeClass('mp-loading');
             // Notifies that player setup is complete
-            _this.$rootScope.$emit('MP:Ready');
+            _this.$rootScope.$broadcast('MP:Ready');
         });
     };
     /**
      * Toggles playlist dropdown.
      * @memberof MemoryPlayerControls
      * @instance
-     * @param {JQueryEventObject} $event - The event from trigging element.
+     * @param {JQueryEventObject} $event - The event from trigger element.
      */
     MemoryPlayerControls.prototype.toggleDropdown = function ($event) {
         // Sets values to update dropdown state
@@ -518,11 +518,11 @@ var MemoryPlayerState = (function () {
     /**
      * Implements IMemoryPlayerState
      * @constructs MemoryPlayerState
-     * @param {MemoryPlayerProvider} JPlayer - The provider service that manages jplayer.
+     * @param {IJPlayerProvider} JPlayer - The provider service that manages jplayer.
      */
     function MemoryPlayerState(JPlayer) {
         this.JPlayer = JPlayer;
-        // Initializes JPlayer id
+        // Stores player id for optimization
         this.jPlayerId = this.JPlayer.ids.jPlayer;
         // Initializes some player settings
         this.isMuted = false;
@@ -623,7 +623,7 @@ var MemoryPlayerState = (function () {
      * @returns {number} - The playback time of player.
      */
     MemoryPlayerState.prototype.getTime = function () {
-        // Rounds current playback time
+        // Rounds current playback time down
         return Math.floor(angular.element(this.jPlayerId).data('jPlayer').status.currentTime);
     };
     /**
@@ -688,7 +688,7 @@ var MemoryPlayerSharing = (function () {
      * Implements IMemoryPlayerSharing
      * @constructs MemoryPlayerSharing
      * @param {IRootScopeService} $rootScope - The core angular root scope service.
-     * @param {MemoryPlayerProvider} JPlayer - The provider service that manages jplayer.
+     * @param {IJPlayerProvider} JPlayer - The provider service that manages jplayer.
      * @param {IMemoryPlayerState} MemoryPlayerState - The service that manages memory player state.
      */
     function MemoryPlayerSharing($rootScope, JPlayer, MemoryPlayerState) {
@@ -697,7 +697,7 @@ var MemoryPlayerSharing = (function () {
         this.JPlayer = JPlayer;
         this.MemoryPlayerState = MemoryPlayerState;
         /**
-         * @memberof MemoryPlayerController
+         * @memberof MemoryPlayerSharing
          * @member {string} sharelink - The link back URL to share media in memory player.
          */
         this.sharelink = window.location.protocol + "//" + window.location.hostname + window.location.pathname;
@@ -738,6 +738,16 @@ var MemoryPlayerSharing = (function () {
                 }
             }
         });
+        // Watches state service for volume change
+        this.$rootScope.$watch(function () {
+            return _this.MemoryPlayerState.getVolume();
+        }, function (newVolume, oldVolume) {
+            // If track changes then update
+            if (angular.isDefined(newVolume) && newVolume !== oldVolume) {
+                // Updates current track
+                _this.setShareVal('volume', newVolume);
+            }
+        });
         // Waits for player ready
         this.$rootScope.$on('MP:Ready', function ($event) {
             /**
@@ -747,15 +757,6 @@ var MemoryPlayerSharing = (function () {
                 _this.$rootScope.$evalAsync(function () {
                     // Updates track length
                     _this.trackDuration = event.jPlayer.status.duration;
-                });
-            });
-            /**
-             * Observes time updated.
-             */
-            angular.element(_this.jPlayerId).bind($.jPlayer.event.timeupdate, function (event) {
-                _this.$rootScope.$evalAsync(function () {
-                    // Updates share link time
-                    _this.sharelinkTime = $.jPlayer.convertTime(event.jPlayer.status.currentTime);
                 });
             });
         });
@@ -855,12 +856,13 @@ var MemoryPlayerSharing = (function () {
      * Updates time in share link.
      * @memberof MemoryPlayerSharing
      * @instance
+     * @param {string} updatedTime - The updated sharelink time.
      */
-    MemoryPlayerSharing.prototype.updateTime = function () {
+    MemoryPlayerSharing.prototype.updateTime = function (updatedTime) {
         // Includes time in share link
         this.isTimeUsed = true;
         // Sets time in share link
-        this.setShareVal('time', this.sharelinkTime);
+        this.setShareVal('time', updatedTime);
     };
     /**
      * Updates the share link time value when start time is used.
@@ -870,15 +872,6 @@ var MemoryPlayerSharing = (function () {
     MemoryPlayerSharing.prototype.useTime = function () {
         // Sets use time to latest user setting
         this.isTimeUsed = !this.isTimeUsed;
-        // If time is use then set start time, else start at beginning
-        if (this.isTimeUsed) {
-            // Set start time
-            this.setShareVal('time', this.sharelinkTime);
-        }
-        else {
-            // Start at beginning
-            this.setShareVal('time', '0');
-        }
     };
     return MemoryPlayerSharing;
 }());
@@ -965,8 +958,8 @@ var MemoryPlayerController = (function () {
     MemoryPlayerController.prototype.toggleDropdown = function ($event) {
         this.MemoryPlayerControls.toggleDropdown($event);
     };
-    MemoryPlayerController.prototype.updateTime = function () {
-        this.MemoryPlayerSharing.updateTime();
+    MemoryPlayerController.prototype.updateTime = function (updatedTime) {
+        this.MemoryPlayerSharing.updateTime(updatedTime);
     };
     MemoryPlayerController.prototype.useTime = function () {
         this.MemoryPlayerSharing.useTime();
@@ -994,7 +987,25 @@ var MemoryPlayerDirective = (function () {
         this.MemoryPlayerState = MemoryPlayerState;
         this.MemoryPlayerControls = MemoryPlayerControls;
         this.restrict = 'A';
-        this.scope = true;
+        this.scope = {
+            cancelTimer: '&',
+            currentPlaylist: '<',
+            currentTrack: '<',
+            isPaused: '<',
+            isShareable: '<',
+            maxVolume: '&',
+            mute: '&',
+            next: '&',
+            play: '&',
+            playlists: '<',
+            previous: '&',
+            selectPlaylist: '&',
+            selectTrack: '&',
+            share: '&',
+            toggleDropdown: '&',
+            updateTime: '&',
+            useTime: '&'
+        };
         this.replace = true;
         this.templateUrl = '/lib/memory-player/dist/html/memory-player.html';
         MemoryPlayerDirective.prototype.link = function (scope, element, attrs) {
@@ -1074,20 +1085,63 @@ function isRestartable(state) {
 })();
 
 var SharingDirective = (function () {
-    function SharingDirective(MemoryPlayerSharing) {
+    function SharingDirective(JPlayer, MemoryPlayerSharing) {
+        var _this = this;
+        this.JPlayer = JPlayer;
         this.MemoryPlayerSharing = MemoryPlayerSharing;
         this.restrict = 'A';
-        this.scope = true;
+        this.scope = {
+            currentTrack: '<',
+            cancelTimer: '&',
+            share: '&',
+            toggleDropdown: '&',
+            updateTime: '&',
+            useTime: '&'
+        };
         this.replace = true;
         this.templateUrl = '/lib/memory-player/dist/html/mp-sharing.html';
         SharingDirective.prototype.link = function (scope, element, attrs) {
+            scope.isTimeUsed = false;
+            scope.sharelink = null;
+            scope.sharelinkTime = '00:00';
+            var unbindSharelinkWatch = scope.$watch(function () {
+                return _this.MemoryPlayerSharing.sharelink;
+            }, function (newSharelink, oldSharelink) {
+                if (angular.isDefined(newSharelink) && newSharelink !== oldSharelink) {
+                    scope.sharelink = newSharelink;
+                }
+            });
+            var unbindIsTimeUsedWatch = scope.$watch(function () {
+                return _this.MemoryPlayerSharing.isTimeUsed;
+            }, function (newValue, oldValue) {
+                if (angular.isDefined(newValue) && newValue !== oldValue) {
+                    scope.isTimeUsed = newValue;
+                    if (scope.isTimeUsed) {
+                        angular.element(_this.JPlayer.ids.jPlayer).bind($.jPlayer.event.timeupdate, function (event) {
+                            scope.$evalAsync(function () {
+                                scope.sharelinkTime = $.jPlayer.convertTime(event.jPlayer.status.currentTime);
+                                _this.MemoryPlayerSharing.setShareVal('time', scope.sharelinkTime);
+                            });
+                        });
+                    }
+                    else {
+                        angular.element(_this.JPlayer.ids.jPlayer).unbind($.jPlayer.event.timeupdate);
+                        _this.MemoryPlayerSharing.setShareVal('time', '0');
+                    }
+                }
+            });
+            scope.$on('$destroy', function () {
+                unbindSharelinkWatch();
+                unbindIsTimeUsedWatch();
+            });
         };
     }
     SharingDirective.instance = function () {
-        var directive = function (MemoryPlayerSharing) {
-            return new SharingDirective(MemoryPlayerSharing);
+        var directive = function (JPlayer, MemoryPlayerSharing) {
+            return new SharingDirective(JPlayer, MemoryPlayerSharing);
         };
         directive['$inject'] = [
+            'JPlayer',
             'MemoryPlayerSharing',
         ];
         return directive;

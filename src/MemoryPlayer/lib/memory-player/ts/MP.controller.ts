@@ -257,10 +257,11 @@ class MemoryPlayerController implements angular.IController {
      * Implements update time method of {@link MemoryPlayerSharing}
      * @memberof MemoryPlayerController
      * @instance
+     * @param {string} updatedTime - The updated sharelink time.
      */
-    public updateTime(): void {
+    public updateTime(updatedTime: string): void {
 
-        this.MemoryPlayerSharing.updateTime();
+        this.MemoryPlayerSharing.updateTime(updatedTime);
     }
 
 
