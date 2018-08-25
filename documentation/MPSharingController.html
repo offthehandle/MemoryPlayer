@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>DocStrap Class: MemoryPlayerDirective</title>
+	<title>DocStrap Class: MPSharingController</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -33,7 +33,7 @@
 			<li class="dropdown">
 				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="MemoryPlayerAPI.html">MemoryPlayerAPI</a></li><li><a href="MemoryPlayerConfig.html">MemoryPlayerConfig</a></li><li><a href="MemoryPlayerController.html">MemoryPlayerController</a></li><li><a href="MemoryPlayerControls.html">MemoryPlayerControls</a></li><li><a href="MemoryPlayerDirective.html">MemoryPlayerDirective</a></li><li><a href="MemoryPlayerRun.html">MemoryPlayerRun</a></li><li><a href="MemoryPlayerSharing.html">MemoryPlayerSharing</a></li><li><a href="MemoryPlayerState.html">MemoryPlayerState</a></li><li><a href="SharingDirective.html">SharingDirective</a></li>
+					<li><a href="MemoryPlayerAPI.html">MemoryPlayerAPI</a></li><li><a href="MemoryPlayerComponent.html">MemoryPlayerComponent</a></li><li><a href="MemoryPlayerConfig.html">MemoryPlayerConfig</a></li><li><a href="MemoryPlayerController.html">MemoryPlayerController</a></li><li><a href="MemoryPlayerControls.html">MemoryPlayerControls</a></li><li><a href="MemoryPlayerRun.html">MemoryPlayerRun</a></li><li><a href="MemoryPlayerSharing.html">MemoryPlayerSharing</a></li><li><a href="MemoryPlayerState.html">MemoryPlayerState</a></li><li><a href="MPPlayerController.html">MPPlayerController</a></li><li><a href="MPSharingComponent.html">MPSharingComponent</a></li><li><a href="MPSharingController.html">MPSharingController</a></li>
 				</ul>
 			</li>
 			
@@ -65,13 +65,13 @@
 		<div id="main">
 			
 
-	<h1 class="page-title">Class: MemoryPlayerDirective</h1>
+	<h1 class="page-title">Class: MPSharingController</h1>
 <section>
 
 <header>
     
         <h2>
-        MemoryPlayerDirective
+        MPSharingController
         </h2>
         
     
@@ -84,7 +84,7 @@
         
 <hr>
 <dt>
-    <h4 class="name" id="MemoryPlayerDirective"><span class="type-signature"></span>new MemoryPlayerDirective($location, MemoryPlayerAPI, MemoryPlayerState, MemoryPlayerControls)</h4>
+    <h4 class="name" id="MPSharingController"><span class="type-signature"></span>new MPSharingController($rootScope, JPlayer, MemoryPlayerSharing)</h4>
     
     
 </dt>
@@ -92,7 +92,7 @@
 
     
     <div class="description">
-        <p>Implements IDirective</p>
+        <p>Implements IController</p>
     </div>
     
 
@@ -127,13 +127,13 @@
 
         <tr>
             
-                <td class="name"><code>$location</code></td>
+                <td class="name"><code>$rootScope</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">ILocationService</span>
+<span class="param-type">IRootScopeService</span>
 
 
 
@@ -144,20 +144,20 @@
 
             
 
-            <td class="description last"><p>The core angular location service.</p></td>
+            <td class="description last"><p>The core angular root scope service.</p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>MemoryPlayerAPI</code></td>
+                <td class="name"><code>JPlayer</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">IMemoryPlayerAPI</span>
+<span class="param-type">IJPlayerProvider</span>
 
 
 
@@ -168,20 +168,20 @@
 
             
 
-            <td class="description last"><p>The service that manages API calls.</p></td>
+            <td class="description last"><p>The provider service that manages jplayer.</p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>MemoryPlayerState</code></td>
+                <td class="name"><code>MemoryPlayerSharing</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">IMemoryPlayerState</span>
+<span class="param-type">IMemoryPlayerSharing</span>
 
 
 
@@ -192,31 +192,7 @@
 
             
 
-            <td class="description last"><p>The service that manages memory player state.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>MemoryPlayerControls</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">IMemoryPlayerControls</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The service that manages memory player controls.</p></td>
+            <td class="description last"><p>The service that manages memory player link sharing.</p></td>
         </tr>
 
     
@@ -260,8 +236,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="MP.directive.js.html">MP.directive.js</a>,
-				 <a href="MP.directive.js.html#sunlight-1-line-10">line 10</a>
+				<a href="MP.Sharing.component.js.html">MP.Sharing.component.js</a>,
+				 <a href="MP.Sharing.component.js.html#sunlight-1-line-9">line 9</a>
 			</li>
 		</ul>
 	</dd>
@@ -303,334 +279,6 @@
 
     
 
-    
-        <h3 class="subsection-title">Members</h3>
-
-        <dl>
-            
-<hr>
-<dt class="name" id=".replace">
-    <h4 id=".replace"><span class="type-signature">&lt;static> </span>replace<span class="type-signature"> :boolean</span></h4>
-
-    
-</dt>
-<dd>
-    
-    <div class="description">
-        <p>Whether the directive should replace its calling node.</p>
-    </div>
-    
-
-    
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type">boolean</span>
-
-
-
-            </li>
-        </ul>
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="MP.directive.js.html">MP.directive.js</a>,
-				 <a href="MP.directive.js.html#sunlight-1-line-26">line 26</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt class="name" id=".restrict">
-    <h4 id=".restrict"><span class="type-signature">&lt;static> </span>restrict<span class="type-signature"> :string</span></h4>
-
-    
-</dt>
-<dd>
-    
-    <div class="description">
-        <p>The directive restriction - attribute only.</p>
-    </div>
-    
-
-    
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type">string</span>
-
-
-
-            </li>
-        </ul>
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="MP.directive.js.html">MP.directive.js</a>,
-				 <a href="MP.directive.js.html#sunlight-1-line-16">line 16</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt class="name" id=".scope">
-    <h4 id=".scope"><span class="type-signature">&lt;static> </span>scope<span class="type-signature"> :boolean</span></h4>
-
-    
-</dt>
-<dd>
-    
-    <div class="description">
-        <p>The directive scope.</p>
-    </div>
-    
-
-    
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type">boolean</span>
-
-
-
-            </li>
-        </ul>
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="MP.directive.js.html">MP.directive.js</a>,
-				 <a href="MP.directive.js.html#sunlight-1-line-21">line 21</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt class="name" id=".templateUrl">
-    <h4 id=".templateUrl"><span class="type-signature">&lt;static> </span>templateUrl<span class="type-signature"> :string</span></h4>
-
-    
-</dt>
-<dd>
-    
-    <div class="description">
-        <p>The url to the HTML template.</p>
-    </div>
-    
-
-    
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type">string</span>
-
-
-
-            </li>
-        </ul>
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="MP.directive.js.html">MP.directive.js</a>,
-				 <a href="MP.directive.js.html#sunlight-1-line-31">line 31</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-</dd>
-
-        </dl>
     
 
     
@@ -686,7 +334,7 @@
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a>
 	
-		on Wed Aug 22nd 2018
+		on Sat Aug 25th 2018
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

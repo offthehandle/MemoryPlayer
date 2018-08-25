@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>DocStrap Source: MemoryPlayer.directive.js</title>
+	<title>DocStrap Class: MPSharingComponent</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -33,14 +33,7 @@
 			<li class="dropdown">
 				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="MemoryPlayerAPI.html">MemoryPlayerAPI</a></li><li><a href="MemoryPlayerController.html">MemoryPlayerController</a></li><li><a href="MemoryPlayerDirective.html">MemoryPlayerDirective</a></li><li><a href="MemoryPlayerFactory.html">MemoryPlayerFactory</a></li>
-				</ul>
-			</li>
-			
-			<li class="dropdown">
-				<a href="events.list.html" class="dropdown-toggle" data-toggle="dropdown">Events<b class="caret"></b></a>
-				<ul class="dropdown-menu ">
-					<li><a href="MemoryPlayerFactory.html#event:MemoryPlayer:isPaused">MemoryPlayerFactory#MemoryPlayer:isPaused</a></li><li><a href="MemoryPlayerFactory.html#event:MemoryPlayer:playlistChanged">MemoryPlayerFactory#MemoryPlayer:playlistChanged</a></li><li><a href="MemoryPlayerFactory.html#event:MemoryPlayer:trackChanged">MemoryPlayerFactory#MemoryPlayer:trackChanged</a></li><li><a href="MemoryPlayerFactory.html#event:MemoryPlayer:trackEnded">MemoryPlayerFactory#MemoryPlayer:trackEnded</a></li><li><a href="MemoryPlayerFactory.html#event:MemoryPlayer:trackLoaded">MemoryPlayerFactory#MemoryPlayer:trackLoaded</a></li><li><a href="MemoryPlayerFactory.html#event:MemoryPlayer:trackPlayed">MemoryPlayerFactory#MemoryPlayer:trackPlayed</a></li>
+					<li><a href="MemoryPlayerAPI.html">MemoryPlayerAPI</a></li><li><a href="MemoryPlayerComponent.html">MemoryPlayerComponent</a></li><li><a href="MemoryPlayerConfig.html">MemoryPlayerConfig</a></li><li><a href="MemoryPlayerController.html">MemoryPlayerController</a></li><li><a href="MemoryPlayerControls.html">MemoryPlayerControls</a></li><li><a href="MemoryPlayerRun.html">MemoryPlayerRun</a></li><li><a href="MemoryPlayerSharing.html">MemoryPlayerSharing</a></li><li><a href="MemoryPlayerState.html">MemoryPlayerState</a></li><li><a href="MPPlayerController.html">MPPlayerController</a></li><li><a href="MPSharingComponent.html">MPSharingComponent</a></li><li><a href="MPSharingController.html">MPSharingController</a></li>
 				</ul>
 			</li>
 			
@@ -67,83 +60,137 @@
 <div class="row">
 
 	
-	<div class="col-md-12">
+	<div class="col-md-8">
 	
 		<div id="main">
 			
 
-		<h1 class="page-title">Source: MemoryPlayer.directive.js</h1>
-    
+	<h1 class="page-title">Class: MPSharingComponent</h1>
 <section>
-    <article>
-        <pre
-            class="sunlight-highlight-javascript linenums">var MemoryPlayerDirective = (function () {
-    /**
-     * Implements IDirective
-     * @constructs MemoryPlayerDirective
-     * @param {ILocationService} $location - The core angular location service.
-     */
-    function MemoryPlayerDirective($location) {
-        var _this = this;
-        this.$location = $location;
-        /**
-         * @memberof MemoryPlayerDirective
-         * @member {string} restrict - The directive restriction - attribute only.
-         */
-        this.restrict = 'A';
-        /**
-         * @memberof MemoryPlayerDirective
-         * @member {boolean} scope - The directive scope.
-         */
-        this.scope = true;
-        /**
-         * @memberof MemoryPlayerDirective
-         * @member {boolean} replace - Whether the directive should replace its calling node.
-         */
-        this.replace = true;
-        /**
-         * @memberof MemoryPlayerDirective
-         * @member {string} templateUrl - The url to the HTML template.
-         */
-        this.templateUrl = '/lib/memory-player/dist/html/memory-player.html';
-        MemoryPlayerDirective.prototype.link = function (scope, element, attrs) {
-            scope.isShareable = scope.$eval(attrs['isShareable']) || false;
-            var playerState = _this.$location.search();
-            if (playerState.hasOwnProperty('playlist') &amp;&amp; playerState.hasOwnProperty('track') &amp;&amp; playerState.hasOwnProperty('time') &amp;&amp; playerState.hasOwnProperty('volume') &amp;&amp; playerState.hasOwnProperty('isMuted') &amp;&amp; playerState.hasOwnProperty('isPaused')) {
-                var playerInfo = {
-                    track: parseInt(playerState.track),
-                    time: parseInt(playerState.time),
-                    volume: parseFloat(playerState.volume),
-                    isMuted: playerState.isMuted,
-                    isPaused: playerState.isPaused
-                };
-                scope.$emit('MemoryPlayer:directiveReady', { playlist: playerState.playlist, info: playerInfo });
-            }
-            else {
-                scope.$emit('MemoryPlayer:directiveReady', null);
-            }
-        };
-    }
-    MemoryPlayerDirective.instance = function () {
-        var directive = function ($location) {
-            return new MemoryPlayerDirective($location);
-        };
-        directive['$inject'] = [
-            '$location'
-        ];
-        return directive;
-    };
-    return MemoryPlayerDirective;
-}());
-(function () {
-    'use strict';
-    angular.module('MemoryPlayer')
-        .directive('memoryPlayer', MemoryPlayerDirective.instance());
-})();
-</pre>
-    </article>
-</section>
 
+<header>
+    
+        <h2>
+        MPSharingComponent
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+<hr>
+<dt>
+    <h4 class="name" id="MPSharingComponent"><span class="type-signature"></span>new MPSharingComponent()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Implements IComponentOptions</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="MP.Sharing.component.js.html">MP.Sharing.component.js</a>,
+				 <a href="MP.Sharing.component.js.html#sunlight-1-line-77">line 77</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 
@@ -153,6 +200,10 @@
 
 	<div class="clearfix"></div>
 
+	
+		<div class="col-md-3">
+			<div id="toc" class="col-md-3 hidden-xs hidden-sm hidden-md"></div>
+		</div>
 	
 
 </div>
@@ -185,7 +236,7 @@
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a>
 	
-		on Mon Jun 4th 2018
+		on Sat Aug 25th 2018
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

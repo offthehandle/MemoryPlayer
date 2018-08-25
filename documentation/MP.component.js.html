@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>DocStrap Source: MP.config.js</title>
+	<title>DocStrap Source: MP.component.js</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -65,99 +65,161 @@
 		<div id="main">
 			
 
-		<h1 class="page-title">Source: MP.config.js</h1>
+		<h1 class="page-title">Source: MP.component.js</h1>
     
 <section>
     <article>
         <pre
-            class="sunlight-highlight-javascript linenums">var MemoryPlayerConfig = (function () {
+            class="sunlight-highlight-javascript linenums">var MPPlayerController = (function () {
     /**
-     * @constructs MemoryPlayerConfig
-     * @param {ILocationProvider} $locationProvider - The core angular location provider service.
-     * @param {MemoryPlayerProvider} JPlayerProvider - Provides jplayer for memory player.
-     */
-    function MemoryPlayerConfig($locationProvider, JPlayerProvider) {
-        this.$locationProvider = $locationProvider;
-        this.JPlayerProvider = JPlayerProvider;
-        /**
-         * @memberof MemoryPlayerConfig
-         * @member {IJPlayerIds} JPlayerIds - The CSS selectors to instantiate a playlist jplayer.
-         * @private
-         */
-        this.JPlayerIds = {
-            jPlayer: '#mp-jquery_jplayer',
-            cssSelectorAncestor: '#mp-jp_container'
-        };
-        /**
-         * @memberof MemoryPlayerConfig
-         * @member {any} JPlayerOptions - The options to instantiate a playlist jplayer.
-         * @private
-         */
-        this.JPlayerOptions = {
-            swfPath: '/js/jquery.jplayer.swf',
-            supplied: 'mp3',
-            wmode: 'window',
-            audioFullScreen: false,
-            smoothPlayBar: false,
-            keyEnabled: false,
-            playlistOptions: {
-                enableRemoveControls: false,
-                displayTime: 0,
-                addTime: 0,
-                removeTime: 0,
-                shuffleTime: 0
-            }
-        };
-        // Sets jplayer ids
-        this.JPlayerProvider.$setIds(this.JPlayerIds);
-        // Sets jplayer options
-        this.JPlayerProvider.$setOptions(this.JPlayerOptions);
-        // Configures HTML5 mode
-        this.$locationProvider.html5Mode({
-            enabled: true,
-            requireBase: false
-        });
-    }
-    return MemoryPlayerConfig;
-}());
-MemoryPlayerConfig.instance = [
-    '$locationProvider',
-    'JPlayerProvider',
-    MemoryPlayerConfig
-];
-var MemoryPlayerRun = (function () {
-    /**
-     * @constructs MemoryPlayerRun
+     * Implements IController
+     * @constructs MPPlayerController
      * @param {IRootScopeService} $rootScope - The core angular root scope service.
-     * @param {IWindowService} $window - The core angular window service.
+     * @param {ILocationService} $location - The core angular location service.
+     * @param {IMemoryPlayerAPI} MemoryPlayerAPI - The service that manages API calls.
+     * @param {IMemoryPlayerState} MemoryPlayerState - The service that manages memory player state.
+     * @param {IMemoryPlayerControls} MemoryPlayerControls - The service that manages memory player controls.
      */
-    function MemoryPlayerRun($rootScope, $window) {
+    function MPPlayerController($rootScope, $location, MemoryPlayerAPI, MemoryPlayerState, MemoryPlayerControls) {
+        var _this = this;
         this.$rootScope = $rootScope;
-        this.$window = $window;
+        this.$location = $location;
+        this.MemoryPlayerAPI = MemoryPlayerAPI;
+        this.MemoryPlayerState = MemoryPlayerState;
+        this.MemoryPlayerControls = MemoryPlayerControls;
+        // Gets player state from URL
+        var state = this.$location.search();
+        // Gets playlists using API
+        this.MemoryPlayerAPI.getPlaylists().then(function (response) {
+            // Sets playlists response in service
+            _this.MemoryPlayerState.setPlaylists(response);
+            // Restart if available settings allow, else start fresh
+            if (_this.isRestartable(state)) {
+                // Sets restart settings
+                var settings = {
+                    track: parseInt(state.track),
+                    time: parseInt(state.time),
+                    volume: parseFloat(state.volume),
+                    isMuted: state.isMuted,
+                    isPaused: state.isPaused,
+                };
+                // Restarts player
+                _this.MemoryPlayerControls.showtime(state.playlist, settings);
+            }
+            else {
+                // Gets name of first playlist
+                var playlist = Object.keys(response)[0];
+                // Starts player fresh
+                _this.MemoryPlayerControls.showtime(response[playlist]._id);
+            }
+        });
         /**
-         * Observes location change success
+         * Core Angular event used to append query string for continued playback.
+         *
+         * ?playlist=playlist&amp;track=track&amp;time=time&amp;volume=volume&amp;isMuted&amp;isPaused
+         *
+         * playlist = id of the current playlist
+         * track = id of the current track
+         * time = current playback time
+         * volume = current player volume
+         * isMuted = the player is muted or not (=false)
+         * isPaused = the player is paused or not (=false)
          */
-        this.$rootScope.$on('$locationChangeSuccess', function ($event, newUrl, oldUrl) {
-            // If page changes then navigate to new page
+        this.unbindLocationChange = this.$rootScope.$on('$locationChangeStart', function ($event, newUrl, oldUrl) {
+            // If new page is requested then append query string
             if (newUrl !== oldUrl) {
-                // Navigates to new page
-                this.$window.location.href = newUrl;
+                var newUrlPath = _this.$location.url();
+                _this.$location.path(newUrlPath.split('?')[0]).search({
+                    playlist: _this.MemoryPlayerState.getPlaylistId(),
+                    track: _this.MemoryPlayerState.getTrackId(),
+                    time: _this.MemoryPlayerState.getTime(),
+                    volume: _this.MemoryPlayerState.getVolume(),
+                    isMuted: _this.MemoryPlayerState.getIsMuted(),
+                    isPaused: _this.MemoryPlayerState.getIsPaused()
+                });
             }
         });
     }
-    return MemoryPlayerRun;
+    /**
+     * Tests available settings for restartability
+     * @memberof MPPlayerController
+     * @instance
+     * @private
+     */
+    MPPlayerController.prototype.isRestartable = function (state) {
+        // Sets success as initial test result
+        var isRestartable = true;
+        // If any required setting is missing, set failure result
+        if (!state.hasOwnProperty('isMuted')) {
+            isRestartable = false;
+        }
+        if (!state.hasOwnProperty('isPaused')) {
+            isRestartable = false;
+        }
+        if (!state.hasOwnProperty('playlist')) {
+            isRestartable = false;
+        }
+        if (!state.hasOwnProperty('time')) {
+            isRestartable = false;
+        }
+        if (!state.hasOwnProperty('track')) {
+            isRestartable = false;
+        }
+        if (!state.hasOwnProperty('volume')) {
+            isRestartable = false;
+        }
+        // Returns test result
+        return isRestartable;
+    };
+    // Cleans up watches to prevent memory leaks
+    MPPlayerController.prototype.$onDestroy = function () {
+        this.unbindLocationChange();
+    };
+    return MPPlayerController;
 }());
-MemoryPlayerRun.instance = [
+MPPlayerController.instance = [
     '$rootScope',
-    '$window',
-    MemoryPlayerRun
+    '$location',
+    'MemoryPlayerAPI',
+    'MemoryPlayerState',
+    'MemoryPlayerControls',
+    MPPlayerController
 ];
+var MemoryPlayerComponent = (function () {
+    /**
+     * Implements IComponentOptions
+     * @constructs MemoryPlayerComponent
+     */
+    function MemoryPlayerComponent() {
+        this.controller = MPPlayerController.instance;
+        this.controllerAs = 'player';
+        this.bindings = {
+            cancelTimer: '&amp;',
+            currentPlaylist: '&lt;',
+            currentTrack: '&lt;',
+            isPaused: '&lt;',
+            isShareable: '&lt;',
+            maxVolume: '&amp;',
+            mute: '&amp;',
+            next: '&amp;',
+            play: '&amp;',
+            playlists: '&lt;',
+            previous: '&amp;',
+            selectPlaylist: '&amp;',
+            selectTrack: '&amp;',
+            share: '&amp;',
+            toggleDropdown: '&amp;',
+            updateTime: '&amp;',
+            useTime: '&amp;'
+        };
+        this.templateUrl = '/memory-player/dist/html/memory-player.html';
+    }
+    return MemoryPlayerComponent;
+}());
 (function () {
     'use strict';
     angular.module('MemoryPlayer')
-        .config(MemoryPlayerConfig.instance);
-    angular.module('MemoryPlayer')
-        .run(MemoryPlayerRun.instance);
+        .component('memoryPlayer', new MemoryPlayerComponent());
 })();
 </pre>
     </article>

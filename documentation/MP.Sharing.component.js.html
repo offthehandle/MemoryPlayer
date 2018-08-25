@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>DocStrap Source: MP.Sharing.directive.js</title>
+	<title>DocStrap Source: MP.Sharing.component.js</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -33,7 +33,7 @@
 			<li class="dropdown">
 				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="MemoryPlayerAPI.html">MemoryPlayerAPI</a></li><li><a href="MemoryPlayerConfig.html">MemoryPlayerConfig</a></li><li><a href="MemoryPlayerController.html">MemoryPlayerController</a></li><li><a href="MemoryPlayerControls.html">MemoryPlayerControls</a></li><li><a href="MemoryPlayerDirective.html">MemoryPlayerDirective</a></li><li><a href="MemoryPlayerRun.html">MemoryPlayerRun</a></li><li><a href="MemoryPlayerSharing.html">MemoryPlayerSharing</a></li><li><a href="MemoryPlayerState.html">MemoryPlayerState</a></li><li><a href="SharingDirective.html">SharingDirective</a></li>
+					<li><a href="MemoryPlayerAPI.html">MemoryPlayerAPI</a></li><li><a href="MemoryPlayerComponent.html">MemoryPlayerComponent</a></li><li><a href="MemoryPlayerConfig.html">MemoryPlayerConfig</a></li><li><a href="MemoryPlayerController.html">MemoryPlayerController</a></li><li><a href="MemoryPlayerControls.html">MemoryPlayerControls</a></li><li><a href="MemoryPlayerRun.html">MemoryPlayerRun</a></li><li><a href="MemoryPlayerSharing.html">MemoryPlayerSharing</a></li><li><a href="MemoryPlayerState.html">MemoryPlayerState</a></li><li><a href="MPPlayerController.html">MPPlayerController</a></li><li><a href="MPSharingComponent.html">MPSharingComponent</a></li><li><a href="MPSharingController.html">MPSharingController</a></li>
 				</ul>
 			</li>
 			
@@ -65,57 +65,106 @@
 		<div id="main">
 			
 
-		<h1 class="page-title">Source: MP.Sharing.directive.js</h1>
+		<h1 class="page-title">Source: MP.Sharing.component.js</h1>
     
 <section>
     <article>
         <pre
-            class="sunlight-highlight-javascript linenums">var SharingDirective = (function () {
+            class="sunlight-highlight-javascript linenums">var MPSharingController = (function () {
     /**
-     * Implements IDirective
-     * @constructs SharingDirective
+     * Implements IController
+     * @constructs MPSharingController
+     * @param {IRootScopeService} $rootScope - The core angular root scope service.
+     * @param {IJPlayerProvider} JPlayer - The provider service that manages jplayer.
      * @param {IMemoryPlayerSharing} MemoryPlayerSharing - The service that manages memory player link sharing.
      */
-    function SharingDirective(MemoryPlayerSharing) {
+    function MPSharingController($rootScope, JPlayer, MemoryPlayerSharing) {
+        var _this = this;
+        this.$rootScope = $rootScope;
+        this.JPlayer = JPlayer;
         this.MemoryPlayerSharing = MemoryPlayerSharing;
-        /**
-         * @memberof SharingDirective
-         * @member {string} restrict - The directive restriction - attribute only.
-         */
-        this.restrict = 'A';
-        /**
-         * @memberof SharingDirective
-         * @member {boolean} scope - The directive scope.
-         */
-        this.scope = true;
-        /**
-         * @memberof SharingDirective
-         * @member {boolean} replace - Whether the directive should replace its calling node.
-         */
-        this.replace = true;
-        /**
-         * @memberof SharingDirective
-         * @member {string} templateUrl - The url to the HTML template.
-         */
-        this.templateUrl = '/lib/memory-player/dist/html/mp-sharing.html';
-        SharingDirective.prototype.link = function (scope, element, attrs) {
-        };
+        // Sets initial sharing values
+        this.isTimeUsed = false;
+        this.sharelink = null;
+        this.sharelinkTime = '00:00';
+        // Watches sharing service for sharelink change
+        this.unbindSharelink = this.$rootScope.$watch(function () {
+            return _this.MemoryPlayerSharing.sharelink;
+        }, function (newSharelink, oldSharelink) {
+            // If sharelink changes then update
+            if (angular.isDefined(newSharelink) &amp;&amp; newSharelink !== oldSharelink) {
+                // Updates sharelink
+                _this.sharelink = newSharelink;
+            }
+        });
+        // Watches sharing service for is time used change
+        this.unbindIsTimeUsed = this.$rootScope.$watch(function () {
+            return _this.MemoryPlayerSharing.isTimeUsed;
+        }, function (newValue, oldValue) {
+            // If is time used changes then update
+            if (angular.isDefined(newValue) &amp;&amp; newValue !== oldValue) {
+                // Updates is time used
+                _this.isTimeUsed = newValue;
+                // If time is used then bind time update, else unbind and start at beginning
+                if (_this.isTimeUsed) {
+                    /**
+                     * Observes time updated.
+                     */
+                    angular.element(_this.JPlayer.ids.jPlayer).bind($.jPlayer.event.timeupdate, function (event) {
+                        _this.$rootScope.$evalAsync(function () {
+                            // Updates share link time
+                            _this.sharelinkTime = $.jPlayer.convertTime(event.jPlayer.status.currentTime);
+                            _this.MemoryPlayerSharing.setShareVal('time', _this.sharelinkTime);
+                        });
+                    });
+                }
+                else {
+                    // Unbinds time update
+                    angular.element(_this.JPlayer.ids.jPlayer).unbind($.jPlayer.event.timeupdate);
+                    // Starts at beginning
+                    _this.sharelinkTime = '00:00';
+                    _this.MemoryPlayerSharing.setShareVal('time', '0');
+                }
+            }
+        });
     }
-    SharingDirective.instance = function () {
-        var directive = function (MemoryPlayerSharing) {
-            return new SharingDirective(MemoryPlayerSharing);
-        };
-        directive['$inject'] = [
-            'MemoryPlayerSharing',
-        ];
-        return directive;
+    // Cleans up watches to prevent memory leaks
+    MPSharingController.prototype.$onDestroy = function () {
+        this.unbindSharelink();
+        this.unbindIsTimeUsed();
     };
-    return SharingDirective;
+    return MPSharingController;
+}());
+MPSharingController.instance = [
+    '$rootScope',
+    'JPlayer',
+    'MemoryPlayerSharing',
+    MPSharingController
+];
+var MPSharingComponent = (function () {
+    /**
+     * Implements IComponentOptions
+     * @constructs MPSharingComponent
+     */
+    function MPSharingComponent() {
+        this.controller = MPSharingController.instance;
+        this.controllerAs = 'sharing';
+        this.bindings = {
+            currentTrack: '&lt;',
+            cancelTimer: '&amp;',
+            share: '&amp;',
+            toggleDropdown: '&amp;',
+            updateTime: '&amp;',
+            useTime: '&amp;'
+        };
+        this.templateUrl = '/memory-player/dist/html/mp-sharing.html';
+    }
+    return MPSharingComponent;
 }());
 (function () {
     'use strict';
     angular.module('MemoryPlayer')
-        .directive('sharing', SharingDirective.instance());
+        .component('mpSharing', new MPSharingComponent());
 })();
 </pre>
     </article>
@@ -162,7 +211,7 @@
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a>
 	
-		on Wed Aug 22nd 2018
+		on Sat Aug 25th 2018
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

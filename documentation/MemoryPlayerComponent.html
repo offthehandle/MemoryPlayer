@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>DocStrap Source: MemoryPlayerAPI.service.js</title>
+	<title>DocStrap Class: MemoryPlayerComponent</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -33,14 +33,7 @@
 			<li class="dropdown">
 				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="MemoryPlayerAPI.html">MemoryPlayerAPI</a></li><li><a href="MemoryPlayerController.html">MemoryPlayerController</a></li><li><a href="MemoryPlayerDirective.html">MemoryPlayerDirective</a></li><li><a href="MemoryPlayerFactory.html">MemoryPlayerFactory</a></li>
-				</ul>
-			</li>
-			
-			<li class="dropdown">
-				<a href="events.list.html" class="dropdown-toggle" data-toggle="dropdown">Events<b class="caret"></b></a>
-				<ul class="dropdown-menu ">
-					<li><a href="MemoryPlayerFactory.html#event:MemoryPlayer:isPaused">MemoryPlayerFactory#MemoryPlayer:isPaused</a></li><li><a href="MemoryPlayerFactory.html#event:MemoryPlayer:playlistChanged">MemoryPlayerFactory#MemoryPlayer:playlistChanged</a></li><li><a href="MemoryPlayerFactory.html#event:MemoryPlayer:trackChanged">MemoryPlayerFactory#MemoryPlayer:trackChanged</a></li><li><a href="MemoryPlayerFactory.html#event:MemoryPlayer:trackEnded">MemoryPlayerFactory#MemoryPlayer:trackEnded</a></li><li><a href="MemoryPlayerFactory.html#event:MemoryPlayer:trackLoaded">MemoryPlayerFactory#MemoryPlayer:trackLoaded</a></li><li><a href="MemoryPlayerFactory.html#event:MemoryPlayer:trackPlayed">MemoryPlayerFactory#MemoryPlayer:trackPlayed</a></li>
+					<li><a href="MemoryPlayerAPI.html">MemoryPlayerAPI</a></li><li><a href="MemoryPlayerComponent.html">MemoryPlayerComponent</a></li><li><a href="MemoryPlayerConfig.html">MemoryPlayerConfig</a></li><li><a href="MemoryPlayerController.html">MemoryPlayerController</a></li><li><a href="MemoryPlayerControls.html">MemoryPlayerControls</a></li><li><a href="MemoryPlayerRun.html">MemoryPlayerRun</a></li><li><a href="MemoryPlayerSharing.html">MemoryPlayerSharing</a></li><li><a href="MemoryPlayerState.html">MemoryPlayerState</a></li><li><a href="MPPlayerController.html">MPPlayerController</a></li><li><a href="MPSharingComponent.html">MPSharingComponent</a></li><li><a href="MPSharingController.html">MPSharingController</a></li>
 				</ul>
 			</li>
 			
@@ -67,85 +60,137 @@
 <div class="row">
 
 	
-	<div class="col-md-12">
+	<div class="col-md-8">
 	
 		<div id="main">
 			
 
-		<h1 class="page-title">Source: MemoryPlayerAPI.service.js</h1>
-    
+	<h1 class="page-title">Class: MemoryPlayerComponent</h1>
 <section>
-    <article>
-        <pre
-            class="sunlight-highlight-javascript linenums">var MemoryPlayerAPI = (function () {
-    /**
-     * Implements IMemoryPlayerAPI
-     * @constructs MemoryPlayerAPI
-     * @param {IHttpService} $http - The core angular http service.
-     * @param {ILogService} $log - The core angular log service.
-     */
-    function MemoryPlayerAPI($http, $log) {
-        this.$http = $http;
-        this.$log = $log;
-        /**
-         * @memberof MemoryPlayerAPI
-         * @member {string} _endPoint - The path to the playlists json file.
-         * @private
-         */
-        this._endPoint = '/lib/memory-player/dist/json/playlists.json';
-    }
-    /**
-     * Removes the player from the page if it does not initialize successfully.
-     * @memberof MemoryPlayerAPI
-     * @instance
-     * @private
-     */
-    MemoryPlayerAPI.prototype._emptyAudioPlayer = function () {
-        angular.element('#memory-player').remove();
-    };
-    ;
-    /**
-     * Gets the JSON file containing the playlists data.
-     * @memberof MemoryPlayerAPI
-     * @instance
-     * @returns {IHttpPromise} - A promise that returns the data from the playlists json file on success and null on failure.
-     */
-    MemoryPlayerAPI.prototype.getPlaylists = function () {
-        var _this = this;
-        return this.$http.get(this._endPoint)
-            .then(function (response) {
-            if (response.hasOwnProperty('data') &amp;&amp; response.data !== null) {
-                return response.data;
-            }
-            else {
-                _this._emptyAudioPlayer();
-                return null;
-            }
-        }).catch(function (error) {
-            _this._emptyAudioPlayer();
-            _this.$log.log('XHR Failed for getPlaylists.');
-            if (error.data) {
-                _this.$log.log(error.data);
-            }
-            return null;
-        });
-    };
-    return MemoryPlayerAPI;
-}());
-MemoryPlayerAPI.instance = [
-    '$http',
-    '$log',
-    MemoryPlayerAPI
-];
-(function () {
-    'use strict';
-    angular.module('MemoryPlayer')
-        .service('MemoryPlayerAPI', MemoryPlayerAPI.instance);
-})();
-</pre>
-    </article>
-</section>
 
+<header>
+    
+        <h2>
+        MemoryPlayerComponent
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+<hr>
+<dt>
+    <h4 class="name" id="MemoryPlayerComponent"><span class="type-signature"></span>new MemoryPlayerComponent()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Implements IComponentOptions</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="MP.component.js.html">MP.component.js</a>,
+				 <a href="MP.component.js.html#sunlight-1-line-121">line 121</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 
@@ -155,6 +200,10 @@ MemoryPlayerAPI.instance = [
 
 	<div class="clearfix"></div>
 
+	
+		<div class="col-md-3">
+			<div id="toc" class="col-md-3 hidden-xs hidden-sm hidden-md"></div>
+		</div>
 	
 
 </div>
@@ -187,7 +236,7 @@ MemoryPlayerAPI.instance = [
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a>
 	
-		on Mon Jun 4th 2018
+		on Sat Aug 25th 2018
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>
