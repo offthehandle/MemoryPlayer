@@ -337,7 +337,7 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
         this.JPlayer.instance().setPlaylist(playlist);
 
         // Plays first track
-        this.JPlayer.instance().option('autoPlay', true);
+        this.JPlayer.instance().play();
 
         // Updates play state
         this.MemoryPlayerState.setIsPaused(false);

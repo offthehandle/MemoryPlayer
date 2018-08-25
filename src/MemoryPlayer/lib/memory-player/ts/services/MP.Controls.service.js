@@ -227,7 +227,7 @@ var MemoryPlayerControls = (function () {
         // Sets current playlist in player
         this.JPlayer.instance().setPlaylist(playlist);
         // Plays first track
-        this.JPlayer.instance().option('autoPlay', true);
+        this.JPlayer.instance().play();
         // Updates play state
         this.MemoryPlayerState.setIsPaused(false);
     };

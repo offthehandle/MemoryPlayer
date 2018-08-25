@@ -85,22 +85,6 @@ class MemoryPlayerSharing implements IMemoryPlayerSharing {
         });
 
 
-        // Watches state service for volume change
-        this.$rootScope.$watch((): string => {
-
-            return this.MemoryPlayerState.getVolume();
-
-        }, (newVolume, oldVolume): void => {
-
-            // If track changes then update
-            if (angular.isDefined(newVolume) && newVolume !== oldVolume) {
-
-                // Updates current track
-                this.setShareVal('volume', newVolume);
-            }
-        });
-
-
         // Waits for player ready
         this.$rootScope.$on('MP:Ready', ($event: angular.IAngularEvent): void => {
 

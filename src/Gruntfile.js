@@ -54,9 +54,6 @@ module.exports = function (grunt) {
         },
         concat: {
             dist: {
-                options: {
-                    banner: '/*! Memory Player module. Copyright 2015-<%= grunt.template.today("yyyy") %> Adam De Lucia. */',
-                },
                 files: {
                     '<%= path.jsDist %>/memory-player.js': [
                         '<%= path.jsSrc %>/MP.module.js',
@@ -82,10 +79,13 @@ module.exports = function (grunt) {
         uglify: {
             dist: {
                 options: {
-                    preserveComments: 'all'
+                    banner: '/*! Memory Player module. Copyright 2015-<%= grunt.template.today("yyyy") %> Adam De Lucia. */',
+                    output: {
+                        comments: 'false'
+                    }
                 },
                 files: {
-                    '<%= path.jsDist %>/memory-player.min.js': ['<%= path.jsDist %>/memory-player.js'],
+                    '<%= path.jsDist %>/memory-player.min.js': ['<%= path.jsDist %>/memory-player.js']
                 }
             }
         },

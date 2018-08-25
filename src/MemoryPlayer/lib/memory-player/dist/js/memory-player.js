@@ -1,4 +1,4 @@
-/*! Memory Player module. Copyright 2015-2018 Adam De Lucia. */(function () {
+(function () {
     'use strict';
     angular.module('MemoryPlayer', []);
 })();
@@ -416,7 +416,7 @@ var MemoryPlayerControls = (function () {
         // Sets current playlist in player
         this.JPlayer.instance().setPlaylist(playlist);
         // Plays first track
-        this.JPlayer.instance().option('autoPlay', true);
+        this.JPlayer.instance().play();
         // Updates play state
         this.MemoryPlayerState.setIsPaused(false);
     };
@@ -736,16 +736,6 @@ var MemoryPlayerSharing = (function () {
                 if (_this.isTimeUsed) {
                     _this.useTime();
                 }
-            }
-        });
-        // Watches state service for volume change
-        this.$rootScope.$watch(function () {
-            return _this.MemoryPlayerState.getVolume();
-        }, function (newVolume, oldVolume) {
-            // If track changes then update
-            if (angular.isDefined(newVolume) && newVolume !== oldVolume) {
-                // Updates current track
-                _this.setShareVal('volume', newVolume);
             }
         });
         // Waits for player ready
@@ -1126,6 +1116,7 @@ var SharingDirective = (function () {
                     }
                     else {
                         angular.element(_this.JPlayer.ids.jPlayer).unbind($.jPlayer.event.timeupdate);
+                        scope.sharelinkTime = '00:00';
                         _this.MemoryPlayerSharing.setShareVal('time', '0');
                     }
                 }

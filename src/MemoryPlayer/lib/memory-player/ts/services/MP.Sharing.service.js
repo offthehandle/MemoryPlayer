@@ -53,16 +53,6 @@ var MemoryPlayerSharing = (function () {
                 }
             }
         });
-        // Watches state service for volume change
-        this.$rootScope.$watch(function () {
-            return _this.MemoryPlayerState.getVolume();
-        }, function (newVolume, oldVolume) {
-            // If track changes then update
-            if (angular.isDefined(newVolume) && newVolume !== oldVolume) {
-                // Updates current track
-                _this.setShareVal('volume', newVolume);
-            }
-        });
         // Waits for player ready
         this.$rootScope.$on('MP:Ready', function ($event) {
             /**

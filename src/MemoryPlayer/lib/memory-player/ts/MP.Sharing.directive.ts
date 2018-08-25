@@ -130,6 +130,8 @@ class SharingDirective implements angular.IDirective {
                         angular.element(this.JPlayer.ids.jPlayer).unbind($.jPlayer.event.timeupdate);
 
                         // Starts at beginning
+                        scope.sharelinkTime = '00:00';
+
                         this.MemoryPlayerSharing.setShareVal('time', '0');
                     }
                 }
