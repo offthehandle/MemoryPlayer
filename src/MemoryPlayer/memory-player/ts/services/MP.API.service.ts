@@ -27,7 +27,7 @@ class MemoryPlayerAPI implements IMemoryPlayerAPI {
      * @member {string} playlists - The path to retrieve playlists.
      * @private
      */
-    private playlists: string = '/lib/memory-player/dist/json/playlists.json';
+    private playlists: string = '/memory-player/dist/json/playlists.json';
 
 
     /**

@@ -9,31 +9,30 @@
     <script type="text/javascript" src="/js/jquery.jplayer.min.js"></script>
     <script type="text/javascript" src="/js/jplayer.playlist.min.js"></script>
     <script type="text/javascript" src="/js/angular.min.js"></script>
-    <script type="text/javascript" src="/lib/memory-player/dist/js/memory-player.min.js"></script>
-    <script type="text/javascript" src="/lib/memory-player/dist/js/DEMO.js"></script>
+    <script type="text/javascript" src="/memory-player/dist/js/memory-player.min.js"></script>
+    <script type="text/javascript" src="/memory-player/dist/js/DEMO.js"></script>
 
-    <link type="text/css" rel="stylesheet" href="/lib/memory-player/dist/css/memory-player.min.css" />
+    <link type="text/css" rel="stylesheet" href="/memory-player/dist/css/memory-player.min.css" />
 </head>
 <body data-ng-app="DemoApp">
     <section id="memory-player" data-ng-controller="MemoryPlayerController as player" class="mp-loading" data-ng-cloak="">
-        <div data-memory-player=""
-             data-cancel-timer="player.cancelTimer()"
-             data-current-playlist="player.currentPlaylist"
-             data-current-track="player.currentTrack"
-             data-is-paused="player.isPaused"
-             data-is-shareable="player.isShareable"
-             data-max-volume="player.maxVolume()"
-             data-mute="player.mute()"
-             data-next="player.next()"
-             data-play="player.play()"
-             data-playlists="player.playlists"
-             data-previous="player.previous()"
-             data-select-playlist="player.selectPlaylist(playlistName)"
-             data-select-track="player.selectTrack(trackIndex)"
-             data-share="player.share()"
-             data-toggle-dropdown="player.toggleDropdown($event)"
-             data-update-time="player.updateTime(updatedTime)"
-             data-use-time="player.useTime()"></div>
+        <memory-player data-cancel-timer="player.cancelTimer()"
+                       data-current-playlist="player.currentPlaylist"
+                       data-current-track="player.currentTrack"
+                       data-is-paused="player.isPaused"
+                       data-is-shareable="player.isShareable"
+                       data-max-volume="player.maxVolume()"
+                       data-mute="player.mute()"
+                       data-next="player.next()"
+                       data-play="player.play()"
+                       data-playlists="player.playlists"
+                       data-previous="player.previous()"
+                       data-select-playlist="player.selectPlaylist(playlistName)"
+                       data-select-track="player.selectTrack(trackIndex)"
+                       data-share="player.share()"
+                       data-toggle-dropdown="player.toggleDropdown($event)"
+                       data-update-time="player.updateTime(updatedTime)"
+                       data-use-time="player.useTime()"></memory-player>
     </section>
     <!-- #memory-player -->
 

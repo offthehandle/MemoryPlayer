@@ -13,7 +13,7 @@ var MemoryPlayerAPI = (function () {
          * @member {string} playlists - The path to retrieve playlists.
          * @private
          */
-        this.playlists = '/lib/memory-player/dist/json/playlists.json';
+        this.playlists = '/memory-player/dist/json/playlists.json';
     }
     /**
      * Removes player if playlists unavailable.

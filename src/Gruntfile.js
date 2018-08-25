@@ -1,14 +1,14 @@
 module.exports = function (grunt) {
     var path = {
-        jsSrc: 'MemoryPlayer/lib/memory-player/ts',
-        jsonSrc: 'MemoryPlayer/lib/memory-player/json',
-        htmlSrc: 'MemoryPlayer/lib/memory-player/html',
-        scssSrc: 'MemoryPlayer/lib/memory-player/scss',
-        lessSrc: 'MemoryPlayer/lib/memory-player/less',
-        jsDist: 'MemoryPlayer/lib/memory-player/dist/js',
-        jsonDist: 'MemoryPlayer/lib/memory-player/dist/json',
-        htmlDist: 'MemoryPlayer/lib/memory-player/dist/html',
-        cssDist: 'MemoryPlayer/lib/memory-player/dist/css'
+        jsSrc: 'MemoryPlayer/memory-player/ts',
+        jsonSrc: 'MemoryPlayer/memory-player/json',
+        htmlSrc: 'MemoryPlayer/memory-player/html',
+        scssSrc: 'MemoryPlayer/memory-player/scss',
+        lessSrc: 'MemoryPlayer/memory-player/less',
+        jsDist: 'MemoryPlayer/memory-player/dist/js',
+        jsonDist: 'MemoryPlayer/memory-player/dist/json',
+        htmlDist: 'MemoryPlayer/memory-player/dist/html',
+        cssDist: 'MemoryPlayer/memory-player/dist/css'
     }
 
     // Project configuration.
@@ -64,8 +64,8 @@ module.exports = function (grunt) {
                         '<%= path.jsSrc %>/services/MP.State.service.js',
                         '<%= path.jsSrc %>/services/MP.Sharing.service.js',
                         '<%= path.jsSrc %>/MP.controller.js',
-                        '<%= path.jsSrc %>/MP.directive.js',
-                        '<%= path.jsSrc %>/MP.Sharing.directive.js'
+                        '<%= path.jsSrc %>/MP.component.js',
+                        '<%= path.jsSrc %>/MP.Sharing.component.js'
                     ],
 
                     '<%= path.scssSrc %>/memory-player.scss': [
