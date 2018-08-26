@@ -3,19 +3,19 @@ describe('MPState', function () {
 
     beforeEach(module('MemoryPlayer'));
 
-    var $httpBackend, MemoryPlayerState, MemoryPlayerAPI;
-    var MPController;
+    var $httpBackend, MemoryPlayerAPI;
+    var MemoryPlayerState;
 
-    beforeEach(inject(function (_$httpBackend_, _$rootScope_, _MemoryPlayerState_, _MemoryPlayerAPI_) {
+    beforeEach(inject(function (_$httpBackend_, _MemoryPlayerAPI_, _MemoryPlayerState_) {
 
         // Angular core DI
         $httpBackend = _$httpBackend_;
-        $scope = _$rootScope_.$new();
 
         // Memory Player DI
         MemoryPlayerAPI = _MemoryPlayerAPI_;
 
         MemoryPlayerState = _MemoryPlayerState_;
+
 
         // Populates playlist data
         $httpBackend.expectGET('/memory-player/dist/json/playlists.json').respond(200, playlists);

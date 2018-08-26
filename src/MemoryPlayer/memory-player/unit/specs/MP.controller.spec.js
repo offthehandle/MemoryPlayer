@@ -3,21 +3,20 @@ describe('MPController', function () {
 
     beforeEach(module('MemoryPlayer'));
 
-    var $httpBackend, $scope, MemoryPlayerState, MemoryPlayerControls, MemoryPlayerSharing, MemoryPlayerAPI;
+    var $httpBackend, $scope, MemoryPlayerAPI, MemoryPlayerState, MemoryPlayerControls, MemoryPlayerSharing;
     var MPController;
 
-    beforeEach(inject(function (_$httpBackend_, _$rootScope_, _MemoryPlayerState_, _MemoryPlayerControls_, _MemoryPlayerSharing_, _MemoryPlayerAPI_, $controller) {
+    beforeEach(inject(function (_$httpBackend_, _$rootScope_, _MemoryPlayerAPI_, _MemoryPlayerState_, _MemoryPlayerControls_, _MemoryPlayerSharing_, $controller) {
 
         // Angular core DI
         $httpBackend = _$httpBackend_;
         $scope = _$rootScope_.$new();
 
         // Memory Player DI
+        MemoryPlayerAPI = _MemoryPlayerAPI_;
         MemoryPlayerState = _MemoryPlayerState_;
         MemoryPlayerControls = _MemoryPlayerControls_;
         MemoryPlayerSharing = _MemoryPlayerSharing_;
-
-        MemoryPlayerAPI = _MemoryPlayerAPI_;
 
         // Assigns controller
         MPController = $controller('MemoryPlayerController as player', {
