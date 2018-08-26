@@ -40,11 +40,11 @@
     <Content Include="memory-player\dist\js\memory-player.js" />
     <Content Include="memory-player\dist\js\memory-player.min.js" />
     <Content Include="memory-player\html\mp-sharing.html" />
-    <Content Include="memory-player\unit\MockResponse.js" />
-    <Content Include="memory-player\unit\specs\MemoryPlayer.controller.spec.js" />
-    <Content Include="memory-player\unit\specs\MemoryPlayer.directive.spec.js" />
-    <Content Include="memory-player\unit\specs\MemoryPlayerAPI.service.spec.js" />
-    <Content Include="memory-player\unit\specs\MemoryPlayer.factory.spec.js" />
+    <Content Include="memory-player\unit\MockResponses.js" />
+    <Content Include="memory-player\unit\specs\MP.State.service.spec.js" />
+    <Content Include="memory-player\unit\specs\MP.Controls.service.spec.js" />
+    <Content Include="memory-player\unit\specs\MP.controller.spec.js" />
+    <Content Include="memory-player\unit\specs\MP.API.service.spec.js" />
     <Content Include="page-2.html" />
     <Content Include="index.html" />
     <Content Include="js\jplayer.playlist.js" />

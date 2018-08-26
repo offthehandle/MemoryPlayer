@@ -15,15 +15,16 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-		'MemoryPlayer/js/jquery-1.9.1.js',
+		'MemoryPlayer/js/jquery-3.3.1.js',
 		'MemoryPlayer/js/jquery.jplayer.js',
 		'MemoryPlayer/js/jplayer.playlist.js',
 		'MemoryPlayer/js/angular.js',
 		'MemoryPlayer/js/angular-mocks.js',
-		'MemoryPlayer/lib/memory-player/dist/js/memory-player.js',
-		'MemoryPlayer/lib/memory-player/unit/MockResponse.js',
-		'MemoryPlayer/lib/memory-player/unit/specs/**/*spec.js',
-		'MemoryPlayer/lib/memory-player/dist/html/memory-player.html'
+		'MemoryPlayer/memory-player/dist/js/memory-player.js',
+		'MemoryPlayer/memory-player/unit/MockResponses.js',
+		'MemoryPlayer/memory-player/unit/specs/**/*spec.js',
+		'MemoryPlayer/memory-player/dist/html/memory-player.html',
+		'MemoryPlayer/memory-player/dist/html/mp-sharing.html'
     ],
 
 
@@ -41,7 +42,8 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-		'MemoryPlayer/lib/memory-player/dist/html/memory-player.html': ['ng-html2js']
+		'MemoryPlayer/memory-player/dist/html/memory-player.html': ['ng-html2js'],
+		'MemoryPlayer/memory-player/dist/html/mp-sharing.html': ['ng-html2js']
     },
 
 

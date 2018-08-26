@@ -9,7 +9,7 @@ module.exports = function (grunt) {
         jsonDist: 'MemoryPlayer/memory-player/dist/json',
         htmlDist: 'MemoryPlayer/memory-player/dist/html',
         cssDist: 'MemoryPlayer/memory-player/dist/css'
-    }
+    };
 
     // Project configuration.
     grunt.initConfig({

@@ -1,14 +1,17 @@
-﻿describe('MemoryPlayerAPI unit tests', function () {
+﻿describe('MPAPI', function () {
 
     beforeEach(module('MemoryPlayer'));
 
     var $httpBackend;
-    var MemoryPlayerAPI;
+    var MPAPI;
 
     beforeEach(inject(function (_$httpBackend_, _MemoryPlayerAPI_) {
+
+        // Angular core DI
         $httpBackend = _$httpBackend_;
 
-        MemoryPlayerAPI = _MemoryPlayerAPI_;
+        // Memory Player DI
+        MPAPI = _MemoryPlayerAPI_;
     }));
 
     afterEach(function () {
@@ -16,14 +19,15 @@
         $httpBackend.verifyNoOutstandingRequest();
     });
 
-    describe('MemoryPlayerAPI unit test', function () {
-        it('should fetch the playlists json data', function () {
+    describe('MPAPI gets playlists', function () {
+        it('should get playlists json', function () {
 
-            $httpBackend.expectGET('/lib/memory-player/dist/json/playlists.json').respond(200, playlists);
+            $httpBackend.expectGET('/memory-player/dist/json/playlists.json').respond(200, playlists);
 
             var playlistsResponse;
 
-            MemoryPlayerAPI.getPlaylists().then(function (response) {
+            MPAPI.getPlaylists().then(function (response) {
+
                 playlistsResponse = response;
             });
 
