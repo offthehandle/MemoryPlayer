@@ -41,6 +41,7 @@
     <Content Include="memory-player\dist\js\memory-player.min.js" />
     <Content Include="memory-player\html\mp-sharing.html" />
     <Content Include="memory-player\unit\MockResponses.js" />
+    <Content Include="memory-player\unit\specs\MP.JPlayer.provider.spec.js" />
     <Content Include="memory-player\unit\specs\MP.State.service.spec.js" />
     <Content Include="memory-player\unit\specs\MP.Controls.service.spec.js" />
     <Content Include="memory-player\unit\specs\MP.controller.spec.js" />

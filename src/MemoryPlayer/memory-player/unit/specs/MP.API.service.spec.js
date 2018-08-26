@@ -1,4 +1,5 @@
-﻿describe('MPAPI', function () {
+﻿
+describe('MPAPI', function () {
 
     beforeEach(module('MemoryPlayer'));
 

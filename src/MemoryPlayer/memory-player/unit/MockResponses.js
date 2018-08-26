@@ -120,3 +120,8 @@ var trackResponse = {
     "artist": "Adam De Lucia's Tektonics",
     "mp3": "/audio/store-on-the-corner.mp3"
 };
+
+var jplayerIds = {
+    jPlayer: '#mp-jquery_jplayer',
+    cssSelectorAncestor: '#mp-jp_container'
+};

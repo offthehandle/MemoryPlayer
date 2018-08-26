@@ -1,5 +1,5 @@
 ﻿
-describe('MPControls', function () {
+describe('MPState', function () {
 
     beforeEach(module('MemoryPlayer'));
 
