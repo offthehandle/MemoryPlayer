@@ -1,6 +1,4 @@
 ﻿
-declare var jPlayerPlaylist: any;
-
 class MemoryPlayerState implements IMemoryPlayerState {
 
     public static instance: any[] = [
