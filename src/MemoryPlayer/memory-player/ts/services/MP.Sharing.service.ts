@@ -85,7 +85,7 @@ class MemoryPlayerSharing implements IMemoryPlayerSharing {
         });
 
 
-        // Waits for player ready
+        // Observes player ready
         this.$rootScope.$on('MP:Ready', ($event: angular.IAngularEvent): void => {
 
             /**
