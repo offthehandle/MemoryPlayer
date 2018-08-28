@@ -67,7 +67,7 @@ class MemoryPlayerState implements IMemoryPlayerState {
 
     /**
      * @memberof MemoryPlayerState
-     * @member {string} playerId - The player id.
+     * @member {string} jPlayerId - The player id.
      * @private
      * @default #mp-jquery_jplayer
      */
