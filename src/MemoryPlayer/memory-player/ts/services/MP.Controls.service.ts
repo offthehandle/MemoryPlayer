@@ -27,7 +27,7 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
         this.jPlayerId = this.JPlayer.ids.jPlayer;
 
 
-        // Waits for player ready
+        // Observes player ready
         this.$rootScope.$on('MP:Ready', ($event: angular.IAngularEvent): void => {
 
             /**
@@ -116,7 +116,7 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
         });
 
         /**
-         * Observe custom event that YouTube video has played and prevents simultaneous playback.
+         * Observes custom event that YouTube video has played and prevents simultaneous playback.
          */
         angular.element(document).on('YT.VideoPlayed', (): void => {
 
@@ -240,7 +240,7 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
 
 
         // If playing then notify other media
-        if (!isPaused) {
+        if (isPaused) {
 
             angular.element(this.jPlayerId).trigger('MP.TrackPlayed');
         }
@@ -388,7 +388,7 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
         this.JPlayer.create(this.MemoryPlayerState.getPlaylist().playlist);
 
 
-        // Waits for player ready
+        // Observes player ready
         angular.element(this.jPlayerId).bind($.jPlayer.event.ready, (): void => {
 
             // If settings exist then restart
