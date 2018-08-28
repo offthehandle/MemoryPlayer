@@ -94,21 +94,21 @@ class MPSharingController implements angular.IController {
 
     /**
      * @memberof MPSharingController
-     * @member {boolean} isTimeUsed - Current playlist.
+     * @member {boolean} isTimeUsed - True if time is used, else false.
      */
     public isTimeUsed: boolean;
 
 
     /**
      * @memberof MPSharingController
-     * @member {string} sharelink - Current playlist.
+     * @member {string} sharelink - The link back URL to share media in memory player.
      */
     public sharelink: string;
 
 
     /**
      * @memberof MPSharingController
-     * @member {string} sharelinkTime - Current playlist.
+     * @member {string} sharelinkTime - The optional start at time for share link.
      */
     public sharelinkTime: string;
 
