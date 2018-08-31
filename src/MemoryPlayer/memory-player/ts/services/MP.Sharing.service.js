@@ -53,7 +53,7 @@ var MemoryPlayerSharing = (function () {
                 }
             }
         });
-        // Waits for player ready
+        // Observes player ready
         this.$rootScope.$on('MP:Ready', function ($event) {
             /**
              * Observes player loaded.

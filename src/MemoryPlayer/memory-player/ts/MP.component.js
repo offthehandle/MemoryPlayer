@@ -1,4 +1,13 @@
 var MPPlayerController = (function () {
+    /**
+     * Implements IController
+     * @constructs MPPlayerController
+     * @param {IRootScopeService} $rootScope - The core angular root scope service.
+     * @param {ILocationService} $location - The core angular location service.
+     * @param {IMemoryPlayerAPI} MemoryPlayerAPI - The service that manages API calls.
+     * @param {IMemoryPlayerState} MemoryPlayerState - The service that manages memory player state.
+     * @param {IMemoryPlayerControls} MemoryPlayerControls - The service that manages memory player controls.
+     */
     function MPPlayerController($rootScope, $location, MemoryPlayerAPI, MemoryPlayerState, MemoryPlayerControls) {
         var _this = this;
         this.$rootScope = $rootScope;
@@ -6,10 +15,15 @@ var MPPlayerController = (function () {
         this.MemoryPlayerAPI = MemoryPlayerAPI;
         this.MemoryPlayerState = MemoryPlayerState;
         this.MemoryPlayerControls = MemoryPlayerControls;
+        // Gets player state from URL
         var state = this.$location.search();
+        // Gets playlists using API
         this.MemoryPlayerAPI.getPlaylists().then(function (response) {
+            // Sets playlists response in service
             _this.MemoryPlayerState.setPlaylists(response);
+            // Restart if available settings allow, else start fresh
             if (_this.isRestartable(state)) {
+                // Sets restart settings
                 var settings = {
                     track: parseInt(state.track),
                     time: parseInt(state.time),
@@ -17,14 +31,30 @@ var MPPlayerController = (function () {
                     isMuted: state.isMuted,
                     isPaused: state.isPaused,
                 };
+                // Restarts player
                 _this.MemoryPlayerControls.showtime(state.playlist, settings);
             }
             else {
+                // Gets name of first playlist
                 var playlist = Object.keys(response)[0];
+                // Starts player fresh
                 _this.MemoryPlayerControls.showtime(response[playlist]._id);
             }
         });
+        /**
+         * Core Angular event used to append query string for continued playback.
+         *
+         * ?playlist=playlist&track=track&time=time&volume=volume&isMuted&isPaused
+         *
+         * playlist = id of the current playlist
+         * track = id of the current track
+         * time = current playback time
+         * volume = current player volume
+         * isMuted = the player is muted or not (=false)
+         * isPaused = the player is paused or not (=false)
+         */
         this.unbindLocationChange = this.$rootScope.$on('$locationChangeStart', function ($event, newUrl, oldUrl) {
+            // If new page is requested then append query string
             if (newUrl !== oldUrl) {
                 var newUrlPath = _this.$location.url();
                 _this.$location.path(newUrlPath.split('?')[0]).search({
@@ -38,8 +68,16 @@ var MPPlayerController = (function () {
             }
         });
     }
+    /**
+     * Tests available settings for restartability
+     * @memberof MPPlayerController
+     * @instance
+     * @private
+     */
     MPPlayerController.prototype.isRestartable = function (state) {
+        // Sets success as initial test result
         var isRestartable = true;
+        // If any required setting is missing, set failure result
         if (!state.hasOwnProperty('isMuted')) {
             isRestartable = false;
         }
@@ -58,8 +96,10 @@ var MPPlayerController = (function () {
         if (!state.hasOwnProperty('volume')) {
             isRestartable = false;
         }
+        // Returns test result
         return isRestartable;
     };
+    // Cleans up watches to prevent memory leaks
     MPPlayerController.prototype.$onDestroy = function () {
         this.unbindLocationChange();
     };
@@ -74,6 +114,10 @@ MPPlayerController.instance = [
     MPPlayerController
 ];
 var MemoryPlayerComponent = (function () {
+    /**
+     * Implements IComponentOptions
+     * @constructs MemoryPlayerComponent
+     */
     function MemoryPlayerComponent() {
         this.controller = MPPlayerController.instance;
         this.controllerAs = 'player';

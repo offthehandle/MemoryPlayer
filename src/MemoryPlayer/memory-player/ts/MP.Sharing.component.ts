@@ -24,8 +24,8 @@ class MPSharingController implements angular.IController {
     ) {
 
         // Sets initial sharing values
+        this.sharelink = this.MemoryPlayerSharing.sharelink;
         this.isTimeUsed = false;
-        this.sharelink = null;
         this.sharelinkTime = '00:00';
 
 

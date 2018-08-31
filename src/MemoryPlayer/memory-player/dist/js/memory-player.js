@@ -202,7 +202,7 @@ var MemoryPlayerControls = (function () {
         this.MemoryPlayerState = MemoryPlayerState;
         // Stores player id for optimization
         this.jPlayerId = this.JPlayer.ids.jPlayer;
-        // Waits for player ready
+        // Observes player ready
         this.$rootScope.$on('MP:Ready', function ($event) {
             /**
              * Observes player volume change.
@@ -266,7 +266,7 @@ var MemoryPlayerControls = (function () {
             $dropdown.find('a').attr('aria-expanded', 'false');
         });
         /**
-         * Observe custom event that YouTube video has played and prevents simultaneous playback.
+         * Observes custom event that YouTube video has played and prevents simultaneous playback.
          */
         angular.element(document).on('YT.VideoPlayed', function () {
             // If player is playing then toggle playback to pause
@@ -348,7 +348,7 @@ var MemoryPlayerControls = (function () {
         // Updates play state
         this.MemoryPlayerState.setIsPaused(!isPaused);
         // If playing then notify other media
-        if (!isPaused) {
+        if (isPaused) {
             angular.element(this.jPlayerId).trigger('MP.TrackPlayed');
         }
     };
@@ -454,7 +454,7 @@ var MemoryPlayerControls = (function () {
         this.MemoryPlayerState.setPlaylist(playlist);
         // Creates jplayer instance with current playlist
         this.JPlayer.create(this.MemoryPlayerState.getPlaylist().playlist);
-        // Waits for player ready
+        // Observes player ready
         angular.element(this.jPlayerId).bind($.jPlayer.event.ready, function () {
             // If settings exist then restart
             if (angular.isDefined(settings)) {
@@ -738,7 +738,7 @@ var MemoryPlayerSharing = (function () {
                 }
             }
         });
-        // Waits for player ready
+        // Observes player ready
         this.$rootScope.$on('MP:Ready', function ($event) {
             /**
              * Observes player loaded.
@@ -1083,8 +1083,8 @@ var MPSharingController = (function () {
         this.$rootScope = $rootScope;
         this.JPlayer = JPlayer;
         this.MemoryPlayerSharing = MemoryPlayerSharing;
+        this.sharelink = this.MemoryPlayerSharing.sharelink;
         this.isTimeUsed = false;
-        this.sharelink = null;
         this.sharelinkTime = '00:00';
         this.unbindSharelink = this.$rootScope.$watch(function () {
             return _this.MemoryPlayerSharing.sharelink;
