@@ -41,7 +41,7 @@ describe('MPComponent', function () {
         it('should initialize share link', function () {
 
             // Tests result
-            expect(MPSharingController.sharelink).toBe(null);
+            expect(MPSharingController.sharelink).toBe('http://localhost/context.html');
         });
 
         it('should initialize share link time', function () {
