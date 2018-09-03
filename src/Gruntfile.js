@@ -1,3 +1,5 @@
+const sass = require('node-sass');
+
 module.exports = function (grunt) {
     var path = {
         jsSrc: 'MemoryPlayer/memory-player/ts',
@@ -28,6 +30,9 @@ module.exports = function (grunt) {
             ]
         },
         sass: {
+            options: {
+                implementation: sass
+            },
             dist: {
                 files: {
                     '<%= path.cssDist %>/memory-player.css': ['<%= path.scssSrc %>/memory-player.scss']

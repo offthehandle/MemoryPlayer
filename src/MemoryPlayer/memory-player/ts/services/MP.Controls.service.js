@@ -82,8 +82,10 @@ var MemoryPlayerControls = (function () {
         angular.element(document).on('YT.VideoPlayed', function () {
             // If player is playing then toggle playback to pause
             if (!_this.MemoryPlayerState.getIsPaused()) {
-                // Pauses player
-                _this.play();
+                _this.$rootScope.$evalAsync(function () {
+                    // Pauses player
+                    _this.play();
+                });
             }
         });
     }
@@ -223,9 +225,9 @@ var MemoryPlayerControls = (function () {
         // Updates current playlist
         this.MemoryPlayerState.setPlaylist(playlistName);
         // Gets current playlist
-        var playlist = this.MemoryPlayerState.getPlaylist().playlist;
+        var tracks = this.MemoryPlayerState.getPlaylist().tracks;
         // Sets current playlist in player
-        this.JPlayer.instance().setPlaylist(playlist);
+        this.JPlayer.instance().setPlaylist(tracks);
         // Plays first track
         this.JPlayer.instance().play();
         // Updates play state
@@ -264,7 +266,7 @@ var MemoryPlayerControls = (function () {
         // Updates current playlist
         this.MemoryPlayerState.setPlaylist(playlist);
         // Creates jplayer instance with current playlist
-        this.JPlayer.create(this.MemoryPlayerState.getPlaylist().playlist);
+        this.JPlayer.create(this.MemoryPlayerState.getPlaylist().tracks);
         // Observes player ready
         angular.element(this.jPlayerId).bind($.jPlayer.event.ready, function () {
             // If settings exist then restart

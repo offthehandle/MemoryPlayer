@@ -58,7 +58,7 @@ describe('MPControls', function () {
             MemoryPlayerControls.selectPlaylist('Hypnotist');
 
             // Tests result
-            expect(MemoryPlayerState.getPlaylist().playlist).toEqual(hypnotistPlaylist);
+            expect(MemoryPlayerState.getPlaylist().tracks).toEqual(hypnotistPlaylist);
         });
 
         it('should play', function () {

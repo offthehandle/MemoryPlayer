@@ -123,8 +123,11 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
             // If player is playing then toggle playback to pause
             if (!this.MemoryPlayerState.getIsPaused()) {
 
-                // Pauses player
-                this.play();
+                this.$rootScope.$evalAsync((): void => {
+
+                    // Pauses player
+                    this.play();
+                });
             }
         });
     }
@@ -331,10 +334,10 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
         this.MemoryPlayerState.setPlaylist(playlistName);
 
         // Gets current playlist
-        let playlist: Array<ITrack> = this.MemoryPlayerState.getPlaylist().playlist;
+        let tracks: Array<ITrack> = this.MemoryPlayerState.getPlaylist().tracks;
 
         // Sets current playlist in player
-        this.JPlayer.instance().setPlaylist(playlist);
+        this.JPlayer.instance().setPlaylist(tracks);
 
         // Plays first track
         this.JPlayer.instance().play();
@@ -385,7 +388,7 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
         this.MemoryPlayerState.setPlaylist(playlist);
 
         // Creates jplayer instance with current playlist
-        this.JPlayer.create(this.MemoryPlayerState.getPlaylist().playlist);
+        this.JPlayer.create(this.MemoryPlayerState.getPlaylist().tracks);
 
 
         // Observes player ready

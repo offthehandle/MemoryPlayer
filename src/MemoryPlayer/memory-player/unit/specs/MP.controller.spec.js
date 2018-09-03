@@ -67,7 +67,7 @@ describe('MPController', function () {
             $scope.$apply();
 
             // Tests result
-            expect(MPController.currentPlaylist.playlist).toEqual(hypnotistPlaylist);
+            expect(MPController.currentPlaylist.tracks).toEqual(hypnotistPlaylist);
         });
 
         it('should play', function () {

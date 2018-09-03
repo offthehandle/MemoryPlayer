@@ -16,11 +16,11 @@ var MemoryPlayerProvider = (function () {
         var _this = this;
         return {
             ids: this.JPlayerIds,
-            create: function (playlist) {
+            create: function (tracks) {
                 // If jplayer is undefined then allow create
                 if (angular.isUndefined(_this.JPlayer)) {
                     // Sets immutable jplayer instance
-                    _this.JPlayer = new jPlayerPlaylist(_this.JPlayerIds, playlist, _this.JPlayerOptions);
+                    _this.JPlayer = new jPlayerPlaylist(_this.JPlayerIds, tracks, _this.JPlayerOptions);
                 }
             },
             instance: function () {
@@ -271,8 +271,10 @@ var MemoryPlayerControls = (function () {
         angular.element(document).on('YT.VideoPlayed', function () {
             // If player is playing then toggle playback to pause
             if (!_this.MemoryPlayerState.getIsPaused()) {
-                // Pauses player
-                _this.play();
+                _this.$rootScope.$evalAsync(function () {
+                    // Pauses player
+                    _this.play();
+                });
             }
         });
     }
@@ -412,9 +414,9 @@ var MemoryPlayerControls = (function () {
         // Updates current playlist
         this.MemoryPlayerState.setPlaylist(playlistName);
         // Gets current playlist
-        var playlist = this.MemoryPlayerState.getPlaylist().playlist;
+        var tracks = this.MemoryPlayerState.getPlaylist().tracks;
         // Sets current playlist in player
-        this.JPlayer.instance().setPlaylist(playlist);
+        this.JPlayer.instance().setPlaylist(tracks);
         // Plays first track
         this.JPlayer.instance().play();
         // Updates play state
@@ -453,7 +455,7 @@ var MemoryPlayerControls = (function () {
         // Updates current playlist
         this.MemoryPlayerState.setPlaylist(playlist);
         // Creates jplayer instance with current playlist
-        this.JPlayer.create(this.MemoryPlayerState.getPlaylist().playlist);
+        this.JPlayer.create(this.MemoryPlayerState.getPlaylist().tracks);
         // Observes player ready
         angular.element(this.jPlayerId).bind($.jPlayer.event.ready, function () {
             // If settings exist then restart
@@ -643,7 +645,7 @@ var MemoryPlayerState = (function () {
      */
     MemoryPlayerState.prototype.setTrack = function (trackIndex) {
         // Updates current track
-        this.currentTrack = this.currentPlaylist.playlist[trackIndex];
+        this.currentTrack = this.currentPlaylist.tracks[trackIndex];
     };
     /**
      * Gets current track id.

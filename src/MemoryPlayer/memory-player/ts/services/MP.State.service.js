@@ -127,7 +127,7 @@ var MemoryPlayerState = (function () {
      */
     MemoryPlayerState.prototype.setTrack = function (trackIndex) {
         // Updates current track
-        this.currentTrack = this.currentPlaylist.playlist[trackIndex];
+        this.currentTrack = this.currentPlaylist.tracks[trackIndex];
     };
     /**
      * Gets current track id.

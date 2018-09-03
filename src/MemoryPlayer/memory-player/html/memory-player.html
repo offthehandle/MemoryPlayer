@@ -63,7 +63,7 @@
                 </li>
                 <!-- .mp-dropdown-header -->
 
-                <li data-ng-repeat="track in player.currentPlaylist.playlist" class="mp-song">
+                <li data-ng-repeat="track in player.currentPlaylist.tracks" class="mp-song">
                     <a data-ng-click="player.selectTrack({ trackIndex: $index })">
                         <span data-ng-class="($index === player.currentTrack._id && !player.isPaused) ? 'mp-audio-sprite-pause' : 'mp-audio-sprite-play'" class="mp-audio-sprite"></span>
                         {{track.title}}

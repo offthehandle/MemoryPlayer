@@ -4,7 +4,7 @@
         "album": "Perpetual Motion",
         "cover": "/images/perpetual_motion-playlist_icon.jpg",
         "trackCount": 3,
-        "playlist": [
+        "tracks": [
             {
                 "_id": 0,
                 "title": "6 Day Regimen",
@@ -30,7 +30,7 @@
         "album": "Hypnotist",
         "cover": "/images/hypnotist-playlist_icon.jpg",
         "trackCount": 4,
-        "playlist": [
+        "tracks": [
             {
                 "_id": 0,
                 "title": "The Far Groove",

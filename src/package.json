@@ -10,24 +10,26 @@
     "license": "ISC",
     "devDependencies": {
         "grunt": "^0.4.5",
-        "grunt-sass": "^1.1.0",
         "grunt-contrib-clean": "~1.0.0",
         "grunt-contrib-concat": "~1.0.1",
         "grunt-contrib-copy": "~1.0.0",
         "grunt-contrib-cssmin": "^0.14.0",
         "grunt-contrib-less": "~1.4.0",
         "grunt-contrib-uglify": "^2.0.0",
-        "grunt-stripcomments": "~0.6.0",
         "grunt-karma": "~2.0.0",
+        "grunt-sass": "^3.0.1",
+        "grunt-stripcomments": "~0.6.0",
+        "jasmine-core": "~2.5.2",
         "karma": "~1.3.0",
         "karma-chrome-launcher": "~2.0.0",
         "karma-firefox-launcher": "^1.0.0",
         "karma-ie-launcher": "^1.0.0",
         "karma-jasmine": "~1.1.0",
+        "karma-ng-html2js-preprocessor": "~1.0.0",
         "karma-opera-launcher": "^1.0.0",
         "karma-phantomjs-launcher": "~1.0.2",
         "karma-safari-launcher": "^1.0.0",
-        "karma-ng-html2js-preprocessor": "~1.0.0",
-        "jasmine-core": "~2.5.2"
-    }
+        "node-sass": "^4.9.3"
+    },
+    "dependencies": {}
 }

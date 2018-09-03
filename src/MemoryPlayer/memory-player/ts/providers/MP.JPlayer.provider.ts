@@ -38,13 +38,13 @@ class MemoryPlayerProvider implements angular.IServiceProvider {
 
         return {
             ids: this.JPlayerIds,
-            create: (playlist: Array<ITrack>): void => {
+            create: (tracks: Array<ITrack>): void => {
 
                 // If jplayer is undefined then allow create
                 if (angular.isUndefined(this.JPlayer)) {
 
                     // Sets immutable jplayer instance
-                    this.JPlayer = new jPlayerPlaylist(this.JPlayerIds, playlist, this.JPlayerOptions);
+                    this.JPlayer = new jPlayerPlaylist(this.JPlayerIds, tracks, this.JPlayerOptions);
                 }
             },
             instance: (): IPlaylistJPlayer => {

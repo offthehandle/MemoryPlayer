@@ -56,7 +56,7 @@ describe('MPState', function () {
             MemoryPlayerState.setPlaylist('Hypnotist');
 
             // Tests result
-            expect(MemoryPlayerState.getPlaylist().playlist).toEqual(hypnotistPlaylist);
+            expect(MemoryPlayerState.getPlaylist().tracks).toEqual(hypnotistPlaylist);
         });
 
         it('should set first track with playlist', function () {

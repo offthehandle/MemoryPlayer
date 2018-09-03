@@ -1,6 +1,6 @@
 ﻿
 interface IJPlayerProvider {
     ids: IJPlayerIds;
-    create(playlist: Array<ITrack>): void;
+    create(tracks: Array<ITrack>): void;
     instance(): IPlaylistJPlayer;
 }

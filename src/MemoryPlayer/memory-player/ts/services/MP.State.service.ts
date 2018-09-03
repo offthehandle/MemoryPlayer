@@ -241,7 +241,7 @@ class MemoryPlayerState implements IMemoryPlayerState {
     public setTrack(trackIndex: number): void {
 
         // Updates current track
-        this.currentTrack = this.currentPlaylist.playlist[trackIndex];
+        this.currentTrack = this.currentPlaylist.tracks[trackIndex];
     }
 
 

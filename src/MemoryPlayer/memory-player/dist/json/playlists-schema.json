@@ -35,7 +35,7 @@
                 "trackCount": {
                     "type": "number"
                 },
-                "playlist": {
+                "tracks": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/track"
