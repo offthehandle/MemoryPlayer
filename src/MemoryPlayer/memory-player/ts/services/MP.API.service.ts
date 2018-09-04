@@ -39,7 +39,7 @@ class MemoryPlayerAPI implements IMemoryPlayerAPI {
     private removePlayer(): void {
 
         angular.element('#memory-player').remove();
-    };
+    }
 
 
 
