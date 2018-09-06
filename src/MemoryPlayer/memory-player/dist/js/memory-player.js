@@ -3,6 +3,10 @@
     angular.module('MemoryPlayer', []);
 })();
 
+/**
+ * The provider service that manages jplayer.
+ * @class MemoryPlayerProvider
+ */
 var MemoryPlayerProvider = (function () {
     function MemoryPlayerProvider() {
     }
@@ -142,7 +146,6 @@ var MemoryPlayerAPI = (function () {
     MemoryPlayerAPI.prototype.removePlayer = function () {
         angular.element('#memory-player').remove();
     };
-    ;
     /**
      * Gets playlists JSON response.
      * @memberof MemoryPlayerAPI
@@ -700,7 +703,7 @@ var MemoryPlayerSharing = (function () {
         this.MemoryPlayerState = MemoryPlayerState;
         /**
          * @memberof MemoryPlayerSharing
-         * @member {string} sharelink - The link back URL to share media in memory player.
+         * @member {string} sharelink - The backlink URL to share media in memory player.
          */
         this.sharelink = window.location.protocol + "//" + window.location.hostname + window.location.pathname;
         // Stores player id for optimization
