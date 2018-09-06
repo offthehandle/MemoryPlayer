@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>DocStrap Class: MemoryPlayerState</title>
+	<title>DocStrap Class: MemoryPlayerController</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -65,13 +65,13 @@
 		<div id="main">
 			
 
-	<h1 class="page-title">Class: MemoryPlayerState</h1>
+	<h1 class="page-title">Class: MemoryPlayerController</h1>
 <section>
 
 <header>
     
         <h2>
-        MemoryPlayerState
+        MemoryPlayerController
         </h2>
         
     
@@ -84,7 +84,7 @@
         
 <hr>
 <dt>
-    <h4 class="name" id="MemoryPlayerState"><span class="type-signature"></span>new MemoryPlayerState(JPlayer)</h4>
+    <h4 class="name" id="MemoryPlayerController"><span class="type-signature"></span>new MemoryPlayerController($scope, MemoryPlayerState, MemoryPlayerControls, MemoryPlayerSharing)</h4>
     
     
 </dt>
@@ -92,7 +92,7 @@
 
     
     <div class="description">
-        <p>Implements IMemoryPlayerState</p>
+        <p>Implements IController</p>
     </div>
     
 
@@ -127,13 +127,13 @@
 
         <tr>
             
-                <td class="name"><code>JPlayer</code></td>
+                <td class="name"><code>$scope</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">IJPlayerProvider</span>
+<span class="param-type">IScope</span>
 
 
 
@@ -144,7 +144,79 @@
 
             
 
-            <td class="description last"><p>The provider service that manages jplayer.</p></td>
+            <td class="description last"><p>The core angular scope service.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>MemoryPlayerState</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">IMemoryPlayerState</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The service that manages memory player state.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>MemoryPlayerControls</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">IMemoryPlayerControls</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The service that manages memory player controls.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>MemoryPlayerSharing</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">IMemoryPlayerSharing</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The service that manages memory player link sharing.</p></td>
         </tr>
 
     
@@ -188,8 +260,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="services_MP.State.service.js.html">services/MP.State.service.js</a>,
-				 <a href="services_MP.State.service.js.html#sunlight-1-line-7">line 7</a>
+				<a href="MP.controller.js.html">MP.controller.js</a>,
+				 <a href="MP.controller.js.html#sunlight-1-line-10">line 10</a>
 			</li>
 		</ul>
 	</dd>
@@ -240,7 +312,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="getIsMuted"><span class="type-signature"></span>getIsMuted()</h4>
+    <h4 class="name" id="cancelTimer"><span class="type-signature"></span>cancelTimer()</h4>
     
     
 </dt>
@@ -248,7 +320,7 @@
 
     
     <div class="description">
-        <p>Gets boolean that player is muted or not.</p>
+        <p>Implements cancel timer method of <a href="MemoryPlayerSharing.html">MemoryPlayerSharing</a></p>
     </div>
     
 
@@ -294,8 +366,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="services_MP.State.service.js.html">services/MP.State.service.js</a>,
-				 <a href="services_MP.State.service.js.html#sunlight-1-line-22">line 22</a>
+				<a href="MP.controller.js.html">MP.controller.js</a>,
+				 <a href="MP.controller.js.html#sunlight-1-line-69">line 69</a>
 			</li>
 		</ul>
 	</dd>
@@ -320,32 +392,6 @@
     
 
     
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    <ul>
-<li>True if player is muted else false.</li>
-</ul>
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">boolean</span>
-
-
-
-    </dd>
-</dl>
-
-
-        
 
     
 </dd>
@@ -354,7 +400,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="getIsPaused"><span class="type-signature"></span>getIsPaused()</h4>
+    <h4 class="name" id="maxVolume"><span class="type-signature"></span>maxVolume()</h4>
     
     
 </dt>
@@ -362,7 +408,7 @@
 
     
     <div class="description">
-        <p>Gets boolean that player is paused or not.</p>
+        <p>Implements max volume method of <a href="MemoryPlayerControls.html">MemoryPlayerControls</a></p>
     </div>
     
 
@@ -408,8 +454,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="services_MP.State.service.js.html">services/MP.State.service.js</a>,
-				 <a href="services_MP.State.service.js.html#sunlight-1-line-41">line 41</a>
+				<a href="MP.controller.js.html">MP.controller.js</a>,
+				 <a href="MP.controller.js.html#sunlight-1-line-77">line 77</a>
 			</li>
 		</ul>
 	</dd>
@@ -434,32 +480,6 @@
     
 
     
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    <ul>
-<li>True if player is paused else false.</li>
-</ul>
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">boolean</span>
-
-
-
-    </dd>
-</dl>
-
-
-        
 
     
 </dd>
@@ -468,7 +488,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="getPlaylist"><span class="type-signature"></span>getPlaylist()</h4>
+    <h4 class="name" id="mute"><span class="type-signature"></span>mute()</h4>
     
     
 </dt>
@@ -476,7 +496,7 @@
 
     
     <div class="description">
-        <p>Gets current playlist.</p>
+        <p>Implements toggle mute and unmute method of <a href="MemoryPlayerControls.html">MemoryPlayerControls</a></p>
     </div>
     
 
@@ -522,8 +542,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="services_MP.State.service.js.html">services/MP.State.service.js</a>,
-				 <a href="services_MP.State.service.js.html#sunlight-1-line-60">line 60</a>
+				<a href="MP.controller.js.html">MP.controller.js</a>,
+				 <a href="MP.controller.js.html#sunlight-1-line-85">line 85</a>
 			</li>
 		</ul>
 	</dd>
@@ -548,32 +568,6 @@
     
 
     
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    <ul>
-<li>The playlist.</li>
-</ul>
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">IPlaylist</span>
-
-
-
-    </dd>
-</dl>
-
-
-        
 
     
 </dd>
@@ -582,7 +576,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="getPlaylistId"><span class="type-signature"></span>getPlaylistId()</h4>
+    <h4 class="name" id="next"><span class="type-signature"></span>next()</h4>
     
     
 </dt>
@@ -590,7 +584,7 @@
 
     
     <div class="description">
-        <p>Gets current playlist id.</p>
+        <p>Implements play next track method of <a href="MemoryPlayerControls.html">MemoryPlayerControls</a></p>
     </div>
     
 
@@ -636,8 +630,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="services_MP.State.service.js.html">services/MP.State.service.js</a>,
-				 <a href="services_MP.State.service.js.html#sunlight-1-line-81">line 81</a>
+				<a href="MP.controller.js.html">MP.controller.js</a>,
+				 <a href="MP.controller.js.html#sunlight-1-line-93">line 93</a>
 			</li>
 		</ul>
 	</dd>
@@ -662,32 +656,6 @@
     
 
     
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    <ul>
-<li>The id of playlist.</li>
-</ul>
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">string</span>
-
-
-
-    </dd>
-</dl>
-
-
-        
 
     
 </dd>
@@ -696,7 +664,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="getPlaylists"><span class="type-signature"></span>getPlaylists()</h4>
+    <h4 class="name" id="play"><span class="type-signature"></span>play()</h4>
     
     
 </dt>
@@ -704,7 +672,7 @@
 
     
     <div class="description">
-        <p>Gets playlists.</p>
+        <p>Implements toggle play and pause method of <a href="MemoryPlayerControls.html">MemoryPlayerControls</a></p>
     </div>
     
 
@@ -750,8 +718,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="services_MP.State.service.js.html">services/MP.State.service.js</a>,
-				 <a href="services_MP.State.service.js.html#sunlight-1-line-90">line 90</a>
+				<a href="MP.controller.js.html">MP.controller.js</a>,
+				 <a href="MP.controller.js.html#sunlight-1-line-101">line 101</a>
 			</li>
 		</ul>
 	</dd>
@@ -776,32 +744,6 @@
     
 
     
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    <ul>
-<li>The playlists.</li>
-</ul>
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">IPlaylists</span>
-
-
-
-    </dd>
-</dl>
-
-
-        
 
     
 </dd>
@@ -810,7 +752,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="getTime"><span class="type-signature"></span>getTime()</h4>
+    <h4 class="name" id="previous"><span class="type-signature"></span>previous()</h4>
     
     
 </dt>
@@ -818,7 +760,7 @@
 
     
     <div class="description">
-        <p>Gets current playback time of player.</p>
+        <p>Implements play previous track method of <a href="MemoryPlayerControls.html">MemoryPlayerControls</a></p>
     </div>
     
 
@@ -864,514 +806,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="services_MP.State.service.js.html">services/MP.State.service.js</a>,
-				 <a href="services_MP.State.service.js.html#sunlight-1-line-109">line 109</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    <ul>
-<li>The playback time of player.</li>
-</ul>
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">number</span>
-
-
-
-    </dd>
-</dl>
-
-
-        
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id="getTrack"><span class="type-signature"></span>getTrack()</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        <p>Gets current track.</p>
-    </div>
-    
-
-    
-
-    
-
-    
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="services_MP.State.service.js.html">services/MP.State.service.js</a>,
-				 <a href="services_MP.State.service.js.html#sunlight-1-line-119">line 119</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    <ul>
-<li>The track.</li>
-</ul>
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">ITrack</span>
-
-
-
-    </dd>
-</dl>
-
-
-        
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id="getTrackId"><span class="type-signature"></span>getTrackId()</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        <p>Gets current track id.</p>
-    </div>
-    
-
-    
-
-    
-
-    
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="services_MP.State.service.js.html">services/MP.State.service.js</a>,
-				 <a href="services_MP.State.service.js.html#sunlight-1-line-138">line 138</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    <ul>
-<li>The id of track.</li>
-</ul>
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">number</span>
-
-
-
-    </dd>
-</dl>
-
-
-        
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id="getVolume"><span class="type-signature"></span>getVolume()</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        <p>Gets current volume of player.</p>
-    </div>
-    
-
-    
-
-    
-
-    
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="services_MP.State.service.js.html">services/MP.State.service.js</a>,
-				 <a href="services_MP.State.service.js.html#sunlight-1-line-147">line 147</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    <ul>
-<li>The 2 digit decimal volume of player.</li>
-</ul>
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">string</span>
-
-
-
-    </dd>
-</dl>
-
-
-        
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id="setIsMuted"><span class="type-signature"></span>setIsMuted(isMuted)</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        <p>Sets boolean that player is muted or not.</p>
-    </div>
-    
-
-    
-
-    
-
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>isMuted</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The muted state.</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="services_MP.State.service.js.html">services/MP.State.service.js</a>,
-				 <a href="services_MP.State.service.js.html#sunlight-1-line-31">line 31</a>
+				<a href="MP.controller.js.html">MP.controller.js</a>,
+				 <a href="MP.controller.js.html#sunlight-1-line-109">line 109</a>
 			</li>
 		</ul>
 	</dd>
@@ -1404,7 +840,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="setIsPaused"><span class="type-signature"></span>setIsPaused(isPaused)</h4>
+    <h4 class="name" id="selectPlaylist"><span class="type-signature"></span>selectPlaylist(playlistName)</h4>
     
     
 </dt>
@@ -1412,145 +848,7 @@
 
     
     <div class="description">
-        <p>Sets boolean that player is paused or not.</p>
-    </div>
-    
-
-    
-
-    
-
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>isPaused</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The play state.</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="services_MP.State.service.js.html">services/MP.State.service.js</a>,
-				 <a href="services_MP.State.service.js.html#sunlight-1-line-50">line 50</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id="setPlaylist"><span class="type-signature"></span>setPlaylist(playlistName)</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        <p>Sets current playlist.</p>
+        <p>Implements play selected playlist method of <a href="MemoryPlayerControls.html">MemoryPlayerControls</a></p>
     </div>
     
 
@@ -1646,8 +944,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="services_MP.State.service.js.html">services/MP.State.service.js</a>,
-				 <a href="services_MP.State.service.js.html#sunlight-1-line-69">line 69</a>
+				<a href="MP.controller.js.html">MP.controller.js</a>,
+				 <a href="MP.controller.js.html#sunlight-1-line-118">line 118</a>
 			</li>
 		</ul>
 	</dd>
@@ -1680,7 +978,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="setPlaylists"><span class="type-signature"></span>setPlaylists(playlists)</h4>
+    <h4 class="name" id="selectTrack"><span class="type-signature"></span>selectTrack(trackIndex)</h4>
     
     
 </dt>
@@ -1688,145 +986,7 @@
 
     
     <div class="description">
-        <p>Sets playlists returned by API.</p>
-    </div>
-    
-
-    
-
-    
-
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>playlists</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">IPlaylists</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The playlists.</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="services_MP.State.service.js.html">services/MP.State.service.js</a>,
-				 <a href="services_MP.State.service.js.html#sunlight-1-line-99">line 99</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id="setTrack"><span class="type-signature"></span>setTrack(trackIndex)</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        <p>Sets current track.</p>
+        <p>Implements play selected track method of <a href="MemoryPlayerControls.html">MemoryPlayerControls</a></p>
     </div>
     
 
@@ -1878,7 +1038,7 @@
 
             
 
-            <td class="description last"><p>The id of selected track.</p></td>
+            <td class="description last"><p>The index of selected track in playlist.</p></td>
         </tr>
 
     
@@ -1922,8 +1082,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="services_MP.State.service.js.html">services/MP.State.service.js</a>,
-				 <a href="services_MP.State.service.js.html#sunlight-1-line-128">line 128</a>
+				<a href="MP.controller.js.html">MP.controller.js</a>,
+				 <a href="MP.controller.js.html#sunlight-1-line-127">line 127</a>
 			</li>
 		</ul>
 	</dd>
@@ -1956,7 +1116,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="setVolume"><span class="type-signature"></span>setVolume()</h4>
+    <h4 class="name" id="share"><span class="type-signature"></span>share()</h4>
     
     
 </dt>
@@ -1964,7 +1124,7 @@
 
     
     <div class="description">
-        <p>Sets volume of player.</p>
+        <p>Implements share method of <a href="MemoryPlayerSharing.html">MemoryPlayerSharing</a></p>
     </div>
     
 
@@ -2010,8 +1170,372 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="services_MP.State.service.js.html">services/MP.State.service.js</a>,
-				 <a href="services_MP.State.service.js.html#sunlight-1-line-155">line 155</a>
+				<a href="MP.controller.js.html">MP.controller.js</a>,
+				 <a href="MP.controller.js.html#sunlight-1-line-135">line 135</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="toggleDropdown"><span class="type-signature"></span>toggleDropdown($event)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Implements toggle playlist dropdown method of <a href="MemoryPlayerControls.html">MemoryPlayerControls</a></p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>$event</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">JQueryEventObject</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The event from trigger element.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="MP.controller.js.html">MP.controller.js</a>,
+				 <a href="MP.controller.js.html#sunlight-1-line-144">line 144</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="updateTime"><span class="type-signature"></span>updateTime(updatedTime)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Implements update time method of <a href="MemoryPlayerSharing.html">MemoryPlayerSharing</a></p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>updatedTime</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The updated sharelink time.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="MP.controller.js.html">MP.controller.js</a>,
+				 <a href="MP.controller.js.html#sunlight-1-line-153">line 153</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="useTime"><span class="type-signature"></span>useTime()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Implements toggle use time method of <a href="MemoryPlayerSharing.html">MemoryPlayerSharing</a></p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="MP.controller.js.html">MP.controller.js</a>,
+				 <a href="MP.controller.js.html#sunlight-1-line-161">line 161</a>
 			</li>
 		</ul>
 	</dd>

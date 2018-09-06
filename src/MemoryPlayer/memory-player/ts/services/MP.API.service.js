@@ -24,7 +24,6 @@ var MemoryPlayerAPI = (function () {
     MemoryPlayerAPI.prototype.removePlayer = function () {
         angular.element('#memory-player').remove();
     };
-    ;
     /**
      * Gets playlists JSON response.
      * @memberof MemoryPlayerAPI

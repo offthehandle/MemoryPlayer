@@ -122,7 +122,7 @@ class MemoryPlayerSharing implements IMemoryPlayerSharing {
 
     /**
      * @memberof MemoryPlayerSharing
-     * @member {string} sharelink - The link back URL to share media in memory player.
+     * @member {string} sharelink - The backlink URL to share media in memory player.
      */
     public sharelink: string = `${window.location.protocol}//${window.location.hostname}${window.location.pathname}`;
 

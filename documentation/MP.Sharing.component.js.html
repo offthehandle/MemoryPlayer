@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>DocStrap Classes</title>
+	<title>DocStrap Source: MP.Sharing.component.js</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -60,133 +60,116 @@
 <div class="row">
 
 	
-	<div class="col-md-8">
+	<div class="col-md-12">
 	
 		<div id="main">
 			
 
-	<h1 class="page-title">Classes</h1>
+		<h1 class="page-title">Source: MP.Sharing.component.js</h1>
+    
 <section>
-
-<header>
-    
-        <h2>
-        
-        </h2>
-        
-    
-</header>
-
-
-<article>
-    <div class="container-overview">
-    
-        
-
-        
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-        
-    
-    </div>
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Classes</h3>
-
-        <dl>
-            <dt><a href="MemoryPlayerAPI.html">MemoryPlayerAPI</a></dt>
-            <dd></dd>
-        
-            <dt><a href="MemoryPlayerComponent.html">MemoryPlayerComponent</a></dt>
-            <dd></dd>
-        
-            <dt><a href="MemoryPlayerConfig.html">MemoryPlayerConfig</a></dt>
-            <dd></dd>
-        
-            <dt><a href="MemoryPlayerController.html">MemoryPlayerController</a></dt>
-            <dd></dd>
-        
-            <dt><a href="MemoryPlayerControls.html">MemoryPlayerControls</a></dt>
-            <dd></dd>
-        
-            <dt><a href="MemoryPlayerProvider.html">MemoryPlayerProvider</a></dt>
-            <dd></dd>
-        
-            <dt><a href="MemoryPlayerRun.html">MemoryPlayerRun</a></dt>
-            <dd></dd>
-        
-            <dt><a href="MemoryPlayerSharing.html">MemoryPlayerSharing</a></dt>
-            <dd></dd>
-        
-            <dt><a href="MemoryPlayerState.html">MemoryPlayerState</a></dt>
-            <dd></dd>
-        
-            <dt><a href="MPPlayerController.html">MPPlayerController</a></dt>
-            <dd></dd>
-        
-            <dt><a href="MPSharingComponent.html">MPSharingComponent</a></dt>
-            <dd></dd>
-        
-            <dt><a href="MPSharingController.html">MPSharingController</a></dt>
-            <dd></dd>
-        </dl>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
+    <article>
+        <pre
+            class="sunlight-highlight-javascript linenums">var MPSharingController = (function () {
+    /**
+     * Implements IController
+     * @constructs MPSharingController
+     * @param {IRootScopeService} $rootScope - The core angular root scope service.
+     * @param {IJPlayerProvider} JPlayer - The provider service that manages jplayer.
+     * @param {IMemoryPlayerSharing} MemoryPlayerSharing - The service that manages memory player link sharing.
+     */
+    function MPSharingController($rootScope, JPlayer, MemoryPlayerSharing) {
+        var _this = this;
+        this.$rootScope = $rootScope;
+        this.JPlayer = JPlayer;
+        this.MemoryPlayerSharing = MemoryPlayerSharing;
+        // Sets initial sharing values
+        this.sharelink = this.MemoryPlayerSharing.sharelink;
+        this.isTimeUsed = false;
+        this.sharelinkTime = '00:00';
+        // Watches sharing service for sharelink change
+        this.unbindSharelink = this.$rootScope.$watch(function () {
+            return _this.MemoryPlayerSharing.sharelink;
+        }, function (newSharelink, oldSharelink) {
+            // If sharelink changes then update
+            if (angular.isDefined(newSharelink) &amp;&amp; newSharelink !== oldSharelink) {
+                // Updates sharelink
+                _this.sharelink = newSharelink;
+            }
+        });
+        // Watches sharing service for is time used change
+        this.unbindIsTimeUsed = this.$rootScope.$watch(function () {
+            return _this.MemoryPlayerSharing.isTimeUsed;
+        }, function (newValue, oldValue) {
+            // If is time used changes then update
+            if (angular.isDefined(newValue) &amp;&amp; newValue !== oldValue) {
+                // Updates is time used
+                _this.isTimeUsed = newValue;
+                // If time is used then bind time update, else unbind and start at beginning
+                if (_this.isTimeUsed) {
+                    /**
+                     * Observes time updated.
+                     */
+                    angular.element(_this.JPlayer.ids.jPlayer).bind($.jPlayer.event.timeupdate, function (event) {
+                        _this.$rootScope.$evalAsync(function () {
+                            // Updates share link time
+                            _this.sharelinkTime = $.jPlayer.convertTime(event.jPlayer.status.currentTime);
+                            _this.MemoryPlayerSharing.setShareVal('time', _this.sharelinkTime);
+                        });
+                    });
+                }
+                else {
+                    // Unbinds time update
+                    angular.element(_this.JPlayer.ids.jPlayer).unbind($.jPlayer.event.timeupdate);
+                    // Starts at beginning
+                    _this.sharelinkTime = '00:00';
+                    _this.MemoryPlayerSharing.setShareVal('time', '0');
+                }
+            }
+        });
+    }
+    // Cleans up watches to prevent memory leaks
+    MPSharingController.prototype.$onDestroy = function () {
+        this.unbindSharelink();
+        this.unbindIsTimeUsed();
+    };
+    return MPSharingController;
+}());
+MPSharingController.instance = [
+    '$rootScope',
+    'JPlayer',
+    'MemoryPlayerSharing',
+    MPSharingController
+];
+var MPSharingComponent = (function () {
+    /**
+     * Implements IComponentOptions
+     * @constructs MPSharingComponent
+     */
+    function MPSharingComponent() {
+        this.controller = MPSharingController.instance;
+        this.controllerAs = 'sharing';
+        this.bindings = {
+            currentTrack: '&lt;',
+            cancelTimer: '&amp;',
+            share: '&amp;',
+            toggleDropdown: '&amp;',
+            updateTime: '&amp;',
+            useTime: '&amp;'
+        };
+        this.templateUrl = '/memory-player/dist/html/mp-sharing.html';
+    }
+    return MPSharingComponent;
+}());
+(function () {
+    'use strict';
+    angular.module('MemoryPlayer')
+        .component('mpSharing', new MPSharingComponent());
+})();
+</pre>
+    </article>
 </section>
+
 
 
 
@@ -196,10 +179,6 @@
 
 	<div class="clearfix"></div>
 
-	
-		<div class="col-md-3">
-			<div id="toc" class="col-md-3 hidden-xs hidden-sm hidden-md"></div>
-		</div>
 	
 
 </div>

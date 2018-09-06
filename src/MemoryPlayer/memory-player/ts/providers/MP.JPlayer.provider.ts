@@ -1,6 +1,10 @@
 ﻿
 declare var jPlayerPlaylist: any;
 
+/**
+ * The provider service that manages jplayer.
+ * @class MemoryPlayerProvider
+ */
 class MemoryPlayerProvider implements angular.IServiceProvider {
 
     /**
