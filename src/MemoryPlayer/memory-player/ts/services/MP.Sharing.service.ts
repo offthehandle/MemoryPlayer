@@ -30,6 +30,9 @@ class MemoryPlayerSharing implements IMemoryPlayerSharing {
         // Initializes share link to ignore time
         this.isTimeUsed = false;
 
+        // Sets initial share link
+        this.sharelink = `${window.location.protocol}//${window.location.hostname}${window.location.pathname}`;
+
         // Sets initial start time for share link
         this.sharelinkTime = '00:00';
 
@@ -124,7 +127,7 @@ class MemoryPlayerSharing implements IMemoryPlayerSharing {
      * @memberof MemoryPlayerSharing
      * @member {string} sharelink - The backlink URL to share media in memory player.
      */
-    public sharelink: string = `${window.location.protocol}//${window.location.hostname}${window.location.pathname}`;
+    public sharelink: string;
 
 
     /**

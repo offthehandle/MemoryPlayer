@@ -11,15 +11,12 @@ var MemoryPlayerSharing = /** @class */ (function () {
         this.$rootScope = $rootScope;
         this.JPlayer = JPlayer;
         this.MemoryPlayerState = MemoryPlayerState;
-        /**
-         * @memberof MemoryPlayerSharing
-         * @member {string} sharelink - The backlink URL to share media in memory player.
-         */
-        this.sharelink = window.location.protocol + "//" + window.location.hostname + window.location.pathname;
         // Stores player id for optimization
         this.jPlayerId = this.JPlayer.ids.jPlayer;
         // Initializes share link to ignore time
         this.isTimeUsed = false;
+        // Sets initial share link
+        this.sharelink = window.location.protocol + "//" + window.location.hostname + window.location.pathname;
         // Sets initial start time for share link
         this.sharelinkTime = '00:00';
         // Sets initial values for share link
