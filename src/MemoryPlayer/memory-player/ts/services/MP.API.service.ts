@@ -18,7 +18,11 @@ class MemoryPlayerAPI implements IMemoryPlayerAPI {
     constructor(
         private $http: angular.IHttpService,
         private $log: angular.ILogService
-    ) { }
+    ) {
+
+        // Sets URL to playlists json
+        this.playlists = '/memory-player/dist/json/playlists.json';
+    }
 
 
 
@@ -27,7 +31,7 @@ class MemoryPlayerAPI implements IMemoryPlayerAPI {
      * @member {string} playlists - The path to retrieve playlists.
      * @private
      */
-    private playlists: string = '/memory-player/dist/json/playlists.json';
+    private playlists: string;
 
 
     /**

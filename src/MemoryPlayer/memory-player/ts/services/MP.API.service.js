@@ -8,11 +8,7 @@ var MemoryPlayerAPI = /** @class */ (function () {
     function MemoryPlayerAPI($http, $log) {
         this.$http = $http;
         this.$log = $log;
-        /**
-         * @memberof MemoryPlayerAPI
-         * @member {string} playlists - The path to retrieve playlists.
-         * @private
-         */
+        // Sets URL to playlists json
         this.playlists = '/memory-player/dist/json/playlists.json';
     }
     /**
