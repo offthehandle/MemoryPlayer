@@ -147,7 +147,7 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
      * Checks if current track is last in playlist.
      * @memberof MemoryPlayerControls
      * @instance
-     * @returns {boolean} - True if current track is last else false.
+     * @returns {boolean} - True if current track is last, else false.
      * @private
      */
     private isEnd(): boolean {

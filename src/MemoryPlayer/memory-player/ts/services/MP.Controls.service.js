@@ -93,7 +93,7 @@ var MemoryPlayerControls = /** @class */ (function () {
      * Checks if current track is last in playlist.
      * @memberof MemoryPlayerControls
      * @instance
-     * @returns {boolean} - True if current track is last else false.
+     * @returns {boolean} - True if current track is last, else false.
      * @private
      */
     MemoryPlayerControls.prototype.isEnd = function () {
