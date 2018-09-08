@@ -97,7 +97,7 @@ var MemoryPlayerControls = /** @class */ (function () {
      * @private
      */
     MemoryPlayerControls.prototype.isEnd = function () {
-        // Compares track index to playlist length
+        // Compares track index to track count
         var trackId = (this.MemoryPlayerState.getTrackId() + 1), currentPlaylist = this.MemoryPlayerState.getPlaylist();
         return !(trackId < currentPlaylist.trackCount);
     };

@@ -152,7 +152,7 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
      */
     private isEnd(): boolean {
 
-        // Compares track index to playlist length
+        // Compares track index to track count
         let trackId: number = (this.MemoryPlayerState.getTrackId() + 1),
             currentPlaylist: IPlaylist = this.MemoryPlayerState.getPlaylist();
 
