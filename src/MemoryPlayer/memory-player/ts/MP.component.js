@@ -1,4 +1,4 @@
-var MPPlayerController = /** @class */ (function () {
+var MPPlayerController = (function () {
     function MPPlayerController($rootScope, $location, MemoryPlayerAPI, MemoryPlayerState, MemoryPlayerControls) {
         var _this = this;
         this.$rootScope = $rootScope;
@@ -73,7 +73,7 @@ var MPPlayerController = /** @class */ (function () {
     ];
     return MPPlayerController;
 }());
-var MemoryPlayerComponent = /** @class */ (function () {
+var MemoryPlayerComponent = (function () {
     function MemoryPlayerComponent() {
         this.controller = MPPlayerController.instance;
         this.controllerAs = 'player';

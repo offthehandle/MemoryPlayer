@@ -1,4 +1,4 @@
-var MemoryPlayerConfig = /** @class */ (function () {
+var MemoryPlayerConfig = (function () {
     function MemoryPlayerConfig($locationProvider, JPlayerProvider) {
         this.$locationProvider = $locationProvider;
         this.JPlayerProvider = JPlayerProvider;
@@ -35,7 +35,7 @@ var MemoryPlayerConfig = /** @class */ (function () {
     ];
     return MemoryPlayerConfig;
 }());
-var MemoryPlayerRun = /** @class */ (function () {
+var MemoryPlayerRun = (function () {
     function MemoryPlayerRun($rootScope, $window) {
         var _this = this;
         this.$rootScope = $rootScope;

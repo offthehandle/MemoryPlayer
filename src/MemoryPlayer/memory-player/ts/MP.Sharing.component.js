@@ -1,4 +1,4 @@
-var MPSharingController = /** @class */ (function () {
+var MPSharingController = (function () {
     function MPSharingController($rootScope, JPlayer, MemoryPlayerSharing) {
         var _this = this;
         this.$rootScope = $rootScope;
@@ -47,7 +47,7 @@ var MPSharingController = /** @class */ (function () {
     ];
     return MPSharingController;
 }());
-var MPSharingComponent = /** @class */ (function () {
+var MPSharingComponent = (function () {
     function MPSharingComponent() {
         this.controller = MPSharingController.instance;
         this.controllerAs = 'sharing';
