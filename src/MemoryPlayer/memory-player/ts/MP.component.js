@@ -77,7 +77,7 @@ var MPPlayerController = /** @class */ (function () {
     MPPlayerController.prototype.isRestartable = function (state) {
         // Sets success as initial test result
         var isRestartable = true;
-        // If any required setting is missing, set failure result
+        // If any required setting is missing then set failure result
         if (!state.hasOwnProperty('isMuted')) {
             isRestartable = false;
         }

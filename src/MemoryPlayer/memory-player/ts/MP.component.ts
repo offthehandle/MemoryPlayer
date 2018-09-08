@@ -110,7 +110,7 @@ class MPPlayerController implements angular.IController {
         let isRestartable: boolean = true;
 
 
-        // If any required setting is missing, set failure result
+        // If any required setting is missing then set failure result
         if (!state.hasOwnProperty('isMuted')) {
 
             isRestartable = false;
