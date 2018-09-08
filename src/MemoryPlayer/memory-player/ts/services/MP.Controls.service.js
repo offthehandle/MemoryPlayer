@@ -274,10 +274,10 @@ var MemoryPlayerControls = /** @class */ (function () {
                 // Restarts player
                 _this.restart(settings);
             }
-            // Removes loading class
-            angular.element('#memory-player').removeClass('mp-loading');
             // Notifies that player setup is complete
             _this.$rootScope.$broadcast('MP:Ready');
+            // Removes loading class
+            angular.element('#memory-player').removeClass('mp-loading');
         });
     };
     /**

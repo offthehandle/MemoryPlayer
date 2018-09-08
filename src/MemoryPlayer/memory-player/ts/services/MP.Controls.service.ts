@@ -401,11 +401,11 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
                 this.restart(settings);
             }
 
-            // Removes loading class
-            angular.element('#memory-player').removeClass('mp-loading');
-
             // Notifies that player setup is complete
             this.$rootScope.$broadcast('MP:Ready');
+
+            // Removes loading class
+            angular.element('#memory-player').removeClass('mp-loading');
         });
     }
 
