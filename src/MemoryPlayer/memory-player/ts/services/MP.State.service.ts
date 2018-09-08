@@ -23,9 +23,7 @@ class MemoryPlayerState implements IMemoryPlayerState {
 
         // Initializes some player settings
         this.isMuted = false;
-
         this.isPaused = true;
-
         this.volume = 0.80;
     }
 
