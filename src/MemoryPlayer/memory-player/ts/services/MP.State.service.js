@@ -17,7 +17,7 @@ var MemoryPlayerState = /** @class */ (function () {
      * Gets boolean that player is muted or not.
      * @memberof MemoryPlayerState
      * @instance
-     * @returns {boolean} - True if player is muted else false.
+     * @returns {boolean} - True if player is muted, else false.
      */
     MemoryPlayerState.prototype.getIsMuted = function () {
         return this.isMuted;
@@ -36,7 +36,7 @@ var MemoryPlayerState = /** @class */ (function () {
      * Gets boolean that player is paused or not.
      * @memberof MemoryPlayerState
      * @instance
-     * @returns {boolean} - True if player is paused else false.
+     * @returns {boolean} - True if player is paused, else false.
      */
     MemoryPlayerState.prototype.getIsPaused = function () {
         return this.isPaused;

@@ -94,7 +94,7 @@ class MemoryPlayerState implements IMemoryPlayerState {
      * Gets boolean that player is muted or not.
      * @memberof MemoryPlayerState
      * @instance
-     * @returns {boolean} - True if player is muted else false.
+     * @returns {boolean} - True if player is muted, else false.
      */
     public getIsMuted(): boolean {
 
@@ -119,7 +119,7 @@ class MemoryPlayerState implements IMemoryPlayerState {
      * Gets boolean that player is paused or not.
      * @memberof MemoryPlayerState
      * @instance
-     * @returns {boolean} - True if player is paused else false.
+     * @returns {boolean} - True if player is paused, else false.
      */
     public getIsPaused(): boolean {
 
