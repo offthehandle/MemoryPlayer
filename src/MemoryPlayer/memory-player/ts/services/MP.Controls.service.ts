@@ -305,7 +305,7 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
         }
 
 
-        // Assigns variable to set playback state
+        // Assigns variable to set play state
         let playState: string = 'pause';
 
         // If playing then update
@@ -317,7 +317,7 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
             this.MemoryPlayerState.setIsPaused(false);
         }
 
-        // Sets player to current time and playback state
+        // Sets player to current time and play state
         angular.element(this.jPlayerId).jPlayer(playState, settings.time);
     }
 

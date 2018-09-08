@@ -204,7 +204,7 @@ var MemoryPlayerControls = /** @class */ (function () {
             // Updates is muted
             this.MemoryPlayerState.setIsMuted(true);
         }
-        // Assigns variable to set playback state
+        // Assigns variable to set play state
         var playState = 'pause';
         // If playing then update
         if (settings.isPaused !== true) {
@@ -212,7 +212,7 @@ var MemoryPlayerControls = /** @class */ (function () {
             // Updates play state
             this.MemoryPlayerState.setIsPaused(false);
         }
-        // Sets player to current time and playback state
+        // Sets player to current time and play state
         angular.element(this.jPlayerId).jPlayer(playState, settings.time);
     };
     /**
