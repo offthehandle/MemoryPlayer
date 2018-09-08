@@ -101,7 +101,7 @@ class MPSharingController implements angular.IController {
 
     /**
      * @memberof MPSharingController
-     * @member {string} sharelink - The link back URL to share media in memory player.
+     * @member {string} sharelink - The backlink URL to share media in memory player.
      */
     public sharelink: string;
 
