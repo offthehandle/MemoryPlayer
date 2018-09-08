@@ -60,6 +60,7 @@ var MemoryPlayerRun = /** @class */ (function () {
      * @param {IWindowService} $window - The core angular window service.
      */
     function MemoryPlayerRun($rootScope, $window) {
+        var _this = this;
         this.$rootScope = $rootScope;
         this.$window = $window;
         /**
@@ -69,7 +70,7 @@ var MemoryPlayerRun = /** @class */ (function () {
             // If page changes then navigate to new page
             if (newUrl !== oldUrl) {
                 // Navigates to new page
-                this.$window.location.href = newUrl;
+                _this.$window.location.href = newUrl;
             }
         });
     }
@@ -83,7 +84,6 @@ var MemoryPlayerRun = /** @class */ (function () {
 (function () {
     'use strict';
     angular.module('MemoryPlayer')
-        .config(MemoryPlayerConfig.instance);
-    angular.module('MemoryPlayer')
+        .config(MemoryPlayerConfig.instance)
         .run(MemoryPlayerRun.instance);
 })();

@@ -120,9 +120,6 @@ class MemoryPlayerRun {
     'use strict';
 
     angular.module('MemoryPlayer')
-        .config(MemoryPlayerConfig.instance);
-
-
-    angular.module('MemoryPlayer')
+        .config(MemoryPlayerConfig.instance)
         .run(MemoryPlayerRun.instance);
 })();
