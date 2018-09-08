@@ -10,7 +10,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -90,7 +90,6 @@
   <ItemGroup />
   <ItemGroup>
     <TypeScriptCompile Include="memory-player\ts\DEMO.ts" />
-    <TypeScriptCompile Include="memory-player\ts\interfaces\HttpErrorResponse.d.ts" />
     <TypeScriptCompile Include="memory-player\ts\interfaces\jPlayer\jPlayer.d.ts" />
     <TypeScriptCompile Include="memory-player\ts\interfaces\jPlayer\jPlayerEvent.d.ts" />
     <TypeScriptCompile Include="memory-player\ts\interfaces\jPlayer\PlaylistJPlayer.d.ts" />

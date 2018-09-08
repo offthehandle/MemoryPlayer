@@ -104,7 +104,7 @@ class MemoryPlayerRun {
         /**
          * Observes location change success
          */
-        this.$rootScope.$on('$locationChangeSuccess', function ($event: angular.IAngularEvent, newUrl: string, oldUrl: string): void {
+        this.$rootScope.$on('$locationChangeSuccess', ($event: angular.IAngularEvent, newUrl: string, oldUrl: string): void => {
 
             // If page changes then navigate to new page
             if (newUrl !== oldUrl) {

@@ -2,7 +2,7 @@
  * The provider service that manages jplayer.
  * @class MemoryPlayerProvider
  */
-var MemoryPlayerProvider = (function () {
+var MemoryPlayerProvider = /** @class */ (function () {
     function MemoryPlayerProvider() {
     }
     /**

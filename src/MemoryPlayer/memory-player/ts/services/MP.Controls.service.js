@@ -1,4 +1,4 @@
-var MemoryPlayerControls = (function () {
+var MemoryPlayerControls = /** @class */ (function () {
     /**
      * Implements IMemoryPlayerControls
      * @constructs MemoryPlayerControls
@@ -313,14 +313,14 @@ var MemoryPlayerControls = (function () {
             $trigger.closest('.mp-dropdown-toggle').attr('aria-expanded', 'true');
         }
     };
+    MemoryPlayerControls.instance = [
+        '$rootScope',
+        'JPlayer',
+        'MemoryPlayerState',
+        MemoryPlayerControls
+    ];
     return MemoryPlayerControls;
 }());
-MemoryPlayerControls.instance = [
-    '$rootScope',
-    'JPlayer',
-    'MemoryPlayerState',
-    MemoryPlayerControls
-];
 (function () {
     'use strict';
     angular.module('MemoryPlayer')

@@ -1,4 +1,4 @@
-var MemoryPlayerSharing = (function () {
+var MemoryPlayerSharing = /** @class */ (function () {
     /**
      * Implements IMemoryPlayerSharing
      * @constructs MemoryPlayerSharing
@@ -178,14 +178,14 @@ var MemoryPlayerSharing = (function () {
         // Sets use time to latest user setting
         this.isTimeUsed = !this.isTimeUsed;
     };
+    MemoryPlayerSharing.instance = [
+        '$rootScope',
+        'JPlayer',
+        'MemoryPlayerState',
+        MemoryPlayerSharing
+    ];
     return MemoryPlayerSharing;
 }());
-MemoryPlayerSharing.instance = [
-    '$rootScope',
-    'JPlayer',
-    'MemoryPlayerState',
-    MemoryPlayerSharing
-];
 (function () {
     'use strict';
     angular.module('MemoryPlayer')

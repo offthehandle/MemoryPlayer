@@ -1,4 +1,4 @@
-var MemoryPlayerState = (function () {
+var MemoryPlayerState = /** @class */ (function () {
     /**
      * Implements IMemoryPlayerState
      * @constructs MemoryPlayerState
@@ -155,12 +155,12 @@ var MemoryPlayerState = (function () {
     MemoryPlayerState.prototype.setVolume = function (volume) {
         this.volume = volume;
     };
+    MemoryPlayerState.instance = [
+        'JPlayer',
+        MemoryPlayerState
+    ];
     return MemoryPlayerState;
 }());
-MemoryPlayerState.instance = [
-    'JPlayer',
-    MemoryPlayerState
-];
 (function () {
     'use strict';
     angular.module('MemoryPlayer')

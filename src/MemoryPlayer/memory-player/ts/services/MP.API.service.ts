@@ -68,7 +68,7 @@ class MemoryPlayerAPI implements IMemoryPlayerAPI {
                     return null;
                 }
 
-            }).catch((error: angular.IHttpPromiseCallbackArg<IHttpErrorResponse>): angular.IHttpPromiseCallbackArg<IHttpErrorResponse> => {
+            }).catch((error: angular.IHttpPromiseCallbackArg<any>): angular.IHttpPromiseCallbackArg<any> => {
 
                 // Removes player
                 this.removePlayer();

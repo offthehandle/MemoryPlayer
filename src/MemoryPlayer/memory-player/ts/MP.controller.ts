@@ -1,5 +1,5 @@
 ﻿
-class MemoryPlayerController implements angular.IController {
+class MemoryPlayerController {
 
     public static instance: any[] = [
         '$scope',
