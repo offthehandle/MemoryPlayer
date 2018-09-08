@@ -39,7 +39,7 @@ class MPPlayerController implements angular.IController {
             // Sets playlists response in service
             this.MemoryPlayerState.setPlaylists(response);
 
-            // Restart if available settings allow, else start fresh
+            // If available settings allow then restart, else start fresh
             if (this.isRestartable(state)) {
 
                 // Sets restart settings

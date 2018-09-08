@@ -21,7 +21,7 @@ var MPPlayerController = /** @class */ (function () {
         this.MemoryPlayerAPI.getPlaylists().then(function (response) {
             // Sets playlists response in service
             _this.MemoryPlayerState.setPlaylists(response);
-            // Restart if available settings allow, else start fresh
+            // If available settings allow then restart, else start fresh
             if (_this.isRestartable(state)) {
                 // Sets restart settings
                 var settings = {
