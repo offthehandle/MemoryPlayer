@@ -106,7 +106,7 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
             angular.element(event.target).remove();
 
 
-            let $dropdown = angular.element('.mp-dropdown');
+            let $dropdown: JQuery = angular.element('.mp-dropdown');
 
             // Closes dropdown
             $dropdown.removeClass('open');
