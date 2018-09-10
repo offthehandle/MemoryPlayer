@@ -52,7 +52,7 @@ class MemoryPlayerConfig {
      * @private
      */
     private JPlayerOptions: any = {
-        swfPath: '/js/jquery.jplayer.swf',
+        swfPath: '/Scripts/jquery.jplayer.swf',
 
         supplied: 'mp3',
 
