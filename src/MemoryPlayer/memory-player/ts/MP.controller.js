@@ -1,4 +1,4 @@
-var MemoryPlayerController = (function () {
+var MemoryPlayerController = /** @class */ (function () {
     function MemoryPlayerController($scope, MemoryPlayerState, MemoryPlayerControls, MemoryPlayerSharing) {
         var _this = this;
         this.$scope = $scope;

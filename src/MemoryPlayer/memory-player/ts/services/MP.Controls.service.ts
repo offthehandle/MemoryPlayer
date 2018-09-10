@@ -221,6 +221,9 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
 
             // Updates play state
             this.MemoryPlayerState.setIsPaused(false);
+
+            // Notifies other media of play event
+            angular.element(this.jPlayerId).trigger('MP.TrackPlayed');
         }
     }
 
@@ -271,6 +274,9 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
 
             // Updates play state
             this.MemoryPlayerState.setIsPaused(false);
+
+            // Notifies other media of play event
+            angular.element(this.jPlayerId).trigger('MP.TrackPlayed');
         }
     }
 
@@ -344,6 +350,9 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
 
         // Updates play state
         this.MemoryPlayerState.setIsPaused(false);
+
+        // Notifies other media of play event
+        angular.element(this.jPlayerId).trigger('MP.TrackPlayed');
     }
 
 
@@ -366,6 +375,9 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
 
             // Updates play state
             this.MemoryPlayerState.setIsPaused(false);
+
+            // Notifies other media of play event
+            angular.element(this.jPlayerId).trigger('MP.TrackPlayed');
 
         } else {
 
