@@ -419,7 +419,7 @@ class MemoryPlayerControls implements IMemoryPlayerControls {
     public toggleDropdown($event: JQueryEventObject): void {
 
         // Sets values to update dropdown state
-        let $trigger = angular.element(event.target),
+        let $trigger = angular.element($event.target),
             $parent = $trigger.closest('.mp-dropdown'),
             isActive = $parent.hasClass('open'),
             $backdrop = angular.element(document.createElement('div')).addClass('mp-dropdown-backdrop');

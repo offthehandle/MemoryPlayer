@@ -273,7 +273,7 @@ var MemoryPlayerControls = (function () {
         });
     };
     MemoryPlayerControls.prototype.toggleDropdown = function ($event) {
-        var $trigger = angular.element(event.target), $parent = $trigger.closest('.mp-dropdown'), isActive = $parent.hasClass('open'), $backdrop = angular.element(document.createElement('div')).addClass('mp-dropdown-backdrop');
+        var $trigger = angular.element($event.target), $parent = $trigger.closest('.mp-dropdown'), isActive = $parent.hasClass('open'), $backdrop = angular.element(document.createElement('div')).addClass('mp-dropdown-backdrop');
         angular.element('.mp-dropdown-backdrop').remove();
         angular.element('.mp-dropdown-toggle').each(function () {
             if (!angular.element(this).closest('.mp-dropdown').hasClass('open'))
