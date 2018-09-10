@@ -22,7 +22,7 @@ var MemoryPlayerConfig = /** @class */ (function () {
          * @private
          */
         this.JPlayerOptions = {
-            swfPath: '/Scripts/jquery.jplayer.swf',
+            swfPath: '/js/jquery.jplayer.swf',
             supplied: 'mp3',
             wmode: 'window',
             audioFullScreen: false,
